@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.18";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.19";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;document.open();document.write(h);document.close()}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -498,6 +498,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="qa" data-go="goods"><span class="chipq ic" data-ic="tag"></span>البضاعة</button>
 <button class="qa" data-go="stock"><span class="chipq ic" data-ic="stock"></span>المخزن</button>
 <button class="qa" data-go="debts"><span class="chipq ic" data-ic="wallet"></span>الديون</button>
+<button class="qa" id="coqa"><span class="chipq ic" data-ic="refresh"></span>تحديث الحالات</button>
 </div>
 <h3>الصفحات (اضغط لعرض صفحة وحدها)</h3>
 <div id="h_pages"></div>
@@ -547,7 +548,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.18</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.19</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -612,7 +613,9 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="toolgrid">
 <button class="tool main" id="bulkbtn"><span class="ic" data-ic="zap"></span>لصق عدة طلبات</button>
 <button class="tool" id="impbtn"><span class="ic" data-ic="file"></span>استيراد Excel / CSV</button>
+<button class="tool main" id="cobtn" style="grid-column:1/-1"><span class="ic" data-ic="refresh"></span>تحديث الحالات من ملف الشركة</button>
 </div>
+<input id="cofile" type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*" hidden>
 <input id="impfile" type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*" hidden>
 <details class="exptools"><summary class="sh"><span class="ic" data-ic="database"></span>تصدير الملفات</summary>
 <label for="fname">اسم ملف Excel (اختياري)</label>
@@ -696,6 +699,14 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="second" id="e_cancel">إلغاء</button>
 </div></div>
 
+<div class="modal" id="cosync" hidden><div class="sheet">
+<h2>تحديث الحالات من ملف الشركة</h2>
+<div id="coinfo" class="hint" style="margin:8px 0"></div>
+<div id="cosum" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0"></div>
+<details id="codet" style="margin:8px 0"><summary class="hint">تفاصيل التغييرات</summary><div id="colist" style="font-size:.8rem;max-height:240px;overflow:auto"></div></details>
+<button class="primary" id="cogo">تطبيق التحديث</button>
+<button class="second" id="cocancel">إلغاء</button>
+</div></div>
 <div class="modal" id="imp" hidden><div class="sheet">
 <h2>إدخال أوردرات من ملف (Excel / CSV)</h2>
 <label for="imppg">أدخل الأوردرات لصفحة</label><select id="imppg"></select>
@@ -1658,6 +1669,7 @@ function renderOrders(){
     var r2=mk("div","orow");r2.appendChild(ico("box"));
     var pt=mk("span",null,o.product+" × "+o.qty+((Number(o.dz)||0)>1?" · "+o.dz+" درزن":""));r2.appendChild(pt);c.appendChild(r2);
     if(o.notes){var r3=mk("div","orow note");r3.appendChild(ico("note"));r3.appendChild(mk("span",null,o.notes));c.appendChild(r3)}
+    if(o.coStage){var r4=mk("div","orow note");r4.appendChild(ico("truck"));r4.appendChild(mk("span",null,"الشركة: "+o.coStage+(o.coReason&&o.coReason!==o.coStage?" — "+o.coReason:"")+(o.coId?" · وصل "+o.coId:"")));c.appendChild(r4)}
     var f=mk("div","of");
     var s1=mk("span",null,"المبلغ");s1.appendChild(mk("b",null,fmt(o.total)));
     var s2=mk("span",Number(o.profit)<0?"neg":"gain","الربح");s2.appendChild(mk("b",null,fmt(o.profit)));
@@ -2823,6 +2835,55 @@ $("repcopy").onclick=function(){var t=$("reptxt").value,ta=$("reptxt");
   function ok(){$("repmsg").textContent="اننسخ التقرير ✅"}
   try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){ta.select();document.execCommand("copy");ok()})}else{ta.select();document.execCommand("copy");ok()}}catch(e){$("repmsg").textContent="تعذر النسخ، حدد النص وانسخه يدوياً"}};
 $("repwa").onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent($("reptxt").value),"_blank")};
+
+/* ===== تحديث الحالات من ملف الشركة ===== */
+var CO_MAP={"واصل":"done","واصل جزئي":"done","راجع":"ret","ملغي":"ret","لم يسلم":"pending","مؤجل":"pending","قيد التوصيل":"pending","جديد":"pending","بالمخزن":"pending"};
+var COPLAN=null;
+function coHdr(row){
+  var F={id:["رقم الوصل"],stage:["المرحلة"],stageAt:["تاريخ دخول المرحلة"],created:["تاريخ الإنشاء"],merchant:["التاجر"],ref:["رقم طلب التاجر","رقم طلبك"],phone:["هاتف المستلم"],alt:["هاتف بديل"],total:["المبلغ"],reason:["سبب آخر محاولة"]},m={};
+  (row||[]).forEach(function(c,i){var t=norm(String(c||"")).replace(/[*]/g,"").trim();Object.keys(F).forEach(function(k){if(m[k]===undefined&&F[k].some(function(x){return norm(x)===t}))m[k]=i})});
+  return (m.id!==undefined&&m.stage!==undefined&&m.phone!==undefined)?m:null}
+function coDate(t){var m=/(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/.exec(String(t||""));return m?new Date(+m[1],+m[2]-1,+m[3],+(m[4]||0),+(m[5]||0)).getTime():0}
+function coBuild(R){
+  var hi=-1,H=null,i,j;for(i=0;i<Math.min(R.length,10);i++){var h=coHdr(R[i]);if(h){hi=i;H=h;break}}
+  if(!H)return null;
+  var ships=[],byRef={},byPh={};
+  function g(r,k){return H[k]===undefined?"":String(r[H[k]]==null?"":r[H[k]]).trim()}
+  for(j=hi+1;j<R.length;j++){var r=R[j];if(!r||!g(r,"id"))continue;
+    var sh={id:g(r,"id"),stage:g(r,"stage"),stageAt:g(r,"stageAt"),created:coDate(g(r,"created")),merchant:g(r,"merchant"),ref:g(r,"ref"),phone:pkey(g(r,"phone")),alt:pkey(g(r,"alt")),total:Number(String(g(r,"total")).replace(/[^\d.]/g,""))||0,reason:g(r,"reason"),used:false};
+    ships.push(sh);if(sh.ref)byRef[sh.ref]=sh;
+    [sh.phone,sh.alt].forEach(function(k){if(k&&k.length>=8)(byPh[k]=byPh[k]||[]).push(sh)})}
+  var list=orders.slice().sort(function(a,b){return (a.ts||0)-(b.ts||0)}),plan=[],miss=0;
+  list.forEach(function(o){
+    var s=null;
+    if(o.ref&&byRef[o.ref]&&!byRef[o.ref].used)s=byRef[o.ref];
+    if(!s){var c=(byPh[pkey(o.phone)]||[]).filter(function(x){return !x.used&&x.total===Number(o.total)&&(!x.created||x.created>=(o.ts||0)-12*3600*1000)});
+      if(c.length){var pn0=pn(o.pid);c.sort(function(a,b){var ma=a.merchant===pn0?0:1,mb=b.merchant===pn0?0:1;if(ma!==mb)return ma-mb;return Math.abs((a.created||0)-(o.ts||0))-Math.abs((b.created||0)-(o.ts||0))});s=c[0]}}
+    if(!s){if(stOf(o)!=="reg")miss++;return}
+    s.used=true;
+    var key=norm(s.stage).trim(),to=CO_MAP[key]||CO_MAP[s.stage]||null;
+    plan.push({o:o,s:s,from:stOf(o),to:to||stOf(o),known:!!to})});
+  return {plan:plan,miss:miss,total:ships.length,H:H}}
+function coShow(){
+  var P=COPLAN,ch=P.plan.filter(function(x){return x.to!==x.from}),st={done:0,ret:0,pending:0};
+  ch.forEach(function(x){st[x.to]=(st[x.to]||0)+1});
+  $("coinfo").textContent="لقيت "+P.plan.length+" من أوردراتك داخل الملف (الملف فيه "+P.total+" شحنة، والباقي لتجار آخرين). "+(ch.length?ch.length+" تتغير حالتها.":"كل الحالات مطابقة، فقط ينضاف رقم الوصل وسبب الشركة.")+(P.miss?" "+P.miss+" أوردر مرسل ما لقيت له شحنة.":"");
+  var sm=$("cosum");sm.innerHTML="";
+  [["✅ وصلت",st.done],["↩️ راجعة",st.ret],["🚚 قيد التوصيل",st.pending]].forEach(function(x){if(x[1]){var c=mk("span","chip",x[0]+": "+x[1]);sm.appendChild(c)}});
+  var l=$("colist");l.innerHTML="";
+  P.plan.forEach(function(x){var d=mk("div",null,(x.o.name||x.o.phone||"—")+" — "+(ST[x.from]||x.from)+(x.to!==x.from?" ← "+(ST[x.to]||x.to):" (بدون تغيير)")+" · "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" ("+x.s.reason+")":""));d.style.cssText="padding:4px 0;border-bottom:1px solid var(--line)";l.appendChild(d)});
+  $("cogo").style.display=P.plan.length?"block":"none";$("cogo").textContent="تطبيق ("+P.plan.length+")";
+  $("cosync").hidden=false}
+function coOpen(){$("cofile").value="";$("cofile").click()}
+$("cobtn").onclick=coOpen;$("coqa").onclick=coOpen;
+$("cofile").onchange=async function(){var f=this.files&&this.files[0];if(!f)return;
+  try{var buf=await f.arrayBuffer(),R=/\.(csv|txt)$/i.test(f.name)||/csv|text/.test(f.type||"")?parseCSV(new TextDecoder("utf-8").decode(buf)):await readXlsx(buf);
+    var P=coBuild(R);if(!P){say("هذا مو ملف شحنات الشركة (لازم فيه رقم الوصل والمرحلة وهاتف المستلم)");return}
+    COPLAN=P;coShow()}catch(e){say("تعذر قراءة الملف — تأكد أنه Excel (xlsx)")}};
+$("cocancel").onclick=function(){$("cosync").hidden=true};
+$("cogo").onclick=function(){if(!COPLAN)return;var n=0;
+  COPLAN.plan.forEach(function(x){var o=x.o;if(x.to!==x.from){o.status=x.to;n++}o.coId=x.s.id;o.coStage=x.s.stage;o.coReason=x.s.reason||"";o.coAt=x.s.stageAt||""});
+  sv(KEY,orders);$("cosync").hidden=true;COPLAN=null;renderOrders();renderHome();say("تم تحديث "+n+" حالة ✅")};
 </script>
 </body>
 </html>
