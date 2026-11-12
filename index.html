@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.17";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.18";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;document.open();document.write(h);document.close()}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -429,6 +429,15 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 :root[data-theme="dark"] .sc .chipi.iso{filter:drop-shadow(0 10px 9px rgba(0,0,0,.55))}
 .sc{padding-top:10px;padding-bottom:18px}
 .sc .bar{height:5px;border-radius:0 0 8px 8px;left:34%;right:34%;top:auto;bottom:0;border-radius:8px 8px 0 0}
+
+.lowbar{margin:8px 0 0;padding:10px 14px;border-radius:14px;background:#fff7e6;border:1px solid #f5c26b;color:#8a5a00;font-weight:600;font-size:.82rem;cursor:pointer}
+:root[data-theme="dark"] .lowbar{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.4);color:#fbbf24}
+.phwarn{margin-top:6px;padding:8px 12px;border-radius:12px;font-size:.82rem;font-weight:600;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+.phwarn.good{background:#ecfdf5;color:#047857;border-color:#a7f3d0}
+:root[data-theme="dark"] .phwarn{background:rgba(244,63,94,.14);color:#ff8fa3;border-color:rgba(244,63,94,.4)}
+:root[data-theme="dark"] .phwarn.good{background:rgba(16,185,129,.14);color:#34e0a6;border-color:rgba(16,185,129,.4)}
+.cwarn{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:999px;font-size:.68rem;font-weight:700;background:#fee2e2;color:#b91c1c}
+.cgood{display:inline-block;margin-right:6px;padding:1px 8px;border-radius:999px;font-size:.68rem;font-weight:700;background:#d1fae5;color:#047857}
 </style>
 </head>
 <body>
@@ -467,6 +476,10 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 </div>
 <div class="tstrip" data-go="orders"><b>حالة الطلبات اليوم</b><span><b id="t_pend">0</b> قيد التوصيل · <b id="t_ret">0</b> راجعة · <b id="t_done">0</b> وصلت</span></div>
+<div class="lowbar" id="lowbar" data-go="stock" hidden></div>
+<button class="second" id="repbtn" style="margin:8px 0 0">📋 تقرير اليوم (نسخ / واتساب)</button>
+<div class="card" id="repbox" hidden><textarea id="reptxt" rows="9" style="direction:rtl"></textarea>
+<div class="row"><button class="primary" id="repcopy">نسخ</button><button class="second" id="repwa">إرسال بالواتساب</button></div><div class="hint" id="repmsg"></div></div>
 <div class="sec"><h2><span class="ic" data-ic="grid"></span>حالة الطلبات</h2></div>
 <div class="grid3">
 <button class="sc blue" data-t="today"><i class="bar"></i><span class="chipi iso" data-iso="calendar" data-col="#3b82f6"></span><b class="v" id="h_tod">0</b><span class="k">طلبات اليوم</span></button>
@@ -534,7 +547,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.17</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.18</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -550,7 +563,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <label for="name">اسم العميل</label>
 <input id="name" autocomplete="off">
 <label for="phone">رقم الجوال</label>
-<input id="phone" type="tel" inputmode="tel" autocomplete="off">
+<input id="phone" type="tel" inputmode="tel" autocomplete="off"><div id="phwarn" class="phwarn" hidden></div>
 <div class="row">
 <div><label for="gov">المحافظة</label><input id="gov" autocomplete="off" list="glist"></div>
 <div><label for="area">المنطقة</label><input id="area" autocomplete="off" list="alist2"></div>
@@ -1586,6 +1599,7 @@ function renderHome(){
   $("h_pending").textContent=T.pendN;$("h_reg").textContent=T.regN;$("h_deliv").textContent=T.doneN;$("h_ret").textContent=T.retN;
   $("h_debt").textContent=fmt(dTotal());
   try{renderDash(L,today)}catch(e){}
+  try{renderLow()}catch(e){}
   var box=$("h_pages");box.innerHTML="";
   pages.forEach(function(p,ix){
     var s=totals(orders.filter(function(o){return o.pid===p.id}));
@@ -1637,6 +1651,7 @@ function renderOrders(){
     var h=mk("div","oh");
     var av=mk("div","oav",String(o.name||o.phone||"؟").trim().charAt(0));h.appendChild(av);
     var hm=mk("div","ohm");hm.appendChild(mk("b",null,o.name||o.phone||"بدون اسم"));
+    (function(){var ch=custHist(o.phone,o);if(ch.ret>0)hm.appendChild(mk("span","cwarn","⚠️ رجّع "+ch.ret));else if(ch.done>0)hm.appendChild(mk("span","cgood","⭐ زبون سابق"))})();
     hm.appendChild(mk("div","om",(o.name&&o.phone?o.phone+" · ":"")+pn(o.pid)+(o.date?" · "+o.date:"")));
     h.appendChild(hm);h.appendChild(mk("span","badge2 "+s,ST[s]));c.appendChild(h);
     var r1=mk("div","orow");r1.appendChild(ico("pin"));r1.appendChild(mk("span",null,""+ad(o)));c.appendChild(r1);
@@ -1875,7 +1890,7 @@ function parse(){
     else addr.push(l);
   });
   var sa=splitAddr(addr.join(" "));
-  $("phone").value=phone;$("gov").value=sa.gov;$("area").value=sa.area;$("near").value=sa.near;$("notes").value=notes.join(" - ");
+  $("phone").value=phone;try{phWarn()}catch(e){}$("gov").value=sa.gov;$("area").value=sa.area;$("near").value=sa.near;$("notes").value=notes.join(" - ");
   $("product").value=product;$("price").value=price||"";$("qty").value=1;$("cost").value="";autoProd=false;
   lookup();
   if(lines.length)say("تمت التعبئة، راجع واضغط إضافة");
@@ -2777,6 +2792,37 @@ function isoIcon(name,col){
     +'<ellipse cx="32" cy="16" rx="8" ry="4" fill="#d9a21b"/><rect x="24" y="16" width="16" height="3.6" fill="#f2c230"/><ellipse cx="32" cy="19.6" rx="8" ry="4" fill="#f2c230"/><ellipse cx="32" cy="16" rx="5.4" ry="2.5" fill="#ffe27a"/>'}
   return '<svg viewBox="0 0 64 60" aria-hidden="true">'+g+'</svg>'}
 document.querySelectorAll("[data-iso]").forEach(function(e){e.innerHTML=isoIcon(e.getAttribute("data-iso"),e.getAttribute("data-col"))});
+
+/* ===== سكلات إضافية ===== */
+function pkey(p){var d=String(p||"").replace(/\D/g,"");if(d.indexOf("964")===0)d=d.slice(3);return d.replace(/^0/,"")}
+function custHist(phone,skip){var k=pkey(phone),r={n:0,ret:0,done:0};if(k.length<8)return r;
+  orders.forEach(function(o){if(o===skip||pkey(o.phone)!==k)return;r.n++;var st=stOf(o);if(st==="ret")r.ret++;else if(st==="done")r.done++});return r}
+function phWarn(){var b=$("phwarn");if(!b)return;var h=custHist($("phone").value);
+  if(h.ret>0){b.className="phwarn";b.textContent="⚠️ انتبه: هذا الرقم عنده "+h.ret+" طلب راجع سابقاً"+(h.done?" و"+h.done+" وصل":"");b.hidden=false}
+  else if(h.n>0){b.className="phwarn good";b.textContent="⭐ زبون سابق: "+h.n+" طلب"+(h.done?" ("+h.done+" وصل)":"");b.hidden=false}
+  else b.hidden=true}
+$("phone").addEventListener("input",phWarn);
+function lowStock(){var out=[];pages.forEach(function(pg){Object.keys(pg.stock||{}).forEach(function(n){var l=stLeft(pg,n);if(l<=5)out.push({n:n,l:l,p:pg.name})})});return out}
+function renderLow(){var b=$("lowbar");if(!b)return;var L=lowStock();
+  if(!L.length){b.hidden=true;return}
+  b.hidden=false;b.textContent="⚠️ بضاعة قاربت تخلص: "+L.slice(0,4).map(function(x){return x.n+" ("+(x.l<=0?"نفد":x.l)+")"}).join("، ")+(L.length>4?" …":"")}
+function buildReport(){
+  var hp=curHP(),L=hp==="all"?orders:orders.filter(function(o){return o.pid===hp}),tk=todayKey(),td=L.filter(function(o){return dayOf(o)===tk}),T=totals(td),gv={};
+  td.forEach(function(o){var g=sp(o).gov||"غير محدد";gv[g]=(gv[g]||0)+1});
+  var top=Object.keys(gv).sort(function(a,b){return gv[b]-gv[a]}).slice(0,4).map(function(g){return g+" ("+gv[g]+")"}).join("، ");
+  var low=lowStock();
+  return ["📋 تقرير يوم "+new Date().toLocaleDateString("en-GB")+(hp==="all"?"":" — "+pn(hp)),
+    "الطلبات: "+td.length,
+    "📝 مسجلة: "+T.regN+" | 🚚 قيد التوصيل: "+T.pendN+" | ✅ وصلت: "+T.doneN+" | ↩️ راجعة: "+T.retN,
+    "💰 أرباح محققة: "+fmt(T.done)+" د.ع",
+    "⏳ أرباح متوقعة: "+fmt(T.pend)+" د.ع",
+    top?"📍 أكثر المحافظات: "+top:"",
+    low.length?"⚠️ بضاعة قاربت: "+low.map(function(x){return x.n+" ("+(x.l<=0?"نفد":x.l)+")"}).join("، "):""].filter(Boolean).join("\n")}
+$("repbtn").onclick=function(){var b=$("repbox");b.hidden=!b.hidden;if(!b.hidden){$("reptxt").value=buildReport();$("repmsg").textContent=""}};
+$("repcopy").onclick=function(){var t=$("reptxt").value,ta=$("reptxt");
+  function ok(){$("repmsg").textContent="اننسخ التقرير ✅"}
+  try{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){ta.select();document.execCommand("copy");ok()})}else{ta.select();document.execCommand("copy");ok()}}catch(e){$("repmsg").textContent="تعذر النسخ، حدد النص وانسخه يدوياً"}};
+$("repwa").onclick=function(){window.open("https://wa.me/?text="+encodeURIComponent($("reptxt").value),"_blank")};
 </script>
 </body>
 </html>
