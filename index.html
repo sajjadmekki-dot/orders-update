@@ -421,6 +421,12 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .dstk{justify-content:space-between}
 .dp{min-height:290px}
 .dnut{min-height:120px}
+
+.sc .chipi.iso{width:70px;height:62px;border-radius:0;background:none!important;margin-bottom:0;filter:drop-shadow(0 9px 7px rgba(15,30,60,.28))}
+.sc .chipi.iso svg{width:100%;height:100%;overflow:visible}
+:root[data-theme="dark"] .sc .chipi.iso{filter:drop-shadow(0 10px 9px rgba(0,0,0,.55))}
+.sc{padding-top:10px;padding-bottom:18px}
+.sc .bar{height:5px;border-radius:0 0 8px 8px;left:34%;right:34%;top:auto;bottom:0;border-radius:8px 8px 0 0}
 </style>
 </head>
 <body>
@@ -461,13 +467,13 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="tstrip" data-go="orders"><b>حالة الطلبات اليوم</b><span><b id="t_pend">0</b> قيد التوصيل · <b id="t_ret">0</b> راجعة · <b id="t_done">0</b> وصلت</span></div>
 <div class="sec"><h2><span class="ic" data-ic="grid"></span>حالة الطلبات</h2></div>
 <div class="grid3">
-<button class="sc blue" data-t="today"><i class="bar"></i><span class="chipi ic" data-ic="calendar"></span><b class="v" id="h_tod">0</b><span class="k">طلبات اليوم</span></button>
-<button class="sc indigo" data-t="all"><i class="bar"></i><span class="chipi ic" data-ic="box"></span><b class="v" id="h_all">0</b><span class="k">كل الطلبات</span></button>
-<button class="sc blue" data-t="reg"><i class="bar"></i><span class="chipi ic" data-ic="regd"></span><b class="v" id="h_reg">0</b><span class="k">مسجلة</span></button>
-<button class="sc amber" data-t="pending"><i class="bar"></i><span class="chipi ic" data-ic="truck"></span><b class="v" id="h_pending">0</b><span class="k">قيد التوصيل</span></button>
-<button class="sc emerald" data-t="done"><i class="bar"></i><span class="chipi ic" data-ic="check"></span><b class="v" id="h_deliv">0</b><span class="k">وصلت</span></button>
-<button class="sc rose" data-t="ret"><i class="bar"></i><span class="chipi ic" data-ic="undo"></span><b class="v" id="h_ret">0</b><span class="k">راجعة</span></button>
-<button class="sc purple" data-go="debts"><i class="bar"></i><span class="chipi ic" data-ic="wallet"></span><b class="v" id="h_debt">0</b><span class="k">ديون لي</span></button>
+<button class="sc blue" data-t="today"><i class="bar"></i><span class="chipi iso" data-iso="calendar" data-col="#3b82f6"></span><b class="v" id="h_tod">0</b><span class="k">طلبات اليوم</span></button>
+<button class="sc indigo" data-t="all"><i class="bar"></i><span class="chipi iso" data-iso="box" data-col="#6366f1"></span><b class="v" id="h_all">0</b><span class="k">كل الطلبات</span></button>
+<button class="sc blue" data-t="reg"><i class="bar"></i><span class="chipi iso" data-iso="regd" data-col="#3b82f6"></span><b class="v" id="h_reg">0</b><span class="k">مسجلة</span></button>
+<button class="sc amber" data-t="pending"><i class="bar"></i><span class="chipi iso" data-iso="truck" data-col="#f59e0b"></span><b class="v" id="h_pending">0</b><span class="k">قيد التوصيل</span></button>
+<button class="sc emerald" data-t="done"><i class="bar"></i><span class="chipi iso" data-iso="check" data-col="#10b981"></span><b class="v" id="h_deliv">0</b><span class="k">وصلت</span></button>
+<button class="sc rose" data-t="ret"><i class="bar"></i><span class="chipi iso" data-iso="undo" data-col="#f43f5e"></span><b class="v" id="h_ret">0</b><span class="k">راجعة</span></button>
+<button class="sc purple" data-go="debts"><i class="bar"></i><span class="chipi iso" data-iso="wallet" data-col="#a855f7"></span><b class="v" id="h_debt">0</b><span class="k">ديون لي</span></button>
 </div>
 <div class="sec"><h2><span class="ic" data-ic="zap"></span>اختصارات سريعة</h2></div>
 <div class="grid3">
@@ -526,7 +532,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.15</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.16</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -2738,6 +2744,37 @@ b.onclick=function(){apply(document.documentElement.getAttribute("data-theme")==
     if(v&&!/^https:\/\//.test(v)){m.textContent="⚠️ لازم يبدأ بـ https://";return}
     try{Android.setUpdateUrl(v);m.textContent=v?"تم الحفظ — جاري الفحص، سكّر البرنامج وافتحه بعد لحظات":"تم إيقاف التحديث التلقائي"}catch(e){m.textContent="⚠️ "+e.message}};
 })();
+
+function isoIcon(name,col){
+  function sh(h,f){var n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;
+    if(f>=0){r=Math.round(r+(255-r)*f);g=Math.round(g+(255-g)*f);b=Math.round(b+(255-b)*f)}else{r=Math.round(r*(1+f));g=Math.round(g*(1+f));b=Math.round(b*(1+f))}
+    return "#"+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
+  function P(x,y,z){return [32+(x-y)*10.4,38+(x+y)*6-z*12]}
+  function pts(a){return a.map(function(q){return q[0].toFixed(1)+","+q[1].toFixed(1)}).join(" ")}
+  function poly(a,c,extra){return '<polygon points="'+pts(a)+'" fill="'+c+'"'+(extra||"")+'/>'}
+  function blk(x,y,z,w,d,h,c){
+    return poly([P(x,y+d,z),P(x+w,y+d,z),P(x+w,y+d,z+h),P(x,y+d,z+h)],c)
+      +poly([P(x+w,y,z),P(x+w,y+d,z),P(x+w,y+d,z+h),P(x+w,y,z+h)],sh(c,-.26))
+      +poly([P(x,y,z+h),P(x+w,y,z+h),P(x+w,y+d,z+h),P(x,y+d,z+h)],sh(c,.3))}
+  function top(x,y,w,d,z,c,op){return poly([P(x,y,z),P(x+w,y,z),P(x+w,y+d,z),P(x,y+d,z)],c,op?' fill-opacity="'+op+'"':"")}
+  function rface(y1,z1,y2,z2,x,c,w){var a=P(x,y1,z1),b=P(x,y2,z2);return '<line x1="'+a[0]+'" y1="'+a[1]+'" x2="'+b[0]+'" y2="'+b[1]+'" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/>'}
+  function rpath(list,x,c,w){return '<polyline points="'+pts(list.map(function(t){return P(x,t[0],t[1])}))+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round" stroke-linejoin="round"/>'}
+  function ell(cx,cy,rx,ry,c){return '<ellipse cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" fill="'+c+'"/>'}
+  var g="",W="#ffffff",D="#1f2937";
+  if(name==="box"){g=blk(-1,-1,0,2,2,2,col)+top(-.22,-1,.44,2,2,W,.6)+poly([P(-.6,1,.55),P(.6,1,.55),P(.6,1,1.15),P(-.6,1,1.15)],"#ffffff",' fill-opacity=".85"')}
+  else if(name==="calendar"){g=blk(-1.15,-1.15,0,2.3,2.3,.55,sh(col,-.1))+blk(-.95,-.95,.55,1.9,1.9,.14,W)+top(-.95,-.95,1.9,.55,.69,col)
+    +top(-.6,-.2,.35,.35,.69,sh(col,.45))+top(-.05,-.2,.35,.35,.69,sh(col,.45))+top(.5,-.2,.35,.35,.69,sh(col,.45))+top(-.6,.45,.35,.35,.69,sh(col,.45))+top(-.05,.45,.35,.35,.69,col)+top(.5,.45,.35,.35,.69,sh(col,.45))}
+  else if(name==="regd"){g=blk(-1,-1.25,0,2,2.5,.5,sh(col,-.15))+blk(-.82,-1.07,.5,1.64,2.14,.12,W)+blk(-.35,-1.45,.45,.7,.45,.34,sh(col,.1))
+    +top(-.55,-.5,1.1,.14,.62,sh(col,.5))+top(-.55,-.1,1.1,.14,.62,sh(col,.5))+top(-.55,.3,.7,.14,.62,sh(col,.5))}
+  else if(name==="truck"){g=blk(-1.45,-.8,.35,1.85,1.6,1.55,col)+blk(.4,-.8,.35,1.05,1.6,.95,sh(col,.38))
+    +poly([P(1.45,-.55,.75),P(1.45,.55,.75),P(1.45,.55,1.05),P(1.45,-.55,1.05)],"#cfe8ff")
+    +blk(-1.15,.55,0,.55,.4,.55,D)+blk(.65,.55,0,.55,.4,.55,D)+top(-1.45,-.8,1.85,1.6,1.9,W,.35)}
+  else if(name==="check"){g=blk(-1,-1,0,2,2,2,col)+rpath([[.7,1.1],[.3,.65],[-.6,1.5]],1,W,3.4)}
+  else if(name==="undo"){g=blk(-1,-1,0,2,2,2,col)+rpath([[-.45,1.45],[.25,1.45],[.6,1.05],[.25,.65],[-.45,.65]],1,W,3.2)+poly([P(1,-.45,.35),P(1,-.45,.95),P(1,-.85,.65)],W)}
+  else if(name==="wallet"){g=blk(-1.35,-.95,0,2.7,1.9,1.05,sh(col,-.05))+top(-1.35,-.95,2.7,.5,1.05,sh(col,.5))+blk(.55,-.2,.2,.95,.9,.55,sh(col,.55))+ell(P(.95,.2,.5)[0],P(.95,.2,.5)[1]-1,2.6,1.4,D)
+    +'<ellipse cx="32" cy="16" rx="8" ry="4" fill="#d9a21b"/><rect x="24" y="16" width="16" height="3.6" fill="#f2c230"/><ellipse cx="32" cy="19.6" rx="8" ry="4" fill="#f2c230"/><ellipse cx="32" cy="16" rx="5.4" ry="2.5" fill="#ffe27a"/>'}
+  return '<svg viewBox="0 0 64 60" aria-hidden="true">'+g+'</svg>'}
+document.querySelectorAll("[data-iso]").forEach(function(e){e.innerHTML=isoIcon(e.getAttribute("data-iso"),e.getAttribute("data-col"))});
 </script>
 </body>
 </html>
