@@ -232,7 +232,7 @@ body{background:var(--bg)}
 اربع زواج طوال وربعة ربع وربعة حفايات
 ٢٤ الف"></textarea>
       <div class="row" style="margin-top:10px">
-        <button class="btn primary" id="go">رتّب الطلبات</button>
+        <button class="btn primary" id="go">حفظ الطلبات</button>
         <button class="btn ghost" id="paste">لصق من الحافظة</button>
         <button class="btn ghost" id="clearIn">مسح</button>
         <span class="hint" id="detected"></span>
@@ -606,7 +606,7 @@ const todayStr=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return d.g
 const DEFAULT_PAGES=[{id:'p1',name:'عروض الملابس',short:'ملابس',color:'c-rose'},{id:'p2',name:'شفقات',short:'شفقات',color:'c-teal'},{id:'p3',name:'الفا',short:'الفا',color:'c-amber'}];
 let pages=store.get('pages_v1')||DEFAULT_PAGES;
 let orders=store.get('orders_v1')||[];orders.forEach(o=>{o.kind=kindOf(o.kind,o.items,o.price);if(!o.date)o.date=todayStr();if(!o.page)o.page='none';o.governorate=canonGov(o.governorate)||o.governorate;const ex=zExact(o.area,o.governorate);o.inList=!!ex;if(ex)o.area=ex});let filter='all';
-let curPage=store.get('curPage_v1')||'all',curDate=todayStr(),addPage=null;
+let curPage=store.get('curPage_v1')||'all',curDate=todayStr(),addPage=store.get('addPage_v1')||null;if(addPage&&!pages.some(p=>p.id===addPage))addPage=null;
 const pageName=id=>id==='none'?'بدون بيج':((pages.find(p=>p.id===id)||{}).name||'بدون بيج');
 const viewList=()=>orders.filter(o=>(curPage==='all'||o.page===curPage)&&o.date===curDate);
 const save=()=>{store.set('orders_v1',orders);if(typeof cloudSync==='function')cloudSync()};
@@ -714,10 +714,10 @@ async function run(){
     const flat=result.flat();const pending=flat.filter(o=>o.governorate&&!o.inList);
     if(sample&&pending.length){$('#status').textContent=`مطابقة ${pending.length} عنوان مع قائمة مناطق زاجل…`;let st=0;const steps=Math.max(1,Math.ceil(pending.length/15));
       await resolveAreas(pending,()=>{st++;bar.style.width=(75+Math.round(st/steps*25))+'%'})}
-    msg=failed?`تم الترتيب. ${failed} دفعة انرتبت بالتحليل المحلي، راجعها.`:'تم الترتيب بالذكاء الاصطناعي ✓';
+    msg=failed?`انحفظت. ${failed} دفعة انرتبت بالتحليل المحلي، راجعها.`:'انحفظت ورتبها الذكاء الاصطناعي ✓';
   }else{
     blocks.forEach((b,j)=>result[j]=[cleanOrder(localParse(b),b,'local')]);bar.style.width='100%';
-    msg='تم الترتيب بالتحليل المحلي (الذكاء الاصطناعي غير مفعّل).';
+    msg='انحفظت ✓';
   }
   // حذف المكرر بعد التحليل (حسب الرقم)
   let added=result.flat();
@@ -725,7 +725,7 @@ async function run(){
     added=added.filter(o=>{const ph=(o.phone||'').split(' / ').filter(Boolean);if(ph.length&&ph.some(p=>s2.has(p))){skipped++;return false}ph.forEach(p=>s2.add(p));return true})}
   if(skipped)msg+=` · تم تجاهل ${skipped} طلب مكرر`;
   $('#status').textContent=msg;
-  added.forEach(o=>{o.page=PG;o.date=TODAY});curPage=PG;curDate=TODAY;store.set('curPage_v1',curPage);
+  added.forEach(o=>{o.page=PG;o.date=TODAY});msg=`${added.length} طلب انحفظ ببيج ${pageName(PG)} · `+msg;if(added.length)toast(`انحفظ ${added.length} طلب ببيج ${pageName(PG)} ✓`);$('#status').textContent=msg;curPage=PG;curDate=TODAY;store.set('curPage_v1',curPage);
   orders=orders.concat(added);save();filter='all';render();btn.disabled=false;$('#input').value='';updateDetected();
   setTimeout(()=>prog.style.display='none',800);
   go('orders');
@@ -890,8 +890,9 @@ function pageChip(p,on,attr){return `<button class="pchip ${on?'on':''}" ${attr}
 function dateLabel(d){if(d===todayStr())return 'اليوم';try{return new Date(d+'T00:00').toLocaleDateString('ar-IQ',{weekday:'long',day:'numeric',month:'long'})}catch(e){return d}}
 function dateLong(d){try{return new Date(d+'T00:00').toLocaleDateString('ar-IQ',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}catch(e){return d}}
 function renderAddPages(){const box=$('#pagePick');if(!box)return;box.innerHTML=pages.map(p=>pageChip(p,addPage===p.id,'data-addpage')).join('');paintIcons(box);
-  $('#addDate').textContent='راح تنحفظ بتاريخ: '+dateLong(todayStr())+(addPage?' · بيج '+pageName(addPage):'')}
-document.addEventListener('click',e=>{const b=e.target.closest('[data-addpage]');if(b){addPage=b.dataset.addpage;store.set('addPage_v1',addPage);renderAddPages()}
+  $('#go').textContent=addPage?'حفظ في '+pageName(addPage):'اختار البيج حتى تحفظ';$('#pickHint').classList.remove('need');$('#addDate').textContent='راح تنحفظ بتاريخ: '+dateLong(todayStr())+(addPage?' · بيج '+pageName(addPage):'')}
+document.addEventListener('click',e=>{const at=e.target.closest('[data-addto]');if(at){addPage=at.dataset.addto;store.set('addPage_v1',addPage);go('add');setTimeout(()=>$('#input').focus(),100);return}
+  const b=e.target.closest('[data-addpage]');if(b){addPage=b.dataset.addpage;store.set('addPage_v1',addPage);renderAddPages()}
   const t=e.target.closest('[data-vpage]');if(t){curPage=t.dataset.vpage;store.set('curPage_v1',curPage);filter='all';render()}
   const dn=e.target.closest('[data-dnav]');if(dn){const ds=allDates();let i=ds.indexOf(curDate);if(i<0){ds.push(curDate);ds.sort();i=ds.indexOf(curDate)}const j=i+Number(dn.dataset.dnav);if(j>=0&&j<ds.length){curDate=ds[j];filter='all';render()}}
   const dt=e.target.closest('[data-today]');if(dt){curDate=todayStr();filter='all';render()}
@@ -901,7 +902,7 @@ function renderOvBar(){const box=$('#ovBar');if(!box)return;const tabs=[{id:'all
   const cnt=id=>orders.filter(o=>o.date===curDate&&(id==='all'||o.page===id)).length;
   box.innerHTML=`<div class="ptabs">${tabs.map(p=>`<button class="ptab ${curPage===p.id?'on':''}" data-vpage="${p.id}">${esc(p.name)} <em>${cnt(p.id)}</em></button>`).join('')}${orders.some(o=>o.page==='none')?`<button class="ptab ${curPage==='none'?'on':''}" data-vpage="none">بدون بيج <em>${cnt('none')}</em></button>`:''}</div>
   <div class="dnav"><button class="btn sm ghost" data-dnav="-1">‹ السابق</button><div class="dlabel"><b>${esc(dateLabel(curDate))}</b><small>${esc(curDate===todayStr()?dateLong(curDate):curDate)}</small></div><button class="btn sm ghost" data-dnav="1">التالي ›</button></div>
-  ${curDate!==todayStr()?'<div style="text-align:center;margin-top:6px"><button class="btn sm" data-today>رجوع لليوم</button></div>':''}`}
+  <div class="row" style="justify-content:center;margin-top:8px">${curDate!==todayStr()?'<button class="btn sm" data-today>رجوع لليوم</button>':''}${curPage!=='all'&&curPage!=='none'?`<button class="btn sm primary" data-addto="${curPage}">+ إضافة طلبات لـ${esc(pageName(curPage))}</button>`:''}</div>`}
 function renderHistory(){const box=$('#histList');const g={};orders.forEach(o=>{(g[o.date]=g[o.date]||[]).push(o)});const ds=Object.keys(g).sort().reverse();
   box.innerHTML=ds.length?ds.map(d=>{const L=g[d],tot=L.reduce((s,o)=>s+(o.price||0),0);const bp={};L.forEach(o=>{bp[o.page]=bp[o.page]||[0,0];bp[o.page][0]++;bp[o.page][1]+=o.price||0});
     return `<div class="hday"><button class="hhead" data-hist="${d}|all"><span class="ico3d sm c-sky" data-g="cal"></span><div><b>${esc(dateLabel(d))}</b><small>${esc(dateLong(d))}</small></div><span class="hsum">${L.length} طلب<br><small>${fmt(tot)}</small></span></button>
