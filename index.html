@@ -9,6 +9,8 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script>var APPV="4.17";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+if(n>0){window.__upd=1;document.open();document.write(h);document.close()}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
@@ -532,7 +534,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.16</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.17</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -2739,7 +2741,7 @@ b.onclick=function(){apply(document.documentElement.getAttribute("data-theme")==
 
 (function(){if(!(window.Android&&Android.getUpdateUrl))return;var c=document.getElementById("updcard");if(!c)return;c.hidden=false;
   var u=document.getElementById("updurl"),m=document.getElementById("updmsg");
-  try{u.value=Android.getUpdateUrl()||"";m.textContent=Android.getUpdateInfo()||""}catch(e){}
+  try{u.value=Android.getUpdateUrl()||"";m.textContent="الإصدار الشغّال: "+APPV+(Android.getUpdateInfo()?" — "+Android.getUpdateInfo():"")}catch(e){}
   document.getElementById("updsave").onclick=function(){var v=u.value.trim();
     if(v&&!/^https:\/\//.test(v)){m.textContent="⚠️ لازم يبدأ بـ https://";return}
     try{Android.setUpdateUrl(v);m.textContent=v?"تم الحفظ — جاري الفحص، سكّر البرنامج وافتحه بعد لحظات":"تم إيقاف التحديث التلقائي"}catch(e){m.textContent="⚠️ "+e.message}};
