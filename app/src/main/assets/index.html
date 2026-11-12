@@ -252,7 +252,7 @@ body{background:var(--bg)}
       <div class="stats">
         <div class="stat"><b id="sCount">0</b><span>عدد الطلبات</span></div>
         <div class="stat"><b id="sTotal">0</b><span>مجموع المبالغ</span></div>
-        <div class="stat"><b id="sPieces">0</b><span>مجموع القطع</span></div>
+        <div class="stat"><b id="sPieces">0</b><span>محافظة</span></div>
       </div>
       <div class="chips" id="chips"></div>
       <div class="toolbar row">
@@ -632,14 +632,14 @@ function flags(o,dups){
   return f;
 }
 function dupSet(){const c={};viewList().forEach(o=>(o.phone||'').split(' / ').filter(Boolean).forEach(p=>c[p]=(c[p]||0)+1));return new Set(Object.keys(c).filter(k=>c[k]>1))}
-const FIELDS=[['governorate','المحافظة'],['area','المنطقة'],['landmark','نقطة دالة'],['phone','رقم الهاتف'],['items','نوع الطلب'],['price','السعر'],['count','العدد']];
+const FIELDS=[['governorate','المحافظة'],['area','المنطقة'],['landmark','نقطة دالة'],['phone','رقم الهاتف'],['items','نوع الطلب'],['price','السعر']];
 function render(){
   const V=viewList();renderOvBar();
   $('#results').style.display=V.length?'block':'none';
   const dups=dupSet();
   $('#sCount').textContent=V.length;
   $('#sTotal').textContent=fmt(V.reduce((s,o)=>s+(o.price||0),0));
-  $('#sPieces').textContent=V.reduce((s,o)=>s+(o.count||0),0);
+  $('#sPieces').textContent=new Set(V.map(o=>o.governorate).filter(Boolean)).size;
   const byGov={};V.forEach(o=>{const g=o.governorate||'غير محددة';byGov[g]=(byGov[g]||0)+1});
   const nFlag=V.filter(o=>flags(o,dups).some(f=>f[1]!=='info')).length;
   let chips=`<button class="chip ${filter==='all'?'active':''}" data-f="all">الكل ${V.length}</button>`;
@@ -664,8 +664,7 @@ function orderText(o,i){return `طلب ${i+1}
 المنطقة او نقطة دالة : ${[o.area,o.landmark].filter(Boolean).join(' - ')}
 رقم الهاتف : ${o.phone}
 نوع الطلب : ${o.items||''}
-السعر : ${o.price!=null?fmt(o.price):''}
-العدد / ${o.count}`}
+السعر : ${o.price!=null?fmt(o.price):''}`}
 const allText=()=>viewList().map(orderText).join('\n\n------------------\n\n');
 const HEAD=['اسم المستلم','هاتف المستلم','هاتف بديل','المحافظة','المنطقة','أقرب نقطة دالّة','المبلغ المطلوب','ملاحظات'];
 const PLAIN=new Set(['جواريب','جوارب','جوريب','جواريب','درزن','ربع','طويل','نص','طوال']);
