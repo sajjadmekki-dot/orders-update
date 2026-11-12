@@ -457,8 +457,17 @@ function splitLandmark(area){const m=area.match(LM_RE);if(!m)return {area,landma
 const CONN=/^(قرب|كرب|مقابل|بجوار|جوار|جنب|يم|خلف|بعد|قبل|طريق|مجاور|بالقرب|شارع|حي|منطقة|منطقه|قرية|قريه|قضاء|ناحية|ناحيه|محلة|محله|و|-|–|\/)$/;
 function trimConn(s){let w=s.split(/\s+/).filter(Boolean);while(w.length&&CONN.test(w[w.length-1]))w.pop();while(w.length&&/^(-|–|\/|و|حي|قضاء|ناحية|ناحيه|منطقة|منطقه)$/.test(w[0]))w.shift();if(w.every(x=>CONN.test(x)))return '';return w.join(' ')}
 function dedupeWords(s){const out=[];const seen=new Set();for(const w of s.split(/\s+/).filter(Boolean)){const t=tk(w)[0];if(t&&t.length>=3&&[...seen].some(x=>x===t||(t.length>=4&&ed1(x,t))))continue;if(t)seen.add(t);out.push(w)}return out.join(' ').replace(/(^|\s)(مكاني|المكان|العنوان|عنواني|الموبايل|موبايل|رقم الهاتف)(?=\s|$)/g,' ').replace(/\s+/g,' ').trim()}
-function guessKind(items,price){const n=norm(items||'');if(/نص/.test(n))return 'نص';if(/ربع/.test(n))return 'ربع';if(/طويل|طوال|طويله/.test(n))return 'طويل';if(/درزن|دزينه/.test(n))return 'درزن';if(price===20000)return 'درزن';return ''}
-function kindOf(k,items,price){k=(k||'').trim();if(k)return k;const g=guessKind(items,price);if(g)return g;const it=(items||'').trim();return it&&it.split(/\s+/).length<=3?it:''}
+// نوع العرض يتحدد من كلمات الطلب نفسها فقط
+const KW={نص:/^(نص|نصين|نصف)$/,مشكل:/^(مشكل|مشكله|مشكلات|منوع|منوعه|متنوع|مكس|خليط|مخلوط)$/,ربع:/^(ربع|ربعات|قصير|قصار|قصيره)$/,طويل:/^(طويل|طويله|طوال|طويلات|طويل)$/,درزن:/^(درزن|دزينه|درازن|دزن)$/};
+function kindWords(text){const out=[];const ws=norm(text||'').replace(/[^ء-ي0-9\s]/g,' ').split(/\s+/).filter(Boolean);
+  ws.forEach((w,i)=>{for(const v of [w,w.replace(/^و/,''),w.replace(/^ال/,''),w.replace(/^وال/,'')]){const k=Object.keys(KW).find(k=>KW[k].test(v));if(k){let q=null;for(const j of [i-1,i-2]){const pw=(ws[j]||'').replace(/^و/,'');const n=/^\d+$/.test(pw)?parseInt(pw):(NUMW[pw]!=null?NUMW[pw]:null);if(n!=null){q=n;break}}out.push([k,q]);break}}});return out}
+function guessKind(text){const f=kindWords(text);if(!f.length)return '';const has=k=>f.some(x=>x[0]===k);
+  if(has('نص'))return 'نص';if(has('مشكل'))return 'مشكل';
+  if(has('طويل')&&has('ربع')){const qL=f.filter(x=>x[0]==='طويل').map(x=>x[1]),qR=f.filter(x=>x[0]==='ربع').map(x=>x[1]);
+    const sL=qL.every(x=>x!=null)?qL.reduce((a,b)=>a+b,0):null,sR=qR.every(x=>x!=null)?qR.reduce((a,b)=>a+b,0):null;
+    return sL!=null&&sL===sR?'نص':'مشكل'}
+  if(has('ربع'))return 'ربع';if(has('طويل'))return 'طويل';return has('درزن')?'درزن':''}
+function kindOf(k,text){return guessKind(text)}
 function bestZ(text,gov){
   let r=zMatch(text,gov,60).filter(x=>x.cov>=.84&&x.z.t.some(t=>!/^\d+$/.test(t)&&t.length>=3));if(!r.length)return null;
   if(!gov){const g0=[...r].sort((a,b)=>b.m-a.m)[0].z.g;r=r.filter(x=>x.z.g===g0)}
@@ -502,8 +511,11 @@ function localParse(block){
   while(items.length&&/^(قرب|مقابل|بجوار|جنب|خلف|شارع|حي|زقاق|محلة|محله|قضاء|ناحية|ناحيه|قرية|قريه)\s/.test(items[0]))loc.push(items.shift());
   loc=loc.map(l=>l.replace(/^\s*(العنوان|عنواني|مكاني|المكان|الموقع)\s*[:：]?\s*/,'').replace(/(رقم الهاتف|الموبايل|الهاتف|رقم)\s*[:：]?\s*$/,'').trim()).filter(Boolean);
   notes.push(...extra);
+  items=items.map(s=>s.replace(/[*•]+/g,' ').replace(/(^|\s)(السلام عليكم|سلام عليكم|عيني|خويه|خوية|بلا زحمه|بلا زحمة|لو سمحت|اريد|أريد|ريد|رايد|رايده|اطلب|من هذا|هم|بس)(?=\s|$)/g,' ').replace(/(^|\s)و?ياه(?=\s|$)/g,' + ').replace(/\.{2,}|🤣|😂/g,' ').replace(/\s+/g,' ').replace(/^[\s+.،,-]+|[\s+.،,-]+$/g,'').trim()).filter(Boolean);
+  {const NOTE_RE=/(قياس|مقاس|لون|ملون|ملونات|xxl|xl|وزن|اتصل|اتصال|تأكد|تاكد|استبدال|تبديل|فحص|يوم|الصبح|العصر|المسا|بالليل|واصلات|شامل|توصيل|مثل اللي|بالفيديو|بالصوره|كبار|صغار|عاجل)/i;
+   const keep=[];items.forEach(l=>{const segs=l.split(/\s*[+،,]\s*|\.\s+/);const it=[];segs.forEach(s=>{if(NOTE_RE.test(norm(s))&&!/(جواريب|جوارب|جوريب|شورت|شورتات|لباس|لبسان|حفايات|فانيله|تيشيرت|زواج)/.test(norm(s)))notes.push(s.trim());else it.push(s)});const r=it.join(' + ').trim();if(r)keep.push(r)});items=keep}
   const L=locate(loc.join(' ').replace(/[\-–،,]+/g,' ').replace(/\s+/g,' '));
-  return {governorate:L.gov,inferred:L.inferred,area:L.area,landmark:L.landmark,area_inferred:false,kind:guessKind(items.join(' '),price),phone:[...new Set(phones)].join(' / '),items:items.join(' + '),count:countFrom(items.join(' ')),price,notes:notes.join(' - ')};
+  return {governorate:L.gov,inferred:L.inferred,area:L.area,landmark:L.landmark,area_inferred:false,kind:guessKind(block),phone:[...new Set(phones)].join(' / '),items:items.join(' + '),count:countFrom(items.join(' ')),price,notes:notes.join(' - ')};
 }
 
 /* ================= تقسيم النص إلى طلبات ================= */
@@ -605,7 +617,7 @@ ${part.map(o=>`k=${o.id}: ${[o.area,o.landmark].filter(Boolean).join(' - ')} || 
 const todayStr=()=>{const d=new Date(),p=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())};
 const DEFAULT_PAGES=[{id:'p1',name:'عروض الملابس',short:'ملابس',color:'c-rose'},{id:'p2',name:'شفقات',short:'شفقات',color:'c-teal'},{id:'p3',name:'الفا',short:'الفا',color:'c-amber'}];
 let pages=store.get('pages_v1')||DEFAULT_PAGES;
-let orders=store.get('orders_v1')||[];orders.forEach(o=>{o.kind=kindOf(o.kind,o.items,o.price);if(!o.date)o.date=todayStr();if(!o.page)o.page='none';o.governorate=canonGov(o.governorate)||o.governorate;const ex=zExact(o.area,o.governorate);o.inList=!!ex;if(ex)o.area=ex});let filter='all';
+let orders=store.get('orders_v1')||[];orders.forEach(o=>{o.kind=guessKind(o.raw&&o.raw!=='x'?o.raw:[o.items,o.notes].join(' '));if(!o.date)o.date=todayStr();if(!o.page)o.page='none';o.governorate=canonGov(o.governorate)||o.governorate;const ex=zExact(o.area,o.governorate);o.inList=!!ex;if(ex)o.area=ex});let filter='all';
 let curPage=store.get('curPage_v1')||'all',curDate=todayStr(),addPage=store.get('addPage_v1')||null;if(addPage&&!pages.some(p=>p.id===addPage))addPage=null;
 const pageName=id=>id==='none'?'بدون بيج':((pages.find(p=>p.id===id)||{}).name||'بدون بيج');
 const viewList=()=>orders.filter(o=>(curPage==='all'||o.page===curPage)&&o.date===curDate);
@@ -617,10 +629,10 @@ function cleanOrder(o,raw,src){
   if(!gov&&area){const t=zMatch(area,'',1)[0];if(t&&t.cov>=.84){gov=t.z.g;inferred=true}}
   const ex=zExact(area,gov);if(ex){area=ex;inList=true}
   landmark=dedupeWords(landmark);if(!landmark)landmark=area;
-  return {id:Math.random().toString(36).slice(2,9),raw,src,governorate:gov,inferred,area,landmark,areaInferred:!!o.area_inferred,inList,kind:kindOf(o.kind,o.items,(price==null||isNaN(price))?null:Math.round(price)),phone:[...new Set(phone)].join(' / '),items:(o.items||'').trim(),count:parseInt(o.count)||1,price:(price==null||isNaN(price))?null:Math.round(price),notes:(o.notes||'').trim()};
+  return {id:Math.random().toString(36).slice(2,9),raw,src,governorate:gov,inferred,area,landmark,areaInferred:!!o.area_inferred,inList,kind:guessKind(raw||[o.items,o.notes].join(' ')),phone:[...new Set(phone)].join(' / '),items:(o.items||'').trim(),count:parseInt(o.count)||1,price:(price==null||isNaN(price))?null:Math.round(price),notes:(o.notes||'').trim()};
 }
 function flags(o,dups){
-  const f=[];
+  const f=[];if(o.inferred&&o.area){const k=tk(o.area).join(' ');const gs=GOVS.filter(g=>ZNORM[g].has(k));if(gs.length>1)f.push(['تأكد من المحافظة: '+gs.slice(0,3).join(' / '),''])}
   if(!o.phone)f.push(['بدون رقم','bad']);
   else if(o.phone.split(' / ').some(p=>!/^07\d{9}$/.test(p)))f.push(['رقم غير صحيح','bad']);
   if(o.phone&&o.phone.split(' / ').some(p=>dups.has(p)))f.push(['رقم مكرر','']);
@@ -632,7 +644,7 @@ function flags(o,dups){
   return f;
 }
 function dupSet(){const c={};viewList().forEach(o=>(o.phone||'').split(' / ').filter(Boolean).forEach(p=>c[p]=(c[p]||0)+1));return new Set(Object.keys(c).filter(k=>c[k]>1))}
-const FIELDS=[['governorate','المحافظة'],['area','المنطقة'],['landmark','نقطة دالة'],['phone','رقم الهاتف'],['items','نوع الطلب'],['price','السعر']];
+const FIELDS=[['governorate','المحافظة'],['area','المنطقة'],['landmark','نقطة دالة'],['phone','رقم الهاتف'],['items','نوع الطلب'],['price','السعر'],['notes','ملاحظات']];
 function render(){
   const V=viewList();renderOvBar();
   $('#results').style.display=V.length?'block':'none';
@@ -650,7 +662,7 @@ function render(){
   $('#list').innerHTML=list.length?list.map(({o,i,f})=>`
   <div class="order ${f.some(x=>x[1]!=='info')?'flag':''}" data-id="${o.id}">
     <div class="ohead"><span class="onum">طلب ${i+1}</span><div class="badges">${f.map(x=>`<span class="badge ${x[1]}">${x[0]}</span>`).join('')}</div></div>
-    ${FIELDS.map(([k,l])=>`<div class="f"><label>${l}</label><input data-k="${k}" ${k==='governorate'?'list="zl-gov"':k==='area'&&GOVS.includes(o.governorate)?`list="zl-${GOVS.indexOf(o.governorate)}"`:''} value="${esc(k==='price'?fmt(o[k]):o[k])}" class="${k==='area'&&o.area&&!o.inList?'inf':''}${k==='phone'&&f.some(x=>x[0].includes('رقم')&&x[1]==='bad')?' err':''}" ${k==='phone'||k==='price'||k==='count'?'inputmode="numeric" dir="ltr" style="text-align:right"':''}></div>`).join('')}
+    ${FIELDS.map(([k,l])=>`<div class="f"><label>${l}</label><input data-k="${k}" ${k==='governorate'?'list="zl-gov"':k==='area'&&GOVS.includes(o.governorate)?`list="zl-${GOVS.indexOf(o.governorate)}"`:''} value="${esc(k==='price'?fmt(o[k]):k==='notes'?smartNotes(o):o[k])}" class="${k==='area'&&o.area&&!o.inList?'inf':''}${k==='phone'&&f.some(x=>x[0].includes('رقم')&&x[1]==='bad')?' err':''}" ${k==='phone'||k==='price'||k==='count'?'inputmode="numeric" dir="ltr" style="text-align:right"':''}></div>`).join('')}
     <div class="ofoot">
       <details class="raw"><summary>النص الأصلي ${o.src==='ai'?'· ذكاء اصطناعي':'· تحليل محلي'}</summary><pre>${esc(o.raw)}</pre></details>
       <div class="row"><button class="btn sm" data-act="copy">نسخ</button>${sample?'<button class="btn sm" data-act="redo">إعادة بالذكاء</button>':''}<button class="btn sm ghost" data-act="del">حذف</button></div>
@@ -664,11 +676,14 @@ function orderText(o,i){return `طلب ${i+1}
 المنطقة او نقطة دالة : ${[o.area,o.landmark].filter(Boolean).join(' - ')}
 رقم الهاتف : ${o.phone}
 نوع الطلب : ${o.items||''}
-السعر : ${o.price!=null?fmt(o.price):''}`}
+السعر : ${o.price!=null?fmt(o.price):''}
+ملاحظات / ${smartNotes(o)}`}
 const allText=()=>viewList().map(orderText).join('\n\n------------------\n\n');
 const HEAD=['اسم المستلم','هاتف المستلم','هاتف بديل','المحافظة','المنطقة','أقرب نقطة دالّة','المبلغ المطلوب','ملاحظات'];
 const PLAIN=new Set(['جواريب','جوارب','جوريب','جواريب','درزن','ربع','طويل','نص','طوال']);
-function notesOf(o){return (o.items||'').trim()}
+function uniqParts(list){const out=[],seen=new Set();for(const s0 of list){const s=String(s0||'').trim();if(!s)continue;const k=tk(s).join(' ');if(!k||seen.has(k))continue;if([...seen].some(x=>x.includes(k)))continue;seen.add(k);out.push(s)}return out}
+function smartNotes(o){if(o.notesManual!=null)return o.notesManual;return uniqParts([o.kind,...String(o.notes||'').split(/\s+-\s+/)]).join(' - ')}
+function notesOf(o){if(o.notesManual!=null)return uniqParts([o.notesManual,o.items]).join(' - ');return uniqParts([o.kind,o.items,...String(o.notes||'').split(/\s+-\s+/)]).join(' - ')}
 const rowOf=o=>{const ph=(o.phone||'').split(' / ').filter(Boolean);return ['',ph[0]||'',ph.slice(1).join(' / '),o.governorate||'',o.area||'',o.landmark||o.area||'',o.price??'',notesOf(o)]};
 function tsv(){const c=v=>String(v??'').replace(/[\t\n]/g,' ');return [HEAD.join('\t'),...viewList().map(o=>rowOf(o).map(c).join('\t'))].join('\n')}
 function csv(){const c=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return '﻿'+[HEAD.map(c).join(','),...viewList().map(o=>rowOf(o).map((v,j)=>c((j===1||j===2)&&v?'="'+v+'"':v)).join(','))].join('\r\n')}
@@ -748,6 +763,7 @@ let confirmClear=0;$('#clearOut').onclick=()=>{const V=viewList();if(!V.length)r
 $('#chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;filter=b.dataset.f;render()};
 $('#list').addEventListener('change',e=>{const inp=e.target.closest('input[data-k]');if(!inp)return;const id=inp.closest('.order').dataset.id;const o=orders.find(x=>x.id===id);const k=inp.dataset.k;let v=inp.value.trim();
   if(k==='price'){v=v?parsePrice(v.replace(/,/g,'')):null}else if(k==='count'){v=parseInt(toDigits(v))||1}else if(k==='phone'){v=v.split(/[\/,،]/).map(p=>phonesIn(p)[0]||toDigits(p).trim()).filter(Boolean).join(' / ')}else if(k==='governorate'){v=canonGov(v);o.inferred=false}
+  if(k==='notes'){o.notesManual=v;save();render();return}
   if(k==='area'){o.areaInferred=false;const ex=zExact(v,o.governorate);if(ex)v=ex;o.inList=!!ex}o[k]=v;if(k==='governorate'){const ex=zExact(o.area,v);o.inList=!!ex;if(ex)o.area=ex}save();render()});
 $('#list').addEventListener('click',async e=>{const b=e.target.closest('button[data-act]');if(!b)return;const card=b.closest('.order');const i=orders.findIndex(x=>x.id===card.dataset.id);const o=orders[i];
   if(b.dataset.act==='copy')copy(orderText(o,i));
