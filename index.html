@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.33";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.34";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -451,6 +451,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 :root[data-theme="dark"] .pay.ok,:root[data-theme="dark"] .pay.wait{background:rgba(16,32,48,.72)}
 .pay small{display:block;font-size:.68rem;color:var(--muted);font-weight:600}.pay b{display:block;font-size:1.02rem;font-weight:800;line-height:1.3}.pay em{font-style:normal;font-size:.7rem;color:var(--muted)}
 .pay .chipq{flex:0 0 40px;width:40px!important;height:40px!important;font-size:1.2rem!important}
+.opayb small{display:block;font-weight:600;color:var(--muted);font-size:.74rem;margin-top:2px}
 .opayb{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--accent);border-radius:14px;padding:8px 12px;margin-bottom:10px;font-weight:700;font-size:.85rem}
 .opayb button{background:transparent;color:var(--accent);padding:4px 8px;font-size:.78rem}
 /* v4.30 أعمدة الصفحات */
@@ -586,7 +587,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.33</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.34</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -1763,7 +1764,8 @@ function setPage(id,quiet){
 function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
 function renderOrders(){
   var L=filt(),box=$("olist");box.innerHTML="";
-  if(opay){var pb=mk("div","opayb",opay==="paid"?"💰 الطلبات المحاسب عليها من زاجل":"⏳ الطلبات الواصلة وغير محاسب عليها");var px=mk("button",null,"✕ إلغاء الفلتر");px.onclick=function(){opay="";renderOrders()};pb.appendChild(px);box.appendChild(pb)}
+  var _sg=$("ostat");if(_sg)_sg.style.display=opay?"none":"";var _tc=document.querySelector("#s-orders > .card");if(_tc)_tc.style.display=opay?"none":"";
+  if(opay){var _pt=0;L.forEach(function(o){_pt+=Number(o.total)||0});var pb=mk("div","opayb");var pl=mk("div",null);pl.appendChild(mk("div",null,opay==="paid"?"💰 واصلة ومحاسب عليها":"⏳ واصلة وغير محاسب عليها"));pl.appendChild(mk("small",null,L.length+" طلب · "+fmt(_pt)+" د.ع"));pb.appendChild(pl);var px=mk("button",null,"✕ رجوع للكل");px.onclick=function(){opay="";ostat="all";syncSeg();renderOrders()};pb.appendChild(px);box.appendChild(pb)}
   if(!L.length){box.appendChild(mk("div","empty","لا توجد أوردرات"))}
   var T=totals(L);
   $("count").textContent=L.length;$("sum").textContent=fmt(T.sales);$("psum").textContent=fmt(T.done);
@@ -1980,6 +1982,7 @@ $("rpaste").onclick=function(){var t=$("rtext").value.trim();if(!t){say("الص�
 // ---------- التنقل ----------
 var TITLES={home:["سجل الأوردرات","أرباحك وطلباتك بمكان واحد","bag"],new:["طلب جديد","","plus"],orders:["الطلبات","غيّر الحالة أو عدّل السعر","pkgs"],goods:["البضاعة","أسعار الجملة لكل صفحة","tag"],pages:["الصفحات","أضف صفحاتك وعدّلها","file"],debts:["الديون","اللي لك عند التجار","wallet"],stock:["المخزن","كمية البضاعة لكل صفحة","stock"]};
 function go(name){
+  if(name!=="orders"&&opay){opay="";var _sg0=$("ostat");if(_sg0)_sg0.style.display="";var _tc0=document.querySelector("#s-orders > .card");if(_tc0)_tc0.style.display=""}
   screen=name;
   ["home","new","orders","goods","pages","debts","stock"].forEach(function(x){$("s-"+x).hidden=(x!==name)});
   document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-go")===name)});
@@ -3071,7 +3074,7 @@ async function zjSync(silent){
   setTimeout(function(){try{var l=Number(localStorage.getItem("zjlast_v1"))||0;if(zjKey()&&Date.now()-l>600000)zjSync(true)}catch(e){}},4000)})();
 
 /* ===== المحاسبة مع زاجل (v4.33) ===== */
-function payOpen(k){opay=k;ostat="done";odate="";go("orders");syncSeg();renderOrders()}
+function payOpen(k){opay=k;ostat="done";odate="";var q=$("osearch");if(q)q.value="";go("orders");syncSeg();renderOrders()}
 $("payd").onclick=function(){payOpen("paid")};$("payu").onclick=function(){payOpen("unpaid")};
 $("paybtn").onclick=function(){var d=new Date();$("paydate").value=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());$("paymsg").textContent="";$("paym").hidden=false};
 $("payclose").onclick=function(){$("paym").hidden=true};
