@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.27";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.29";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -443,7 +443,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .dayh b{font-size:.92rem}.dayh span{color:var(--muted);font-weight:600}
 
 
-/* v4.27 reference-style tiles */
+/* v4.29 reference-style tiles */
 .grid3.st{row-gap:6px}
 .sc{overflow:visible!important;justify-content:flex-end!important;align-items:flex-start!important;text-align:right;padding:44px 14px 12px!important;margin-top:16px;min-height:112px;border:1px solid rgba(255,255,255,.7);box-shadow:0 8px 20px rgba(60,90,140,.10)!important}
 .sc .chipi{position:absolute!important;top:-26px;left:4px;width:84px!important;height:78px!important;margin:0!important;background:none!important;padding:0!important;display:block}
@@ -462,7 +462,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .nav{left:0!important;right:0!important;bottom:0!important;border-radius:22px 22px 0 0!important;border-left:0!important;border-right:0!important;background:#fff!important;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))!important}
 :root[data-theme="dark"] .nav{background:#0a1626!important}
 .wrap{padding-bottom:100px!important}
-/* v4.27 iOS-style icons */
+/* v4.29 iOS-style icons */
 .gi{background:linear-gradient(150deg,var(--c2),var(--c))!important;color:#fff!important;border-radius:27%!important;width:44px!important;height:44px!important;padding:0!important;display:flex;align-items:center;justify-content:center;font-size:1.4rem!important;box-shadow:0 6px 12px rgba(40,60,100,.28),inset 0 1.5px 1px rgba(255,255,255,.55),inset 0 -3px 5px rgba(0,0,0,.14)!important}
 .gi svg{width:24px;height:24px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25))}
 .sc{padding:12px 4px 10px!important;border-radius:20px;gap:1px!important}
@@ -558,7 +558,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.27</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.29</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -2758,12 +2758,12 @@ function keySample(){var k="";try{k=localStorage.getItem("aikey_v1")||""}catch(e
     if(!r.ok){var er2=new Error((j&&j.error&&j.error.message)||("HTTP "+r.status));er2.status=r.status;throw er2}
     return {text:((j.content||[]).map(function(x){return x.text||""}).join(""))}};
   /* Gemini (مجاني) */
-  return async function(prompt,o){var ms=["gemini-2.5-flash","gemini-flash-latest","gemini-2.0-flash"],last=null;
-    for(var i=0;i<ms.length;i++){var r;try{r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+ms[i]+":generateContent",{method:"POST",headers:{"content-type":"application/json","x-goog-api-key":k},body:JSON.stringify({contents:[{parts:[{text:String(prompt)}]}],generationConfig:{temperature:0.1}})})}catch(e){throw nerr()}
+  return async function(prompt,o){var ms=["gemini-2.5-flash","gemini-2.5-flash-lite","gemini-flash-latest","gemini-2.0-flash"],last=null;
+    for(var i=0;i<ms.length;i++){var r,ac=new AbortController(),tm=setTimeout(function(){ac.abort()},20000);try{r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+ms[i]+":generateContent",{method:"POST",signal:ac.signal,headers:{"content-type":"application/json","x-goog-api-key":k},body:JSON.stringify({contents:[{parts:[{text:String(prompt)}]}],generationConfig:{temperature:0.1}})});clearTimeout(tm)}catch(e){clearTimeout(tm);if(ac.signal.aborted){var te=new Error("انتهت المهلة (النموذج بطيء)");te.status=504;last=te;continue}throw nerr()}
       var j=null;try{j=await r.json()}catch(e){}
       if(r.ok){var c=(j&&j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[];return {text:c.map(function(x){return x.text||""}).join("")}}
       var er=new Error((j&&j.error&&j.error.message)||("HTTP "+r.status));er.status=r.status;last=er;
-      if(r.status!==404)throw er}
+      if([404,429,500,502,503,504].indexOf(r.status)<0)throw er}
     throw last}}
 (function(){
   var SAMPLE=null,busy=false,btn=$("aibtn"),st=$("aist");
@@ -2892,7 +2892,7 @@ function isoIcon(name,col){
 document.querySelectorAll("[data-iso]").forEach(function(e){e.innerHTML=isoIcon(e.getAttribute("data-iso"),e.getAttribute("data-col"))});
 
 
-/* v4.27 لوحات الإعدادات */
+/* v4.29 لوحات الإعدادات */
 function openSet(k){document.querySelectorAll("#setm [data-p]").forEach(function(d){d.hidden=d.getAttribute("data-p")!==k});$("setm").hidden=false}
 $("qacct").onclick=function(){openSet("acct")};$("qbk").onclick=function(){openSet("bk")};
 $("qupd").onclick=function(){var c=$("updcard");if(c.hidden){say("التحديث التلقائي يشتغل داخل تطبيق الأندرويد فقط");return}openSet("upd")};
@@ -2907,10 +2907,10 @@ $("setm").addEventListener("click",function(e){if(e.target===$("setm"))$("setm")
     try{localStorage.setItem("aikey_v1",v)}catch(e){}
     var S=window.__setAIKey&&window.__setAIKey();msg.textContent="جاري التجربة...";
     try{var r=await S("اكتب كلمة واحدة: تمام",{modelTier:"quick"});msg.style.color="";msg.textContent="✅ اشتغل — الرد: "+String(r.text).slice(0,30);ref()}
-    catch(e){try{localStorage.removeItem("aikey_v1")}catch(x){}window.__setAIKey();ref();msg.textContent="❌ "+(e.status===401||e.status===403?"المفتاح غلط أو غير مفعّل":e.status===429?"تجاوزت الحد المسموح (جرّب بعد شوي) أو ما بقى رصيد":e.status===400?"المفتاح غلط أو الرصيد خالص":coAiErr(e))}};
+    catch(e){var bad=(e.status===400||e.status===401||e.status===403);if(bad){try{localStorage.removeItem("aikey_v1")}catch(x){}window.__setAIKey()}ref();msg.textContent=bad?"❌ المفتاح غلط أو غير مفعّل":"⚠️ المفتاح انحفظ، بس الخدمة مشغولة أو وصلت للحد حالياً — جرّب بعد دقائق ("+String(e.message||e).slice(0,60)+")"}};
   clr.onclick=function(){try{localStorage.removeItem("aikey_v1")}catch(e){}window.__setAIKey();inp.placeholder="AIza... أو sk-ant-...";ref();msg.textContent="تم حذف المفتاح"};
 })();
-/* ===== لوحة الأرباح (v4.27) ===== */
+/* ===== لوحة الأرباح (v4.29) ===== */
 function pct(a,b){return b>0?(Math.round(a/b*1000)/10).toString().replace(/\.0$/,"")+"%":"—"}
 function profRow(l,v,c){return '<div class="prow"><span>'+l+'</span><b'+(c?' class="'+c+'"':'')+'>'+v+'</b></div>'}
 function profBlock(t,T){
