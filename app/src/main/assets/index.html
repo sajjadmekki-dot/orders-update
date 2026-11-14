@@ -738,7 +738,11 @@ const HEAD=['اسم المستلم','هاتف المستلم','هاتف بديل
 const PLAIN=new Set(['جواريب','جوارب','جوريب','جواريب','درزن','ربع','طويل','نص','طوال']);
 function uniqParts(list){const out=[],seen=new Set();for(const s0 of list){const s=String(s0||'').trim();if(!s)continue;const k=tk(s).join(' ');if(!k||seen.has(k))continue;if([...seen].some(x=>x.includes(k)))continue;seen.add(k);out.push(s)}return out}
 function smartNotes(o){if(o.notesManual!=null)return o.notesManual;return uniqParts([o.kind,...String(o.notes||'').split(/\s+-\s+/)]).join(' - ')}
-function notesOf(o){if(o.notesManual!=null)return o.notesManual;return uniqParts([o.kind,o.items,...String(o.notes||'').split(/\s+-\s+/)]).join(' - ')}
+function notesOf(o){if(o.notesManual!=null)return o.notesManual;
+  // قراءة وحدة: نص الطلب نفسه، وبعده ملاحظات الزبون. نوع العرض ما يتكرر إذا مكتوب أصلاً بالطلب
+  const it=String(o.items||'').trim();const parts=[it,...String(o.notes||'').split(/\s+-\s+/)];
+  if(o.kind&&!guessKind(it)&&!parts.some(s=>guessKind(s)))parts.unshift(o.kind);
+  return uniqParts(parts).join(' - ')}
 const rowOf=o=>{const ph=(o.phone||'').split(' / ').filter(Boolean);return ['',ph[0]||'',ph.slice(1).join(' / '),o.governorate||'',o.area||'',o.landmark||o.area||'',o.price??'',notesOf(o)]};
 function tsv(){const c=v=>String(v??'').replace(/[\t\n]/g,' ');return [HEAD.join('\t'),...viewList().map(o=>rowOf(o).map(c).join('\t'))].join('\n')}
 function csv(){const c=v=>'"'+String(v??'').replace(/"/g,'""')+'"';return '﻿'+[HEAD.map(c).join(','),...viewList().map(o=>rowOf(o).map((v,j)=>c((j===1||j===2)&&v?'="'+v+'"':v)).join(','))].join('\r\n')}
