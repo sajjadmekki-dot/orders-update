@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.32";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.33";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -443,6 +443,16 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .dayh b{font-size:.92rem}.dayh span{color:var(--muted);font-weight:600}
 
 
+
+/* v4.33 المحاسبة */
+.pays{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 4px}
+.pay{display:flex;align-items:center;gap:10px;text-align:right;border:1px solid var(--line);border-radius:18px;padding:10px;background:var(--card);color:var(--text);cursor:pointer}
+.pay.ok{background:linear-gradient(160deg,#fff,#e2f6ec)}.pay.wait{background:linear-gradient(160deg,#fff,#fff1d6)}
+:root[data-theme="dark"] .pay.ok,:root[data-theme="dark"] .pay.wait{background:rgba(16,32,48,.72)}
+.pay small{display:block;font-size:.68rem;color:var(--muted);font-weight:600}.pay b{display:block;font-size:1.02rem;font-weight:800;line-height:1.3}.pay em{font-style:normal;font-size:.7rem;color:var(--muted)}
+.pay .chipq{flex:0 0 40px;width:40px!important;height:40px!important;font-size:1.2rem!important}
+.opayb{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--accent);border-radius:14px;padding:8px 12px;margin-bottom:10px;font-weight:700;font-size:.85rem}
+.opayb button{background:transparent;color:var(--accent);padding:4px 8px;font-size:.78rem}
 /* v4.30 أعمدة الصفحات */
 .pbars{display:flex;gap:10px;overflow-x:auto;padding:6px 2px 10px;align-items:flex-end}
 .pcol{flex:1 0 74px;max-width:120px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:var(--text)}
@@ -502,6 +512,11 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div><div class="sl"><span class="ic am" data-ic="clock"></span>مبلغ الطلبات الواصلة</div><p><b id="h_pend">0</b> <em>د.ع</em></p></div>
 <div><div class="sl"><span class="ic em" data-ic="calcheck"></span>مبلغ طلبات اليوم</div><p><b id="h_today">0</b> <em>د.ع</em></p></div>
 </div></div>
+<div class="pays" id="pays">
+<button class="pay ok" id="payd"><span class="chipq gi ic" data-ic="wallet" style="--c:#16a34a;--c2:#4ade80"></span><div><small>محاسب عليها من زاجل</small><b id="payd_a">0</b><em><span id="payd_n">0</span> طلب</em></div></button>
+<button class="pay wait" id="payu"><span class="chipq gi ic" data-ic="clock" style="--c:#d97706;--c2:#fbbf24"></span><div><small>غير محاسب عليها</small><b id="payu_a">0</b><em><span id="payu_n">0</span> طلب</em></div></button>
+</div>
+<button class="second" id="paybtn" style="margin:6px 0 0;padding:8px">تحديد الطلبات المحاسب عليها</button>
 <div id="syncst" class="sync"><span class="ic" data-ic="database"></span><span id="synctx"></span></div>
 <div class="dash" id="h_dash">
 <div class="dp">
@@ -571,7 +586,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.32</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.33</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -766,6 +781,16 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="second" id="rpaste">استرجاع من النص</button></details>
 </div>
 </div><button class="second" id="setclose" style="margin-top:12px">إغلاق</button></div></div>
+<div class="modal" id="paym" hidden><div class="sheet">
+<h2>المحاسبة مع زاجل</h2>
+<div class="hint" style="margin:6px 0">علّم الطلبات الواصلة اللي استلمت مبلغها من الشركة. تكدر تعلّم طلب طلب من صفحة الطلبات (زر "تم محاسبتها").</div>
+<label for="paydate">علّم كل الواصلة لحد تاريخ</label>
+<input id="paydate" type="date">
+<button class="primary" id="paygo">علّم كمحاسب عليها</button>
+<button class="second" id="payundo">إلغاء المحاسبة عن الكل</button>
+<div id="paymsg" class="hint" style="margin-top:8px"></div>
+<button class="second" id="payclose" style="margin-top:10px">إغلاق</button>
+</div></div>
 <div class="modal" id="profm" hidden><div class="sheet">
 <h2>الأرباح</h2>
 <div id="profbody"></div>
@@ -799,7 +824,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </nav>
 
 <script>
-var KEY="orders_v1",CK="costs_v1",DK="deliv_v1",PK="pages_v1",CP="curpage_v1",DBT="debts_v1",orders=[],costs={},pages=[],cur=null,gcur=null,debts=[],ostat="all",openDebt=null,screen="home";
+var KEY="orders_v1",CK="costs_v1",DK="deliv_v1",PK="pages_v1",CP="curpage_v1",DBT="debts_v1",orders=[],costs={},pages=[],cur=null,gcur=null,debts=[],ostat="all",opay="",openDebt=null,screen="home";
 var $=function(id){return document.getElementById(id)};
 var ICONS={
 home:'<path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
@@ -1619,6 +1644,7 @@ function filt(){
     if(f&&f!=="all"&&o.pid!==f)return false;
     if(ostat!=="all"&&stOf(o)!==ostat)return false;
     if(odate==="today"&&dayOf(o)!==todayKey())return false;
+    if(opay){if(stOf(o)!=="done")return false;if(opay==="paid"?!o.paid:!!o.paid)return false}
     if(q){
       var s=sp(o),hay=[o.name,o.phone,s.gov,s.area,s.near,o.product,o.notes].join(" ").toLowerCase();
       if(hay.indexOf(q)<0)return false;
@@ -1687,7 +1713,7 @@ function renderHome(){
   $("h_done").textContent=fmt(T.sales);$("h_pend").textContent=fmt(T.dsales);$("h_today").textContent=fmt(TT.sales);window.__PT=T;
   $("h_tod").textContent=today.length;$("h_all").textContent=L.length;
   $("h_pending").textContent=T.pendN;$("h_reg").textContent=T.regN;$("h_deliv").textContent=T.doneN;$("h_ret").textContent=T.retN;
-  $("h_debt").textContent=fmt(dTotal());$("h_prof").textContent=fmt(T.done+T.pend);
+  $("h_debt").textContent=fmt(dTotal());(function(){var D=L.filter(function(o){return stOf(o)==="done"}),pa=0,pn_=0,ua=0,un=0;D.forEach(function(o){if(o.paid){pa+=Number(o.total)||0;pn_++}else{ua+=Number(o.total)||0;un++}});$("payd_a").textContent=fmt(pa)+" د.ع";$("payd_n").textContent=pn_;$("payu_a").textContent=fmt(ua)+" د.ع";$("payu_n").textContent=un})();$("h_prof").textContent=fmt(T.done+T.pend);
   try{renderDash(L,today)}catch(e){}
   try{renderLow()}catch(e){}
   var box=$("h_pages");box.innerHTML="";box.className="pbars";
@@ -1737,6 +1763,7 @@ function setPage(id,quiet){
 function mk(tag,cls,txt){var e=document.createElement(tag);if(cls)e.className=cls;if(txt!=null)e.textContent=txt;return e}
 function renderOrders(){
   var L=filt(),box=$("olist");box.innerHTML="";
+  if(opay){var pb=mk("div","opayb",opay==="paid"?"💰 الطلبات المحاسب عليها من زاجل":"⏳ الطلبات الواصلة وغير محاسب عليها");var px=mk("button",null,"✕ إلغاء الفلتر");px.onclick=function(){opay="";renderOrders()};pb.appendChild(px);box.appendChild(pb)}
   if(!L.length){box.appendChild(mk("div","empty","لا توجد أوردرات"))}
   var T=totals(L);
   $("count").textContent=L.length;$("sum").textContent=fmt(T.sales);$("psum").textContent=fmt(T.done);
@@ -1759,6 +1786,7 @@ function renderOrders(){
     if(o.notes){var r3=mk("div","orow note");r3.appendChild(ico("note"));r3.appendChild(mk("span",null,o.notes));c.appendChild(r3)}
     if(o.sts&&s!=="reg"){var r5=mk("div","orow note");r5.appendChild(ico("clock"));r5.appendChild(mk("span",null,ST[s]+" بتاريخ "+fmtDT(o.sts)));c.appendChild(r5)}
     if(o.coStage){var r4=mk("div","orow note");r4.appendChild(ico("truck"));r4.appendChild(mk("span",null,"الشركة: "+o.coStage+(o.coReason&&o.coReason!==o.coStage?" — "+o.coReason:"")+(o.coId?" · وصل "+o.coId:"")));c.appendChild(r4)}
+    if(s==="done"){var rp=mk("div","orow note");rp.appendChild(ico("wallet"));rp.appendChild(mk("span",null,o.paid?"محاسب عليها"+(typeof o.paid==="number"?" بتاريخ "+fmtDT(o.paid):""):"غير محاسب عليها (بانتظار الشركة)"));c.appendChild(rp)}
     var f=mk("div","of");
     var s1=mk("span",null,"المبلغ");s1.appendChild(mk("b",null,fmt(o.total)));
     var s2=mk("span",Number(o.profit)<0?"neg":"gain","الربح");s2.appendChild(mk("b",null,fmt(o.profit)));
@@ -1771,6 +1799,7 @@ function renderOrders(){
       seg.appendChild(b);
     });
     c.appendChild(seg);
+    if(s==="done"){var pbt=mk("button","ibtn");pbt.appendChild(ico("wallet"));pbt.appendChild(document.createTextNode(o.paid?" إلغاء المحاسبة":" تم محاسبتها"));pbt.onclick=function(){o.paid=o.paid?0:Date.now();sv(KEY,orders);renderOrders();renderHome()};act.appendChild(pbt)}
     var e=mk("button","ibtn");e.title="تعديل";e.appendChild(ico("edit"));e.appendChild(document.createTextNode(" تعديل"));e.onclick=function(){openEdit(o)};act.appendChild(e);
     if(o.phone){var w=mk("a","ibtn");w.href="tel:"+o.phone;w.appendChild(ico("phone"));w.appendChild(document.createTextNode(" اتصال"));act.appendChild(w)}
     var d=mk("button","ibtn danger");d.title="حذف";d.appendChild(ico("trash"));
@@ -2957,6 +2986,7 @@ function zjBody(o,u){var s=sp(o),alt=((String(o.notes||"").match(/07\d{9}/g)||[]
   var b={merchant_reference:zjEnsureRef(o,u),recipient_name:o.name||"-",recipient_phone:o.phone,governorate:s.gov,city:s.area,landmark:s.near||"",cod_amount:Number(o.total)||0,pieces_count:pcs,notes:o.notes||""};
   if(alt)b.recipient_phone_alt=alt;return b}
 function zjApply(o,sh){var to=ZJ_MAP[sh.status]||"pending",ch=false;
+  try{var stl=sh.settled===true||sh.is_settled===true||sh.merchant_paid===true||!!sh.settlement_id||!!sh.settled_at||!!sh.paid_at||/^(settled|paid)$/i.test(String(sh.settlement_status||sh.payment_status||sh.merchant_payment_status||""));if(stl&&to==="done"&&!o.paid)o.paid=coDate(sh.settled_at||sh.paid_at)||Date.now()}catch(e){}
   o.coId=sh.number||o.coId;o.coStage=sh.status_label||sh.status||"";o.coReason=sh.reason||"";o.coAt=sh.updated_at||"";
   if(stOf(o)!==to){o.status=to;o.sts=coDate(sh.updated_at)||Date.now();ch=true}return ch}
 async function zjSend(){
@@ -3039,6 +3069,17 @@ async function zjSync(silent){
   clr.onclick=function(){try{localStorage.removeItem("zjkey_v1")}catch(e){}inp.placeholder="zjm_...";ref();zjMsg("تم حذف المفتاح")};
   $("zjsend").onclick=zjSend;$("zjsync").onclick=function(){zjSync(false)};
   setTimeout(function(){try{var l=Number(localStorage.getItem("zjlast_v1"))||0;if(zjKey()&&Date.now()-l>600000)zjSync(true)}catch(e){}},4000)})();
+
+/* ===== المحاسبة مع زاجل (v4.33) ===== */
+function payOpen(k){opay=k;ostat="done";odate="";go("orders");syncSeg();renderOrders()}
+$("payd").onclick=function(){payOpen("paid")};$("payu").onclick=function(){payOpen("unpaid")};
+$("paybtn").onclick=function(){var d=new Date();$("paydate").value=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());$("paymsg").textContent="";$("paym").hidden=false};
+$("payclose").onclick=function(){$("paym").hidden=true};
+$("paym").addEventListener("click",function(e){if(e.target===$("paym"))$("paym").hidden=true});
+$("paygo").onclick=function(){var v=$("paydate").value;if(!v)return;var lim=new Date(v+"T23:59:59").getTime(),hp=curHP(),n=0;
+  orders.forEach(function(o){if(hp!=="all"&&o.pid!==hp)return;if(stOf(o)!=="done"||o.paid)return;var t=Number(o.sts)||Number(o.ts)||0;if(t<=lim){o.paid=Date.now();n++}});
+  sv(KEY,orders);renderHome();renderOrders();$("paymsg").textContent="✅ انعلّم "+n+" طلب كمحاسب عليها"+(hp!=="all"?" (للصفحة المختارة فقط)":"")};
+$("payundo").onclick=function(){var hp=curHP(),n=0;orders.forEach(function(o){if(hp!=="all"&&o.pid!==hp)return;if(o.paid){o.paid=0;n++}});sv(KEY,orders);renderHome();renderOrders();$("paymsg").textContent="تم إلغاء المحاسبة عن "+n+" طلب"};
 /* ===== لوحة الأرباح (v4.30) ===== */
 function pct(a,b){return b>0?(Math.round(a/b*1000)/10).toString().replace(/\.0$/,"")+"%":"—"}
 function profRow(l,v,c){return '<div class="prow"><span>'+l+'</span><b'+(c?' class="'+c+'"':'')+'>'+v+'</b></div>'}
