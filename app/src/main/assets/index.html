@@ -500,7 +500,7 @@ function localParse(block){
   const phones=[];lines.forEach(l=>phones.push(...phonesIn(l)));
   let loc=[],items=[],notes=[],price=null;
   lines.forEach((l,i)=>{
-    if(isPhoneLine(l)){const rest=l.replace(/[+\d٠-٩][\d٠-٩\s\-]{8,}[\d٠-٩]/g,'').replace(/رقم|الهاتف|هاتف|الموبايل|موبايل|[:：+]/g,'').trim();if(rest){(i<=pIdx?loc:items).push(rest)}return}
+    if(isPhoneLine(l)){const rest=l.replace(/[+\d٠-٩][\d٠-٩\s\-]{8,}[\d٠-٩]/g,'').replace(/(^|\s)(رقم|الرقم|الهاتف|هاتف|الموبايل|موبايل|الثاني|ثاني|البديل|بديل|احتياط|الاحتياط|اخر|آخر|الاخر)(?=\s|$)/g,' ').replace(/[:：+\-–\/]/g,' ').trim();if(rest){(i<=pIdx?loc:items).push(rest)}return}
     if(isPriceLine(l)&&price==null){price=parsePrice(l);const rest=l.replace(/[\d٠-٩][\d٠-٩,.]*\s*(الف|ألف|الاف|k|K|دينار)?/,'').replace(/السعر|سعر|المبلغ|[:：]/g,'').trim();if(rest&&rest.length>2)items.push(rest);return}
     if(isNoteLine(l)){notes.push(l.replace(/^\s*(ملاحظات|ملاحظة|ملاحظه|ملاحضه)\s*[:：\/]?\s*/,''));return}
     if(pIdx<0?i===0:i<pIdx)loc.push(l);else items.push(l);
@@ -537,8 +537,11 @@ function splitOrders(text){
   for(const b of blocks){
     const pi=b.map((l,i)=>isPhoneLine(l)?i:-1).filter(i=>i>=0);
     if(pi.length<=1){split.push(b);continue}
+    // رقمين بنفس الطلب (رقم ثاني/بديل) ما يصيرون طلبين: نقسم بس إذا أكو أكثر من سعر
+    if(b.filter(isPriceLine).length<=1){split.push(b);continue}
     let start=0;
     for(let k=1;k<pi.length;k++){
+      if(pi[k]-pi[k-1]===1||/بديل|ثاني|احتياط|اخر|آخر|الثاني/.test(b[pi[k]]))continue;
       let cut=-1;
       for(let j=pi[k]-1;j>pi[k-1];j--)if(isPriceLine(b[j])){cut=j+1;while(cut<pi[k]&&isNoteLine(b[cut]))cut++;break}
       if(cut<0){cut=pi[k];// الرجوع لأسطر الموقع قبل الرقم
@@ -575,7 +578,7 @@ const PROMPT=`أنت خبير بترتيب طلبات التوصيل العرا�
   إذا المنطقة الصحيحة مو موجودة بالمرشحات، اكتب اسم المنطقة الصحيح حسب معرفتك وخلي in_list=false. إذا اخترت من المرشحات خلي in_list=true. إذا ما تعرف المنطقة بثقة خلي area "" ولا تخترع.
 - landmark: العنوان الكامل مثل ما كتبه الزبون بعد تنظيفه (بدون اسم المحافظة)، مثلاً "حي المهندسين طريق الجنه عمود رقم 15" أو "الزبير شارع الشعبيه قرب مقبره الكليز". احذف منه الكلام الزايد (مكاني، العنوان، الموبايل، رقم الهاتف، اريد، السلام عليكم، أسماء المنتجات) والتكرار (مثل "عينكاوا عينكاوه" ← "عينكاوا"). إذا العنوان بس اسم المنطقة خليه اسم المنطقة.
 - kind: نوع العرض بكلمة وحدة: درزن، ربع، طويل، نص (إذا نص طويل ونص ربع)، أو كلمة قصيرة ثانية إذا غير هذني. إذا ما مكتوب النوع والسعر 20 الف اكتب "درزن". إذا ما تعرف خليه "".
-- phone: رقم الموبايل العراقي 11 رقم يبدأ بـ 07 (حوّل الأرقام العربية واحذف +964 و00964 والفراغات). إذا أكثر من رقم افصلهم بـ " / ".
+- phone: رقم الموبايل العراقي 11 رقم يبدأ بـ 07 (حوّل الأرقام العربية واحذف +964 و00964 والفراغات). إذا الطلب بي أكثر من رقم فهو نفس الزبون ونفس الطلب: الرقم الأول أولاً وبعده الرقم البديل، وافصلهم بـ " / ". لا تسوي من الرقم الثاني طلب جديد أبداً.
 - items: نوع الطلب مختصر ومرتب بالأرقام، مثلاً "اربع زواج طوال وربعة ربع وربعة حفايات" ← "4 زواج طوال + 4 ربع + 4 حفايات". حافظ على أسماء المنتجات.
 - count: العدد الكلي للقطع = مجموع الكميات. وحدة=1، ثنين=2، ثلاث=3، اربع/ربعة=4، خمس=5، ست=6، سبع=7، ثمن=8، تسع=9، عشرة=10، درزن=12. بـ"ربعة ربع" الأولى رقم 4 والثانية نوع منتج. "درزن جواريب ودرزن شورتات"=24. "ست ٤ طويل و٨ ربع"=12. إذا ماكو كمية = 1.
 - price: السعر بالدينار رقم صحيح. "٢٤ الف"/"24k"/"24" (أقل من 1000 يعني آلاف) ← 24000. "الف ونص"←1500. إذا ماكو = null.
@@ -588,7 +591,11 @@ const PROMPT=`أنت خبير بترتيب طلبات التوصيل العرا�
 الطلبات:
 `;
 function parseJSON(t){const a=t.indexOf('['),b=t.lastIndexOf(']');if(a<0||b<a)throw new Error('no json');return JSON.parse(t.slice(a,b+1))}
-async function ask(prompt,tier){let tries=0;while(true){try{const r=await sample(prompt,{modelTier:tier||'default'});return parseJSON(r.text)}catch(e){if(e&&e.code==='rate_limited'&&tries<2){tries++;await new Promise(r=>setTimeout(r,4000*tries));continue}throw e}}}
+let BEST_MODEL=true;
+async function ask(prompt,tier){let tries=0;while(true){
+  try{const opts=BEST_MODEL?{model:'claude-opus-5-5',effort:'high',modelTier:'complex'}:{modelTier:'complex'};const r=await sample(prompt,opts);return parseJSON(r.text)}
+  catch(e){if(BEST_MODEL&&e&&(e.code==='invalid_argument'||e.code==='model_unavailable'||e.code==='not_allowed'||/model|effort/i.test(e.message||''))){BEST_MODEL=false;continue}
+    if(e&&e.code==='rate_limited'&&tries<2){tries++;await new Promise(r=>setTimeout(r,4000*tries));continue}throw e}}}
 function candidatesFor(block){const g=findKey(block,GOV_KEYS);const lines=block.split('\n').filter(l=>!isPriceLine(l)&&(!isPhoneLine(l)||l.replace(/[\d\s+\-]/g,'').length>3)).join(' ').replace(/(^|\s)(الف|ألف|دينار)(?=\s|$)/g,' ');
   let c=zMatch(lines,g?g.gov:'',14);if(!c.length)c=zMatch(lines,'',10);return c.map(x=>x.z.g+' » '+x.z.a).join(' | ')||'(ماكو)'}
 async function aiChunk(blocks,offset,tier){
@@ -643,8 +650,9 @@ function flags(o,dups){
   if(o.price==null)f.push(['بدون سعر','']);
   return f;
 }
+function phParts(o){return String(o.phone||'').split(' / ').map(s=>s.trim()).filter(Boolean)}
 function dupSet(){const c={};viewList().forEach(o=>(o.phone||'').split(' / ').filter(Boolean).forEach(p=>c[p]=(c[p]||0)+1));return new Set(Object.keys(c).filter(k=>c[k]>1))}
-const FIELDS=[['governorate','المحافظة'],['area','المنطقة'],['landmark','نقطة دالة'],['phone','رقم الهاتف'],['items','نوع الطلب'],['price','السعر'],['notes','ملاحظات']];
+const FIELDS=[['governorate','المحافظة'],['area','المنطقة'],['landmark','نقطة دالة'],['phone','رقم الهاتف'],['phone2','هاتف بديل'],['items','نوع الطلب'],['price','السعر'],['notes','ملاحظات']];
 function render(){
   const V=viewList();renderOvBar();
   $('#results').style.display=V.length?'block':'none';
@@ -662,7 +670,7 @@ function render(){
   $('#list').innerHTML=list.length?list.map(({o,i,f})=>`
   <div class="order ${f.some(x=>x[1]!=='info')?'flag':''}" data-id="${o.id}">
     <div class="ohead"><span class="onum">طلب ${i+1}</span><div class="badges">${f.map(x=>`<span class="badge ${x[1]}">${x[0]}</span>`).join('')}</div></div>
-    ${FIELDS.map(([k,l])=>`<div class="f"><label>${l}</label><input data-k="${k}" ${k==='governorate'?'list="zl-gov"':k==='area'&&GOVS.includes(o.governorate)?`list="zl-${GOVS.indexOf(o.governorate)}"`:''} value="${esc(k==='price'?fmt(o[k]):k==='notes'?smartNotes(o):o[k])}" class="${k==='area'&&o.area&&!o.inList?'inf':''}${k==='phone'&&f.some(x=>x[0].includes('رقم')&&x[1]==='bad')?' err':''}" ${k==='phone'||k==='price'||k==='count'?'inputmode="numeric" dir="ltr" style="text-align:right"':''}></div>`).join('')}
+    ${FIELDS.map(([k,l])=>`<div class="f"><label>${l}</label><input data-k="${k}" ${k==='governorate'?'list="zl-gov"':k==='area'&&GOVS.includes(o.governorate)?`list="zl-${GOVS.indexOf(o.governorate)}"`:''} value="${esc(k==='price'?fmt(o[k]):k==='notes'?smartNotes(o):k==='phone'?phParts(o)[0]||'':k==='phone2'?phParts(o).slice(1).join(' / '):o[k])}" class="${k==='area'&&o.area&&!o.inList?'inf':''}${k==='phone'&&f.some(x=>x[0].includes('رقم')&&x[1]==='bad')?' err':''}" ${k==='phone'||k==='phone2'||k==='price'||k==='count'?'inputmode="numeric" dir="ltr" style="text-align:right"':''}></div>`).join('')}
     <div class="ofoot">
       <details class="raw"><summary>النص الأصلي ${o.src==='ai'?'· ذكاء اصطناعي':'· تحليل محلي'}</summary><pre>${esc(o.raw)}</pre></details>
       <div class="row"><button class="btn sm" data-act="copy">نسخ</button>${sample?'<button class="btn sm" data-act="redo">إعادة بالذكاء</button>':''}<button class="btn sm ghost" data-act="del">حذف</button></div>
@@ -674,7 +682,7 @@ function render(){
 function orderText(o,i){return `طلب ${i+1}
 المحافظة : ${o.governorate}
 المنطقة او نقطة دالة : ${[o.area,o.landmark].filter(Boolean).join(' - ')}
-رقم الهاتف : ${o.phone}
+رقم الهاتف : ${phParts(o)[0]||''}${phParts(o).length>1?'\nرقم بديل : '+phParts(o).slice(1).join(' / '):''}
 نوع الطلب : ${o.items||''}
 السعر : ${o.price!=null?fmt(o.price):''}
 ملاحظات / ${smartNotes(o)}`}
@@ -764,6 +772,7 @@ $('#chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;filter=b.
 $('#list').addEventListener('change',e=>{const inp=e.target.closest('input[data-k]');if(!inp)return;const id=inp.closest('.order').dataset.id;const o=orders.find(x=>x.id===id);const k=inp.dataset.k;let v=inp.value.trim();
   if(k==='price'){v=v?parsePrice(v.replace(/,/g,'')):null}else if(k==='count'){v=parseInt(toDigits(v))||1}else if(k==='phone'){v=v.split(/[\/,،]/).map(p=>phonesIn(p)[0]||toDigits(p).trim()).filter(Boolean).join(' / ')}else if(k==='governorate'){v=canonGov(v);o.inferred=false}
   if(k==='notes'){o.notesManual=v;save();render();return}
+  if(k==='phone'||k==='phone2'){const cl=s=>s.split(/[\/,،]/).map(p=>phonesIn(p)[0]||toDigits(p).trim()).filter(Boolean);const cur=phParts(o);const a=k==='phone'?cl(v).slice(0,1):cur.slice(0,1),b=k==='phone2'?cl(v):cur.slice(1);o.phone=[...new Set([...a,...b])].join(' / ');save();render();return}
   if(k==='area'){o.areaInferred=false;const ex=zExact(v,o.governorate);if(ex)v=ex;o.inList=!!ex}o[k]=v;if(k==='governorate'){const ex=zExact(o.area,v);o.inList=!!ex;if(ex)o.area=ex}save();render()});
 $('#list').addEventListener('click',async e=>{const b=e.target.closest('button[data-act]');if(!b)return;const card=b.closest('.order');const i=orders.findIndex(x=>x.id===card.dataset.id);const o=orders[i];
   if(b.dataset.act==='copy')copy(orderText(o,i));
