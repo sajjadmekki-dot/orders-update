@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.30";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.31";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -546,6 +546,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="qa" data-go="goods"><span class="chipq gi ic" data-ic="tag" style="--c:#db2777;--c2:#f472b6"></span>البضاعة</button>
 <button class="qa" data-go="stock"><span class="chipq gi ic" data-ic="stock" style="--c:#65a30d;--c2:#a3e635"></span>المخزن</button>
 <button class="qa" data-go="debts"><span class="chipq gi ic" data-ic="wallet" style="--c:#9333ea;--c2:#c084fc"></span>الديون</button>
+<button class="qa" id="qzj"><span class="chipq gi ic" data-ic="truck" style="--c:#b91c1c;--c2:#f87171"></span>ربط زاجل</button>
 <button class="qa" id="qacct"><span class="chipq gi ic" data-ic="user" style="--c:#0369a1;--c2:#38bdf8"></span>الحساب والربط</button>
 <button class="qa" id="qbk"><span class="chipq gi ic" data-ic="database" style="--c:#0d9488;--c2:#2dd4bf"></span>النسخ الاحتياطي</button>
 <button class="qa" id="qupd"><span class="chipq gi ic" data-ic="download" style="--c:#4f46e5;--c2:#818cf8"></span>تحديث التطبيق</button>
@@ -570,7 +571,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.30</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.31</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -745,7 +746,14 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div><div data-p="upd" hidden><div id="updcard" hidden><h3>التحديث التلقائي</h3><div class="card"><div class="hint">الصق رابط ملف البرنامج (index.html) على GitHub مرة وحدة، وبعدها يتحدث البرنامج لحاله عند كل فتح.</div>
 <input id="updurl" style="direction:ltr;text-align:left" placeholder="https://raw.githubusercontent.com/اسمك/المشروع/main/index.html" autocapitalize="off">
 <button id="updsave" class="second">حفظ وفحص التحديث الآن</button><div class="hint" id="updmsg"></div></div></div>
-</div><div data-p="bk" hidden><h3>النسخة الاحتياطية</h3>
+</div><div data-p="zj" hidden><h3>الربط مع زاجل (API)</h3>
+<div class="card"><div class="hint">ولّد مفتاح من موقع زاجل (ربط برنامجك) والصقه هنا. يتخزن على جهازك فقط.</div>
+<input id="zjkey" type="password" autocomplete="off" autocapitalize="off" style="direction:ltr;text-align:left" placeholder="zjm_...">
+<button class="primary" id="zjsave" style="margin-top:8px">حفظ وتجربة الاتصال</button>
+<button class="ghost" id="zjclr" hidden>حذف المفتاح</button>
+<button class="second" id="zjsend">إرسال الطلبات المسجّلة لزاجل</button>
+<button class="second" id="zjsync">تحديث الحالات من زاجل</button>
+<div id="zjmsg" class="hint" style="margin-top:8px;white-space:pre-wrap"></div></div></div><div data-p="bk" hidden><h3>النسخة الاحتياطية</h3>
 <div class="card">
 <div id="bk_note" class="hint" style="margin-bottom:8px"></div>
 <button class="primary" id="bk_save" style="margin-top:0">حفظ نسخة احتياطية (ملف)</button>
@@ -2926,6 +2934,83 @@ $("setm").addEventListener("click",function(e){if(e.target===$("setm"))$("setm")
     catch(e){var bad=(e.status===400||e.status===401||e.status===403);if(bad){try{localStorage.removeItem("aikey_v1")}catch(x){}window.__setAIKey()}ref();msg.textContent=bad?"❌ المفتاح غلط أو غير مفعّل":"⚠️ المفتاح انحفظ، بس الخدمة مشغولة أو وصلت للحد حالياً — جرّب بعد دقائق ("+String(e.message||e).slice(0,60)+")"}};
   clr.onclick=function(){try{localStorage.removeItem("aikey_v1")}catch(e){}window.__setAIKey();inp.placeholder="AIza... أو sk-ant-...";ref();msg.textContent="تم حذف المفتاح"};
 })();
+
+/* ===== ربط زاجل (API) v4.31 ===== */
+var ZJ="https://zajel.wahajiq.net/api/v1/merchant-api",_zcb={},_zid=0;
+function zjKey(){try{return localStorage.getItem("zjkey_v1")||""}catch(e){return ""}}
+window.__zjcb=function(id,s){var f=_zcb[id];delete _zcb[id];if(f)f(s)};
+function zj(method,path,body){return new Promise(function(res,rej){
+  var url=ZJ+path,h={"Authorization":"Bearer "+zjKey(),"Accept":"application/json"};if(body)h["Content-Type"]="application/json";
+  if(window.Android&&Android.httpAsync){var id=String(++_zid);_zcb[id]=function(t){try{var r=JSON.parse(t);if(!r.status){var er=new Error("تعذر الاتصال بزاجل"+(r.error?" ("+r.error+")":""));er.code="network";return rej(er)}var j=null;try{j=JSON.parse(r.body)}catch(e){}res({status:r.status,json:j,text:r.body,retry:Number(r.retry)||0})}catch(e){rej(e)}};
+    Android.httpAsync(id,method,url,JSON.stringify(h),body?JSON.stringify(body):"");return}
+  var ac=new AbortController(),tm=setTimeout(function(){ac.abort()},25000);
+  fetch(url,{method:method,headers:h,signal:ac.signal,body:body?JSON.stringify(body):undefined}).then(async function(r){clearTimeout(tm);var t=await r.text(),j=null;try{j=JSON.parse(t)}catch(e){}res({status:r.status,json:j,text:t,retry:Number(r.headers.get("Retry-After"))||0})}).catch(function(){clearTimeout(tm);var er=new Error("تعذر الاتصال بزاجل — من المتصفح قد يمنعه قيد الأمان، يشتغل داخل تطبيق الأندرويد (النسخة الجديدة)");er.code="network";rej(er)})})}
+function zjErr(r){var j=r.json||{},m=j.message||j.error||"";if(j.errors){var k=Object.keys(j.errors)[0];if(k){var v=j.errors[k];m=k+": "+(Array.isArray(v)?v[0]:v)}}
+  return "["+r.status+"] "+(m||String(r.text||"").slice(0,80))}
+var ZJ_MAP={delivered:"done",partially_delivered:"done",returning:"ret",returned:"ret",cancelled:"ret",lost:"ret",damaged:"ret"};
+function zjSleep(ms){return new Promise(function(r){setTimeout(r,ms)})}
+var zjBusy=false;
+function zjMsg(t){var m=$("zjmsg");if(m)m.textContent=t}
+function zjRefUsed(){var u={};orders.forEach(function(q){if(q.ref&&u[q.ref]===undefined)u[q.ref]=q});return u}
+function zjEnsureRef(o,u){if(!o.ref||(u[o.ref]!==undefined&&u[o.ref]!==o)){var b="ORD-"+(Number(o.ts)||Date.now()).toString(36).toUpperCase(),r=b,n=1;while(u[r]!==undefined&&u[r]!==o){n++;r=b+"-"+n}o.ref=r}u[o.ref]=o;return o.ref}
+function zjBody(o,u){var s=sp(o),alt=((String(o.notes||"").match(/07\d{9}/g)||[]).filter(function(x){return x!==o.phone})[0])||"",pcs=(Number(o.dz)>0?Number(o.dz)*12:(Number(o.qty)||1));
+  var b={merchant_reference:zjEnsureRef(o,u),recipient_name:o.name||"-",recipient_phone:o.phone,governorate:s.gov,city:s.area,landmark:s.near||"",cod_amount:Number(o.total)||0,pieces_count:pcs,notes:o.notes||""};
+  if(alt)b.recipient_phone_alt=alt;return b}
+function zjApply(o,sh){var to=ZJ_MAP[sh.status]||"pending",ch=false;
+  o.coId=sh.number||o.coId;o.coStage=sh.status_label||sh.status||"";o.coReason=sh.reason||"";o.coAt=sh.updated_at||"";
+  if(stOf(o)!==to){o.status=to;o.sts=coDate(sh.updated_at)||Date.now();ch=true}return ch}
+async function zjSend(){
+  if(zjBusy)return;if(!zjKey()){zjMsg("الصق المفتاح أولاً");return}
+  var L=orders.filter(function(o){return stOf(o)==="reg"});
+  if(!L.length){zjMsg("ما فيه طلبات مسجّلة جديدة للإرسال");return}
+  zjBusy=true;var u=zjRefUsed(),ok=0,dup=0,bad=[],stop="";
+  try{for(var i=0;i<L.length;i++){var o=L[i],s=sp(o);
+    if(!/^07\d{9}$/.test(o.phone||"")||!inList(s.gov,s.area)){bad.push((o.name||o.phone||"—")+": "+(!/^07\d{9}$/.test(o.phone||"")?"الرقم":"المنطقة"));continue}
+    zjMsg("جاري الإرسال "+(i+1)+"/"+L.length+"…");
+    var r;try{r=await zj("POST","/shipments",zjBody(o,u))}catch(e){stop=e.message;break}
+    if(r.status===429){await zjSleep((r.retry||10)*1000);i--;continue}
+    if(r.status===201||r.status===200){var sh=(r.json&&(r.json.shipment||r.json.data))||{};o.coId=sh.number||o.coId;o.coStage=sh.status_label||"";o.status="pending";o.sts=Date.now();ok++}
+    else if(r.status===409){dup++;try{var g=await zj("GET","/shipments/reference/"+encodeURIComponent(o.ref));var sg=g.json&&(g.json.shipment||g.json.data);if(sg){zjApply(o,sg)}else{o.status="pending";o.sts=Date.now()}}catch(e){o.status="pending";o.sts=Date.now()}}
+    else if(r.status===401||r.status===403){stop=r.status===401?"المفتاح غير صالح":"الربط مغلق من زاجل";break}
+    else{bad.push((o.name||o.phone||"—")+": "+zjErr(r))}
+    if(ok%10===0)sv(KEY,orders);await zjSleep(650)}
+  }finally{zjBusy=false;sv(KEY,orders);renderOrders();renderHome()}
+  zjMsg((stop?"⛔ توقف: "+stop+"\n":"")+"✅ انرسل: "+ok+(dup?"\n↩️ موجود مسبقاً عند زاجل: "+dup:"")+(bad.length?"\n⚠️ ما انرسل ("+bad.length+"):\n"+bad.slice(0,8).join("\n")+(bad.length>8?"\n…":""):""));
+  say("انرسل "+ok+" طلب لزاجل")}
+async function zjSync(silent){
+  if(zjBusy)return;if(!zjKey()){if(!silent)zjMsg("الصق المفتاح أولاً");return}
+  var open=orders.filter(function(o){return o.ref&&stOf(o)!=="ret"&&stOf(o)!=="done"});
+  if(!open.length){if(!silent){zjMsg("ما فيه طلبات مفتوحة تحتاج تحديث");say("ما فيه طلبات مفتوحة")}return}
+  zjBusy=true;var minTs=Math.min.apply(null,open.map(function(o){return o.ts||Date.now()})),cap=Date.now()-90*86400000;
+  var from=new Date(Math.max(minTs,cap)-86400000),kf=function(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
+  var by={};open.forEach(function(o){by[o.ref]=o});
+  var n=0,seen=0,a=0,rt=0,page=1,err="";
+  try{while(page<=40){
+    if(!silent)zjMsg("جاري السحب… صفحة "+page);
+    var r=await zj("GET","/shipments?date=updated&from="+kf(from)+"&to="+kf(new Date())+"&page="+page+"&per_page=50");
+    if(r.status===429){await zjSleep((r.retry||10)*1000);continue}
+    if(r.status!==200){err=zjErr(r);break}
+    var arr=(r.json&&(r.json.shipments||r.json.data))||(Array.isArray(r.json)?r.json:[]);
+    arr.forEach(function(sh){seen++;var o=by[sh.reference];if(!o)return;if(zjApply(o,sh)){n++;var t=ZJ_MAP[sh.status]||"pending";if(t==="done")a++;else if(t==="ret")rt++}});
+    var meta=(r.json&&r.json.meta)||{},last=Number(meta.last_page||meta.pages||0)||(meta.total?Math.ceil(meta.total/50):0);
+    if(arr.length<50||(last&&page>=last))break;page++;await zjSleep(650)}
+  }catch(e){err=e.message}finally{zjBusy=false}
+  try{localStorage.setItem("zjlast_v1",String(Date.now()))}catch(e){}
+  sv(KEY,orders);renderOrders();renderHome();
+  var t=(err?"⚠️ "+err+"\n":"")+"تم تحديث "+n+" حالة"+(n?" (وصلت "+a+"، راجعة "+rt+")":"")+" — فحصت "+seen+" شحنة";
+  zjMsg(t);if(!silent||n)say(err?"⚠️ "+err:"تم تحديث "+n+" حالة من زاجل")}
+(function(){var inp=$("zjkey"),clr=$("zjclr");
+  function ref(){var has=!!zjKey();clr.hidden=!has;if(has){inp.value="";inp.placeholder="مفتاح محفوظ ✓ (الصق جديد لتبديله)"}}ref();
+  $("qzj").onclick=function(){openSet("zj");ref()};
+  $("zjsave").onclick=async function(){var v=(inp.value||"").trim();if(!v){zjMsg("الصق المفتاح أولاً");return}
+    var old=zjKey();try{localStorage.setItem("zjkey_v1",v)}catch(e){}zjMsg("جاري التجربة…");
+    try{var r=await zj("GET","/statuses");
+      if(r.status===200){zjMsg("✅ اشتغل الربط مع زاجل");ref()}
+      else{if(r.status===401||r.status===403){try{if(old)localStorage.setItem("zjkey_v1",old);else localStorage.removeItem("zjkey_v1")}catch(e){}}zjMsg("❌ "+(r.status===401?"المفتاح غير صالح":r.status===403?"الربط مغلق من زاجل":zjErr(r)));ref()}}
+    catch(e){zjMsg("⚠️ "+e.message+"\n(المفتاح انحفظ)");ref()}};
+  clr.onclick=function(){try{localStorage.removeItem("zjkey_v1")}catch(e){}inp.placeholder="zjm_...";ref();zjMsg("تم حذف المفتاح")};
+  $("zjsend").onclick=zjSend;$("zjsync").onclick=function(){zjSync(false)};
+  setTimeout(function(){try{var l=Number(localStorage.getItem("zjlast_v1"))||0;if(zjKey()&&Date.now()-l>600000)zjSync(true)}catch(e){}},4000)})();
 /* ===== لوحة الأرباح (v4.30) ===== */
 function pct(a,b){return b>0?(Math.round(a/b*1000)/10).toString().replace(/\.0$/,"")+"%":"—"}
 function profRow(l,v,c){return '<div class="prow"><span>'+l+'</span><b'+(c?' class="'+c+'"':'')+'>'+v+'</b></div>'}
@@ -3018,7 +3103,7 @@ function coShow(){
   $("cogo").style.display=P.plan.length?"block":"none";$("cogo").textContent="تطبيق ("+P.plan.length+")";
   $("cosync").hidden=false}
 function coOpen(){$("cofile").value="";$("cofile").click()}
-$("cobtn").onclick=coOpen;$("coqa").onclick=coOpen;
+$("cobtn").onclick=coOpen;$("coqa").onclick=function(){if(zjKey())zjSync();else coOpen()};
 $("cofile").onchange=async function(){var f=this.files&&this.files[0];if(!f)return;
   try{var buf=await f.arrayBuffer(),R=/\.(csv|txt)$/i.test(f.name)||/csv|text/.test(f.type||"")?parseCSV(new TextDecoder("utf-8").decode(buf)):await readXlsx(buf);
     var P=coBuild(R);if(!P){say("هذا مو ملف شحنات الشركة (لازم فيه رقم الوصل والمرحلة وهاتف المستلم)");return}
