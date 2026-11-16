@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.35";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.36";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -591,7 +591,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.35</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.36</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -774,7 +774,12 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="ghost" id="zjclr" hidden>حذف المفتاح</button>
 <button class="second" id="zjsend">إرسال الطلبات المسجّلة لزاجل</button>
 <button class="second" id="zjsync">تحديث الحالات من زاجل</button>
-<div id="zjmsg" class="hint" style="margin-top:8px;white-space:pre-wrap"></div></div></div><div data-p="bk" hidden><h3>النسخة الاحتياطية</h3>
+<div id="zjmsg" class="hint" style="margin-top:8px;white-space:pre-wrap"></div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bd,#d8e2f0)"><h3 style="font-size:1rem;margin:0 0 6px">⚡ تحديث مباشر (بدون ضغط تحديث)</h3>
+<div class="hint">ولّد رابط والصقه في زاجل بخانة «رابط التحديثات». أي تغيير حالة بزاجل يوصل التطبيق ويتحدّث الطلب لحاله.</div>
+<button class="primary" id="zhgen" style="margin-top:8px">توليد رابط التحديث المباشر</button>
+<div id="zhbox" hidden><input id="zhurl" readonly style="direction:ltr;text-align:left;font-size:.75rem;margin-top:8px"><button class="second" id="zhcopy">نسخ الرابط</button>
+<button class="second" id="zhrules">نسخ قواعد Firebase</button><button class="second" id="zhpull">فحص الوارد الآن</button><button class="ghost" id="zhoff">إيقاف وحذف الرابط</button></div>
+<div id="zhmsg" class="hint" style="margin-top:8px;white-space:pre-wrap"></div></div></div></div><div data-p="bk" hidden><h3>النسخة الاحتياطية</h3>
 <div class="card">
 <div id="bk_note" class="hint" style="margin-bottom:8px"></div>
 <button class="primary" id="bk_save" style="margin-top:0">حفظ نسخة احتياطية (ملف)</button>
@@ -2667,6 +2672,7 @@ function fbProvider(cfg){
   function u(path){return auth().then(function(t){return base+"/sync/"+path+".json?auth="+encodeURIComponent(t)})}
   return {
     name:"firebase",
+    tokenFn:auth,base:base,
     ping:function(){return u("ping").then(function(x){return fetch(x)}).then(chk)},
     meta:function(k){return u(k+"/ts").then(function(x){return fetch(x)}).then(chk).then(jr).then(function(v){return v?{ts:+v}:null})},
     get:function(k){return u(k+"/v").then(function(x){return fetch(x)}).then(chk).then(jr).then(function(v){return v||""})},
@@ -2686,6 +2692,7 @@ function claudeProvider(db,uid){
       return Promise.all(parts.map(function(p,i){return col().doc(dn(k,i)).set({v:p})})).then(function(){return col().doc(dn(k,"meta")).set({ts:ts,n:parts.length})})})}
   };
 }
+window.__fbp=fbProvider;window.__cfgGet=cfgGet;
 function reloadState(){
   orders=ld(KEY,"[]");pages=ld(PK,"[]");debts=ld(DBT,"[]");AM=ld("amap_v1","{}");PM=ld("pmap_v1","{}");
   if(!pages.length)return;
@@ -3133,6 +3140,64 @@ async function zjSync(silent){
   $("zjsend").onclick=zjSend;$("zjsync").onclick=function(){zjSync(false)};
   setTimeout(function(){try{var l=Number(localStorage.getItem("zjlast_v1"))||0;if(zjKey()&&Date.now()-l>600000)zjSync(true)}catch(e){}},4000)})();
 
+
+/* ===== التحديث المباشر عبر Webhook (v4.36) ===== */
+var ZH="zjhook_v1",_zhp=null,_zhbusy=false;
+function zhTok(){try{return localStorage.getItem(ZH)||""}catch(e){return ""}}
+function zhMsg(t){var e=$("zhmsg");if(e)e.textContent=t}
+function zhProv(){var c=window.__cfgGet();if(!c)return null;if(!_zhp||_zhp.__u!==c.databaseURL+c.email+c.password){_zhp=window.__fbp(c);_zhp.__u=c.databaseURL+c.email+c.password}return _zhp}
+function zhUrl(){var c=window.__cfgGet(),t=zhTok();return c&&t?c.databaseURL.replace(/\/+$/,"")+"/zajel_inbox/"+t+".json":""}
+function zhRules(){return '"zajel_inbox": {\n  "$tok": {\n    ".read": "auth != null",\n    ".write": "auth != null",\n    "$id": { ".write": "!data.exists() && newData.exists() && $tok.length >= 20" }\n  }\n}'}
+function zhShip(b){if(!b||typeof b!=="object")return null;
+  var c=[b.shipment,b.data&&b.data.shipment,b.data,b.payload&&b.payload.shipment,b.payload,b.object,b],i,x;
+  for(i=0;i<c.length;i++){x=c[i];if(x&&typeof x==="object"&&!Array.isArray(x)&&(x.status||x.number||x.reference||x.recipient_phone))return x}
+  return null}
+function zhNormStatus(sh,b){if(sh.status&&typeof sh.status==="object"){var k=sh.status.code||sh.status.key||sh.status.name;sh=Object.assign({},sh,{status:k,status_label:sh.status.label||sh.status.name_ar||sh.status.name||sh.status_label})}
+  else if(!sh.status&&b&&(b.status||b.new_status)){sh=Object.assign({},sh,{status:b.new_status||b.status})}
+  return sh}
+async function zhPull(silent){
+  if(_zhbusy)return 0;var tok=zhTok(),pv=zhProv();if(!tok||!pv)return 0;_zhbusy=true;var n=0,del=0,keep=0,bad=0;
+  try{var t=await pv.tokenFn(),base=pv.base+"/zajel_inbox/"+tok;
+    var r=await fetch(base+".json?auth="+encodeURIComponent(t));if(!r.ok){if(!silent)zhMsg("⚠️ تعذّر قراءة الوارد (http "+r.status+") — تأكد من قواعد Firebase");return 0}
+    var d=await r.json();if(!d||typeof d!=="object"){if(!silent)zhMsg("لا يوجد وارد جديد");return 0}
+    var seen={};try{seen=JSON.parse(localStorage.getItem("zjhseen_v1")||"{}")}catch(e){}
+    var ids=Object.keys(d).sort();
+    for(var i=0;i<ids.length;i++){var id=ids[i],b=d[id],drop=false;
+      if(typeof b==="string"){try{b=JSON.parse(b)}catch(e){}}
+      var sh=zhShip(b);
+      if(!sh){bad++;drop=true}
+      else{sh=zhNormStatus(sh,b);var I=zjInfo(sh),S={ph:I.phone,alt:I.alt,total:I.total,gov:I.gov,city:I.city,t:I.t,ref:sh.reference,num:sh.number,raw:sh};
+        var M=mtMatch([S],orders);
+        if(M.pairs.length){if(zjApply(M.pairs[0].o,sh))n++;drop=true}
+        else{var f=seen[id]||(seen[id]=Date.now());if(Date.now()-f>3*86400000){drop=true}else keep++}}
+      if(drop){try{var dr=await fetch(base+"/"+id+".json?auth="+encodeURIComponent(t),{method:"DELETE"});if(dr.ok){del++;delete seen[id]}}catch(e){}}}
+    try{localStorage.setItem("zjhseen_v1",JSON.stringify(seen))}catch(e){}
+    if(n||del){sv(KEY,orders);renderOrders();renderHome()}
+    try{localStorage.setItem("zjhlast_v1",String(Date.now()))}catch(e){}
+    if(!silent||n)zhMsg("آخر فحص: "+new Date().toLocaleTimeString("ar-IQ")+"\nتحديث "+n+" طلب"+(keep?" — "+keep+" بانتظار طلب مطابق":"")+(bad?" — "+bad+" رسالة غير مفهومة":""));
+    if(n)say("⚡ تحدّث "+n+" طلب مباشرة من زاجل")
+  }catch(e){if(!silent)zhMsg("⚠️ "+(e&&e.message||e))}finally{_zhbusy=false}
+  return n}
+(function(){
+  function show(){var u=zhUrl();$("zhbox").hidden=!u;$("zhurl").value=u;$("zhgen").textContent=u?"توليد رابط جديد":"توليد رابط التحديث المباشر"}
+  function cp(txt,ok){try{navigator.clipboard.writeText(txt).then(function(){zhMsg(ok)},function(){fb()})}catch(e){fb()}
+    function fb(){var a=document.createElement("textarea");a.value=txt;document.body.appendChild(a);a.select();try{document.execCommand("copy");zhMsg(ok)}catch(e){zhMsg("انسخه يدوياً")}a.remove()}}
+  $("zhgen").onclick=function(){
+    if(!window.__cfgGet()){zhMsg("⚠️ لازم تفعّل ربط Firebase أولاً (الحساب/تسجيل الدخول)");return}
+    if(zhTok()&&!confirm("الرابط القديم راح يتوقف. تكمل؟"))return;
+    var a=new Uint8Array(16);try{crypto.getRandomValues(a)}catch(e){for(var i=0;i<16;i++)a[i]=Math.random()*256}
+    var t="";for(var i=0;i<16;i++)t+=("0"+a[i].toString(16)).slice(-2);
+    try{localStorage.setItem(ZH,t)}catch(e){}show();
+    zhMsg("① انسخ الرابط والصقه بزاجل (رابط التحديثات).\n② افتح Firebase ← Realtime Database ← Rules، وضيف «قواعد Firebase» (زر النسخ) داخل \"rules\" ثم Publish.\n③ خلي التطبيق مفتوح/بالخلفية حتى يسحب التحديثات.")};
+  $("zhcopy").onclick=function(){cp(zhUrl(),"✅ اننسخ الرابط")};
+  $("zhrules").onclick=function(){cp(zhRules(),"✅ اننسخت القواعد — الصقها داخل \"rules\" بـ Firebase ثم Publish")};
+  $("zhpull").onclick=function(){zhMsg("جاري الفحص…");zhPull(false)};
+  $("zhoff").onclick=function(){if(!confirm("إيقاف الرابط؟"))return;try{localStorage.removeItem(ZH)}catch(e){}show();zhMsg("تم الإيقاف. شيل الرابط من زاجل أيضاً.")};
+  var _qz=$("qzj").onclick;$("qzj").onclick=function(){if(_qz)_qz();show()};
+  show();
+  setInterval(function(){if(!document.hidden)zhPull(true)},45000);
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)zhPull(true)});
+  setTimeout(function(){zhPull(true)},6000)})();
 /* ===== المحاسبة مع زاجل (v4.33) ===== */
 function payOpen(k){opay=k;ostat="done";odate="";var q=$("osearch");if(q)q.value="";go("orders");syncSeg();renderOrders()}
 $("payd").onclick=function(){payOpen("paid")};$("payu").onclick=function(){payOpen("unpaid")};
