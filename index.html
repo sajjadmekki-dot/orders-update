@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.36";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.39";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -591,7 +591,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.36</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.39</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -659,7 +659,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="tool" id="impbtn"><span class="ic" data-ic="file"></span>استيراد Excel / CSV</button>
 <button class="tool main" id="cobtn" style="grid-column:1/-1"><span class="ic" data-ic="refresh"></span>تحديث الحالات من ملف الشركة</button>
 </div>
-<input id="cofile" type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*" hidden>
+<input id="cofile" type="file" multiple accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*" hidden>
 <input id="impfile" type="file" accept=".xlsx,.csv,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,*/*" hidden>
 <details class="exptools"><summary class="sh"><span class="ic" data-ic="database"></span>تصدير الملفات</summary>
 <label for="fname">اسم ملف Excel (اختياري)</label>
@@ -3002,11 +3002,13 @@ function dupFind(list,pid,phone,product,total){var k=pkey(phone);if(k.length<8)r
 function dupTxt(o){return "نفس الرقم عنده طلب مشابه ("+(o.product||"—")+" · "+fmt(o.total)+") قبل "+dupAgo(o)+" — التكرار يُقبل بعد "+DUP_DAYS+" أيام فأكثر"}
 var _dupOK=null;
 function mtNm(x){if(x&&typeof x==="object")x=x.name||x.name_ar||x.title||"";return norm(String(x||"")).replace(/\s+/g," ").trim()}
+function nz(x){return String(x==null?"":x).trim().replace(/^0+(?=\d)/,"")}
 function mtPh(o){var a=[pkey(o.phone)];(String(o.notes||"").match(/07\d{9}/g)||[]).forEach(function(x){var k=pkey(x);if(a.indexOf(k)<0)a.push(k)});return a.filter(function(x){return x.length>=8})}
 function mtScore(S,o,phs){
-  var st=stOf(o),linked=!!(o.coId&&S.num&&String(o.coId)===String(S.num)),byRef=!!(o.ref&&S.ref&&o.ref===S.ref);
-  if(st!=="reg"&&st!=="pending"&&!linked&&!byRef)return -1;
-  if(o.coId&&S.num&&String(o.coId)!==String(S.num)&&!byRef)return -1;
+  var st=stOf(o),linked=!!(o.coId&&S.num&&nz(o.coId)===nz(S.num)),byRef=!!(o.ref&&S.ref&&o.ref===S.ref);
+  var closed=st!=="reg"&&st!=="pending";
+  if(closed&&!linked&&!byRef&&!(S.total&&Number(o.total)===S.total&&!o.coId))return -1;
+  if(o.coId&&S.num&&nz(o.coId)!==nz(S.num)&&!byRef)return -1;
   var hit=!!((S.ph&&phs.indexOf(S.ph)>-1)||(S.alt&&phs.indexOf(S.alt)>-1));
   if(!hit&&!linked&&!byRef)return -1;
   var sc=hit?100:60;if(linked)sc+=40;if(byRef)sc+=25;
@@ -3022,10 +3024,10 @@ function mtScore(S,o,phs){
 /* تخصيص 1↔1: الأعلى نقاطاً أولاً (الهاتف أساس، ثم المبلغ والعنوان والتاريخ للتمييز بين طلبات نفس الشخص) */
 function mtMatch(ships,list){
   var byPh={},byRef={},byId={};
-  list.forEach(function(o){mtPh(o).forEach(function(k){(byPh[k]=byPh[k]||[]).push(o)});if(o.ref)(byRef[o.ref]=byRef[o.ref]||[]).push(o);if(o.coId)(byId[String(o.coId)]=byId[String(o.coId)]||[]).push(o)});
+  list.forEach(function(o){mtPh(o).forEach(function(k){(byPh[k]=byPh[k]||[]).push(o)});if(o.ref)(byRef[o.ref]=byRef[o.ref]||[]).push(o);if(o.coId)(byId[nz(o.coId)]=byId[nz(o.coId)]||[]).push(o)});
   var pairs=[];
   ships.forEach(function(S,i){var c=[],seen=[];
-    [S.ph?byPh[S.ph]:null,S.alt?byPh[S.alt]:null,S.ref?byRef[S.ref]:null,S.num?byId[String(S.num)]:null].forEach(function(a){(a||[]).forEach(function(o){if(seen.indexOf(o)<0){seen.push(o);c.push(o)}})});
+    [S.ph?byPh[S.ph]:null,S.alt?byPh[S.alt]:null,S.ref?byRef[S.ref]:null,S.num?byId[nz(S.num)]:null].forEach(function(a){(a||[]).forEach(function(o){if(seen.indexOf(o)<0){seen.push(o);c.push(o)}})});
     c.forEach(function(o){var sc=mtScore(S,o,mtPh(o));if(sc>=0)pairs.push({i:i,o:o,s:S,score:sc})})});
   pairs.sort(function(a,b){return b.score-a.score});
   var uS={},uO=new Set(),out=[];
@@ -3267,26 +3269,40 @@ var COPLAN=null;
 function coHdr(row){
   var F={id:["رقم الوصل"],stage:["المرحلة"],stageAt:["تاريخ دخول المرحلة"],created:["تاريخ الإنشاء"],merchant:["التاجر"],ref:["رقم طلب التاجر","رقم طلبك"],phone:["هاتف المستلم"],alt:["هاتف بديل"],total:["المبلغ"],reason:["سبب آخر محاولة"]},m={};
   (row||[]).forEach(function(c,i){var t=norm(String(c||"")).replace(/[*]/g,"").trim();Object.keys(F).forEach(function(k){if(m[k]===undefined&&F[k].some(function(x){return norm(x)===t}))m[k]=i})});
+  (row||[]).forEach(function(c,i){var t=norm(String(c||"")).replace(/[*]/g,"").trim();if(!t)return;
+    var used=Object.keys(m).some(function(k){return m[k]===i});if(used)return;
+    if(m.setAt===undefined&&/(محاسب|تحاسب|تسوي|مسدد|تسديد|دفع).*(تاريخ)|تاريخ.*(محاسب|تحاسب|تسوي|مسدد|تسديد|دفع)/.test(t))m.setAt=i;
+    else if(m.set===undefined&&/(محاسب|تحاسب|تسوي|مسدد|تسديد|كشف|دفع)/.test(t))m.set=i;
+    else if(m.gov===undefined&&/^(المحافظ|محافظ)/.test(t))m.gov=i;
+    else if(m.city===undefined&&/^(المدين|المنطق|القضاء|الحي|المنطقه)/.test(t))m.city=i;
+    else if(m.addr===undefined&&/^(العنوان|عنوان)/.test(t))m.addr=i});
   return (m.id!==undefined&&m.stage!==undefined&&m.phone!==undefined)?m:null}
 function coDate(t){var m=/(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/.exec(String(t||""));return m?new Date(+m[1],+m[2]-1,+m[3],+(m[4]||0),+(m[5]||0)).getTime():0}
+function coSet(sh){var v=norm(String(sh.set||"")).trim();
+  if(sh.setAt&&coDate(sh.setAt))return true;if(!v)return false;
+  if(/^(لا|0|-|—|false|no|nan|null)$/i.test(v)||/(غير|لم|بدون|ما)\s*(محاسب|مسدد|مدفوع|مسوى)|(غير|لم)/.test(v))return false;return true}
 function coBuild(R){
   var hi=-1,H=null,i,j;for(i=0;i<Math.min(R.length,10);i++){var h=coHdr(R[i]);if(h){hi=i;H=h;break}}
   if(!H)return null;
-  var ships=[],byRef={},byPh={};
+  var ships=[],byRef={},byPh={},byId0={};
   function g(r,k){return H[k]===undefined?"":String(r[H[k]]==null?"":r[H[k]]).trim()}
   for(j=hi+1;j<R.length;j++){var r=R[j];if(!r||!g(r,"id"))continue;
-    var sh={id:g(r,"id"),stage:g(r,"stage"),stageAt:g(r,"stageAt"),created:coDate(g(r,"created")),merchant:g(r,"merchant"),ref:g(r,"ref"),phone:pkey(g(r,"phone")),alt:pkey(g(r,"alt")),total:Number(String(g(r,"total")).replace(/[^\d.]/g,""))||0,reason:g(r,"reason"),used:false};
+    var sh={id:g(r,"id"),stage:g(r,"stage"),stageAt:g(r,"stageAt"),created:coDate(g(r,"created")),merchant:g(r,"merchant"),ref:g(r,"ref"),phone:pkey(g(r,"phone")),alt:pkey(g(r,"alt")),total:Number(String(g(r,"total")).replace(/[^\d.]/g,""))||0,reason:g(r,"reason"),gov:g(r,"gov"),city:g(r,"city")||g(r,"addr"),set:g(r,"set"),setAt:g(r,"setAt"),used:false};
+    sh.settled=coSet(sh);
+    if(sh.id===g(R[hi],"id"))continue;
+    var _d=byId0[sh.id];if(_d){if((coDate(sh.stageAt)||0)>=(coDate(_d.stageAt)||0)){ships[ships.indexOf(_d)]=sh;byId0[sh.id]=sh}continue}byId0[sh.id]=sh;
     ships.push(sh);if(sh.ref)byRef[sh.ref]=sh;
     [sh.phone,sh.alt].forEach(function(k){if(k&&k.length>=8)(byPh[k]=byPh[k]||[]).push(sh)})}
-  var SS=ships.map(function(sh){return {ph:sh.phone,alt:sh.alt,total:sh.total,gov:"",city:"",t:sh.created,ref:sh.ref,num:sh.id,merchant:sh.merchant,raw:sh}});
+  var SS=ships.map(function(sh){return {ph:sh.phone,alt:sh.alt,total:sh.total,gov:zjNm(sh.gov),city:zjNm(sh.city),t:sh.created,ref:sh.ref,num:sh.id,merchant:sh.merchant,raw:sh}});
   var MM=mtMatch(SS,orders),plan=[],miss=MM.unOrders.length;
   MM.pairs.forEach(function(p){var o=p.o,sh=p.s.raw,key=norm(sh.stage).trim(),to=CO_MAP[key]||CO_MAP[sh.stage]||null;
-    plan.push({o:o,s:sh,from:stOf(o),to:to||stOf(o),known:!!to,diff:p.diff})});
+    plan.push({o:o,s:sh,from:stOf(o),to:to||stOf(o),known:!!to,diff:p.diff,pay:!!(sh.settled&&(to||stOf(o))==="done"&&!o.paid)})});
   return {plan:plan,miss:miss,total:ships.length,H:H}}
 function coShow(){
   var P=COPLAN,ch=P.plan.filter(function(x){return x.to!==x.from}),st={done:0,ret:0,pending:0};
   ch.forEach(function(x){st[x.to]=(st[x.to]||0)+1});
   $("coinfo").textContent="لقيت "+P.plan.length+" من أوردراتك داخل الملف (الملف فيه "+P.total+" شحنة، والباقي لتجار آخرين). "+(ch.length?ch.length+" تتغير حالتها.":"كل الحالات مطابقة، فقط ينضاف رقم الوصل وسبب الشركة.")+(P.miss?" "+P.miss+" أوردر مرسل ما لقيت له شحنة.":"");
+  var _pn=P.plan.filter(function(x){return x.pay}).length;$("coinfo").textContent+=(P.H.set!==undefined||P.H.setAt!==undefined?" — محاسب عليها: "+_pn+" (من عمود المحاسبة)":" — ⚠️ ما لقيت عمود محاسبة بالملف");
   var sm=$("cosum");sm.innerHTML="";
   [["✅ وصلت",st.done],["↩️ راجعة",st.ret],["🚚 قيد التوصيل",st.pending]].forEach(function(x){if(x[1]){var c=mk("span","chip",x[0]+": "+x[1]);sm.appendChild(c)}});
   var l=$("colist");l.innerHTML="";
@@ -3295,14 +3311,21 @@ function coShow(){
   $("cosync").hidden=false}
 function coOpen(){$("cofile").value="";$("cofile").click()}
 $("cobtn").onclick=coOpen;$("coqa").onclick=function(){if(zjKey())zjSync();else coOpen()};
-$("cofile").onchange=async function(){var f=this.files&&this.files[0];if(!f)return;
-  try{var buf=await f.arrayBuffer(),R=/\.(csv|txt)$/i.test(f.name)||/csv|text/.test(f.type||"")?parseCSV(new TextDecoder("utf-8").decode(buf)):await readXlsx(buf);
-    var P=coBuild(R);if(!P){say("هذا مو ملف شحنات الشركة (لازم فيه رقم الوصل والمرحلة وهاتف المستلم)");return}
-    COPLAN=P;coShow()}catch(e){say("تعذر قراءة الملف — تأكد أنه Excel (xlsx)")}};
+$("cofile").onchange=async function(){var fs=Array.prototype.slice.call(this.files||[]);if(!fs.length)return;
+  var all=[],bad=[],ok=0;
+  for(var i=0;i<fs.length;i++){var f=fs[i];
+    try{var buf=await f.arrayBuffer(),R=/\.(csv|txt)$/i.test(f.name)||/csv|text/.test(f.type||"")?parseCSV(new TextDecoder("utf-8").decode(buf)):await readXlsx(buf);
+      if(!coHdr((function(){for(var k=0;k<Math.min(R.length,10);k++){if(coHdr(R[k]))return R[k]}return null})())){bad.push(f.name);continue}
+      all=all.concat(ok?R.slice((function(){for(var k=0;k<Math.min(R.length,10);k++){if(coHdr(R[k]))return k+1}return 0})()):R);ok++}
+    catch(e){bad.push(f.name)}}
+  if(!ok){say("هذا مو ملف شحنات الشركة (لازم فيه رقم الوصل والمرحلة وهاتف المستلم)");return}
+  var P=coBuild(all);if(!P){say("تعذر قراءة الملفات");return}
+  COPLAN=P;coShow();
+  if(fs.length>1||bad.length)$("coinfo").textContent="الملفات: "+ok+" من "+fs.length+(bad.length?" (تجاهلت: "+bad.join("، ")+")":"")+" — "+$("coinfo").textContent};
 $("cocancel").onclick=function(){$("cosync").hidden=true};
-$("cogo").onclick=function(){if(!COPLAN)return;var n=0;
-  COPLAN.plan.forEach(function(x){var o=x.o;var _tt=coDate(x.s.stageAt)||Date.now();if(x.s.stage&&o.coStage!==x.s.stage)hlog(o,"co","الشركة: "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" — "+x.s.reason:""),_tt);if(x.to!==x.from){o.status=x.to;o.sts=_tt;hlog(o,"st",ST[x.to]+" (من ملف الشركة)",_tt);n++}o.coId=x.s.id;o.coStage=x.s.stage;o.coReason=x.s.reason||"";o.coAt=x.s.stageAt||""});
-  sv(KEY,orders);$("cosync").hidden=true;COPLAN=null;renderOrders();renderHome();say("تم تحديث "+n+" حالة ✅")};
+$("cogo").onclick=function(){if(!COPLAN)return;var n=0,np=0;
+  COPLAN.plan.forEach(function(x){var o=x.o;var _tt=coDate(x.s.stageAt)||Date.now();if(x.s.stage&&o.coStage!==x.s.stage)hlog(o,"co","الشركة: "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" — "+x.s.reason:""),_tt);if(x.to!==x.from){o.status=x.to;o.sts=_tt;hlog(o,"st",ST[x.to]+" (من ملف الشركة)",_tt);n++}o.coId=x.s.id;o.coStage=x.s.stage;o.coReason=x.s.reason||"";o.coAt=x.s.stageAt||"";if(x.pay){o.paid=coDate(x.s.setAt)||_tt;hlog(o,"paid","محاسب عليها (من ملف الشركة)",o.paid);np++}});
+  sv(KEY,orders);$("cosync").hidden=true;COPLAN=null;renderOrders();renderHome();say("تم تحديث "+n+" حالة"+(np?" وتسجيل "+np+" كمحاسب عليها":"")+" ✅")};
 
 function fmtDT(ts){var d=new Date(Number(ts));if(isNaN(d))return "";return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
 </script>
