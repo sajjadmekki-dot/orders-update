@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.45";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.46";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -592,7 +592,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.45</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.46</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -881,6 +881,7 @@ function applyIcons(){document.querySelectorAll("[data-ic]").forEach(function(e)
 var odate="";
 
 function ld(k,d){try{return JSON.parse(localStorage.getItem(k)||d)}catch(e){return JSON.parse(d)}}
+function netOf(o){var d=Number(o.due);if(d>0)return d;return Math.max(0,(Number(o.total)||0)-(Number(o.deliv)||0))}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v));if(window.__cloudMark)window.__cloudMark(k)}catch(e){}}
 var _tt=null;
 function say(t){
@@ -2705,6 +2706,17 @@ function cfgGet(){try{var c=JSON.parse(localStorage.getItem(FBK)||"null");return
 function jr(r){return r.json()}
 function chk(r){if(!r.ok){var e=new Error("http "+r.status);e.status=r.status;throw e}return r}
 /* ---- مزوّد Firebase (REST) ---- */
+/* ضغط البيانات قبل الرفع (v4.46): أسرع بكثير على النت الضعيف */
+function gzEnc(str){
+  if(!(window.CompressionStream&&window.Response&&str.length>2000))return Promise.resolve(str);
+  try{var cs=new CompressionStream("gzip"),w=cs.writable.getWriter();w.write(new TextEncoder().encode(str));w.close();
+    return new Response(cs.readable).arrayBuffer().then(function(buf){var b=new Uint8Array(buf),o="",i;for(i=0;i<b.length;i+=8192)o+=String.fromCharCode.apply(null,b.subarray(i,i+8192));var z="gz:"+btoa(o);return z.length<str.length?z:str}).catch(function(){return str})}
+  catch(e){return Promise.resolve(str)}}
+function gzDec(v){
+  if(typeof v!=="string"||v.slice(0,3)!=="gz:")return Promise.resolve(v);
+  if(!window.DecompressionStream)return Promise.reject(new Error("بيانات مضغوطة وهذا المتصفح ما يدعم فكها"));
+  var bin=atob(v.slice(3)),a=new Uint8Array(bin.length),i;for(i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
+  var ds=new DecompressionStream("gzip"),w=ds.writable.getWriter();w.write(a);w.close();return new Response(ds.readable).text()}
 function fbProvider(cfg){
   var base=cfg.databaseURL.replace(/\/+$/,""),tok=null,exp=0,refresh=null;
   function signIn(){
@@ -2726,8 +2738,8 @@ function fbProvider(cfg){
     tokenFn:auth,base:base,
     ping:function(){return u("ping").then(function(x){return fetch(x)}).then(chk)},
     meta:function(k){return u(k+"/ts").then(function(x){return fetch(x)}).then(chk).then(jr).then(function(v){return v?{ts:+v}:null})},
-    get:function(k){return u(k+"/v").then(function(x){return fetch(x)}).then(chk).then(jr).then(function(v){return v||""})},
-    put:function(k,raw,ts){return u(k).then(function(x){return fetch(x,{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({ts:ts,v:raw})})}).then(chk)}
+    get:function(k){return u(k+"/v").then(function(x){return fetch(x)}).then(chk).then(jr).then(function(v){return gzDec(v||"")})},
+    put:function(k,raw,ts){return gzEnc(raw).then(function(z){return u(k).then(function(x){return fetch(x+"&print=silent",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({ts:ts,v:z})})})}).then(chk)}
   };
 }
 /* ---- مزوّد حساب كلود ---- */
@@ -2798,8 +2810,8 @@ function flush(){
 function reconcile(){
   if(!P||recBusy||busy)return Promise.resolve();recBusy=true;var changed=false;
   return Promise.all(KEYS.map(function(k){return P.meta(k).then(function(m){return {k:k,m:m}})})).then(function(arr){
-    var chain=Promise.resolve();
-    arr.forEach(function(x){chain=chain.then(function(){
+    var chain=[];
+    arr.forEach(function(x){chain.push(Promise.resolve().then(function(){
       var k=x.k,m=x.m,lt=tsGet(k),syn=synGet(k),has=localRaw(k)!==null;
       if(!m){if(has)dirty[k]=1;return}
       if(!has){return P.get(k,m).then(function(raw){applying=true;try{localStorage.setItem(k,raw);tsSet(k,m.ts);synSet(k,m.ts)}catch(e){}applying=false;changed=true})}
@@ -2809,8 +2821,8 @@ function reconcile(){
         return P.get(k,m).then(function(raw){applying=true;try{localStorage.setItem(k,raw);tsSet(k,m.ts);synSet(k,m.ts)}catch(e){}applying=false;changed=true});
       }
       if(lt>syn)dirty[k]=1;
-    })});
-    return chain;
+    }))});
+    return Promise.all(chain);
   }).then(function(){recBusy=false;if(changed||pend){if(canReload()){reloadState();pend=false}else pend=true}setOk();return flush()}).catch(function(e){recBusy=false;fail(e)});
 }
 window.__cloudMark=function(k){
@@ -3055,7 +3067,6 @@ function dupFind(list,pid,phone,product,total){var k=pkey(phone);if(k.length<8)r
 function dupTxt(o){return "نفس الرقم عنده طلب مشابه ("+(o.product||"—")+" · "+fmt(o.total)+") قبل "+dupAgo(o)+" — التكرار يُقبل بعد "+DUP_DAYS+" أيام فأكثر"}
 var _dupOK=null;
 function mtNm(x){if(x&&typeof x==="object")x=x.name||x.name_ar||x.title||"";return norm(String(x||"")).replace(/\s+/g," ").trim()}
-function netOf(o){var d=Number(o.due);if(d>0)return d;return Math.max(0,(Number(o.total)||0)-(Number(o.deliv)||0))}
 function nz(x){return String(x==null?"":x).trim().replace(/^0+(?=\d)/,"")}
 function mtPh(o){var a=[pkey(o.phone)];(String(o.notes||"").match(/07\d{9}/g)||[]).forEach(function(x){var k=pkey(x);if(a.indexOf(k)<0)a.push(k)});return a.filter(function(x){return x.length>=8})}
 function mtScore(S,o,phs){
@@ -3201,8 +3212,8 @@ async function zjSync(silent){
 var ZH="zjhook_v1",_zhp=null,_zhbusy=false;
 function zhTok(){try{return localStorage.getItem(ZH)||""}catch(e){return ""}}
 function zhMsg(t){var e=$("zhmsg");if(e)e.textContent=t}
-function zhProv(){var c=window.__cfgGet();if(!c)return null;if(!_zhp||_zhp.__u!==c.databaseURL+c.email+c.password){_zhp=window.__fbp(c);_zhp.__u=c.databaseURL+c.email+c.password}return _zhp}
-function zhUrl(){var c=window.__cfgGet(),t=zhTok();return c&&t?c.databaseURL.replace(/\/+$/,"")+"/zajel_inbox/"+t+".json":""}
+function zhProv(){if(!window.__cfgGet)return null;var c=window.__cfgGet();if(!c)return null;if(!_zhp||_zhp.__u!==c.databaseURL+c.email+c.password){_zhp=window.__fbp(c);_zhp.__u=c.databaseURL+c.email+c.password}return _zhp}
+function zhUrl(){var c=window.__cfgGet?window.__cfgGet():null,t=zhTok();return c&&t?c.databaseURL.replace(/\/+$/,"")+"/zajel_inbox/"+t+".json":""}
 function zhRules(){return '"zajel_inbox": {\n  "$tok": {\n    ".read": "auth != null",\n    ".write": "auth != null",\n    "$id": { ".write": "!data.exists() && newData.exists() && $tok.length >= 20" }\n  }\n}'}
 function zhShip(b){if(!b||typeof b!=="object")return null;
   var c=[b.shipment,b.data&&b.data.shipment,b.data,b.payload&&b.payload.shipment,b.payload,b.object,b],i,x;
