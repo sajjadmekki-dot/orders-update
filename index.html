@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.40";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.41";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -592,7 +592,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.40</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.41</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -1015,7 +1015,7 @@ function lookup(){
 
 /* ===== المخزن ===== */
 function stMatch(p,n){p=(p||"").trim();return !!p&&(p===n||p.indexOf(n)>-1||(p.length>=3&&n.indexOf(p)>-1))}
-function stItemFor(pg,prod){var best=null;Object.keys(pg.stock||{}).forEach(function(n){if(stMatch(prod,n)&&(!best||n.length>best.length||prod===n))best=n});return best}
+function stItemFor(pg,prod){var best=null;Object.keys(pg.stock||{}).forEach(function(n){if(stMatch(prod,n)&&(!best||n.length>best.length||prod===n))best=n});if(!best){var lg=Object.keys(pg.stock||{}).filter(function(n){return stKind(pg,n)==="legacy"});if(lg.length===1)best=lg[0]}return best}
 function stKind(pg,n){return (pg.stockK&&pg.stockK[n])||"legacy"}
 /* قواعد القطع حسب السعر (v4.40): 15000=1 ، 25000=2 ، 35000=3 */
 function tiersFor(pg,n){var T=(pg.itemTiers&&pg.itemTiers[n])||pg.tiers;return T&&T.length?T:null}
@@ -1141,7 +1141,10 @@ function pcsReport(pg,n){var by={},unk={},tot=0,txt=0,nUnk=0;
 function renderTiers(pg){var h=$("tierbox");if(!h)return;h.innerHTML="";
   var c=mk("div","card");var ed=mk("div");
   tierEditor(ed,function(){return pg.tiers},function(T){pg.tiers=T;savePages();renderStock()},"🔢 قاعدة القطع حسب السعر (لكل أنواع هذي الصفحة)","اكتب سعر الطلب وكم قطعة يمثّل (مثل 15000=1 ، 25000=2 ، 35000=3). المخزن يخصم عدد القطع تلقائي، وإذا مكتوب بالطلب «3 قطع» يقراها، وينطبق على كل الطلبات حتى القديمة من أول يوم.");
-  c.appendChild(ed);h.appendChild(c)}
+  c.appendChild(ed);
+  var un=0;orders.forEach(function(o){if(o.pid!==pg.id||stOf(o)==="ret")return;var it=stItemFor(pg,o.product);if(!it||stKind(pg,it)==="main"&&false)un++});
+  if(un&&Object.keys(pg.stock||{}).length){var w=mk("div","hint","⚠️ "+un+" طلب ما انربط بأي نوع بالمخزن (اسم المنتج بالطلب ما يطابق أسماء الأنواع). سمّي النوع باسم يطابق المنتج، أو خلّي بالصفحة نوع واحد «عادي» حتى ينربط بيه كل شي.");w.style.color="#b45309";c.appendChild(w)}
+  h.appendChild(c)}
 function gPageK(){return pageById($("ksel").value)||pages[0]}
 $("ksel").addEventListener("change",renderStock);
 $("kadd").onclick=function(){
