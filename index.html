@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.39";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.40";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -585,13 +585,14 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div><label for="kqty">الكمية الواردة</label><input id="kqty" type="number" inputmode="numeric"></div>
 </div>
 <label for="kkind">نوع الصنف</label>
-<select id="kkind"><option value="main">رئيسي (مثل الدرزن) — ينخصم حسب عدد الدرازن بالطلب</option><option value="extra">مكمل (مثل طويل / ربع / نص) — ينخصم حسب اللي تكتبه بالطلب</option></select>
+<select id="kkind"><option value="legacy">عادي (قطع) — ينخصم حسب عدد القطع من السعر أو من نص الطلب</option><option value="main">رئيسي (مثل الدرزن) — ينخصم حسب عدد الدرازن بالطلب</option><option value="extra">مكمل (مثل طويل / ربع / نص) — ينخصم حسب اللي تكتبه بالطلب</option></select>
 <datalist id="klist"></datalist>
 <button class="primary" id="kadd">إضافة إلى المخزن</button>
 <div class="hint" style="margin-top:6px">الصنف الرئيسي (مثل «درزن») ينخصم منه عدد الدرازن اللي بالطلب. المكملات (طويل، ربع، نص) تنخصم حسب اللي تكتبه بالطلب، واكتب اسمها نفس ما تكتبه بالطلب. الطلبات المسجلة بعد إضافة الصنف فقط تنحسب، والطلب الراجع يرجّع الكمية.</div>
 </div>
+<div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.39</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.40</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -1016,15 +1017,29 @@ function lookup(){
 function stMatch(p,n){p=(p||"").trim();return !!p&&(p===n||p.indexOf(n)>-1||(p.length>=3&&n.indexOf(p)>-1))}
 function stItemFor(pg,prod){var best=null;Object.keys(pg.stock||{}).forEach(function(n){if(stMatch(prod,n)&&(!best||n.length>best.length||prod===n))best=n});return best}
 function stKind(pg,n){return (pg.stockK&&pg.stockK[n])||"legacy"}
+/* قواعد القطع حسب السعر (v4.40): 15000=1 ، 25000=2 ، 35000=3 */
+function tiersFor(pg,n){var T=(pg.itemTiers&&pg.itemTiers[n])||pg.tiers;return T&&T.length?T:null}
+var _W={"قطعتين":2,"قطعتان":2,"ثلاث":3,"ثلاثه":3,"اربع":4,"اربعه":4,"خمس":5,"خمسه":5,"ست":6,"سته":6};
+function txtCount(t){t=norm(String(t||"")).replace(/[٠-٩]/g,function(d){return "٠١٢٣٤٥٦٧٨٩".indexOf(d)});
+  var m=/(\d{1,3})\s*(قطع|قطعه|حبه|حبات|حبة|pcs|pc)(?![\wء-ي])/i.exec(t);if(m&&+m[1]>0&&+m[1]<=100)return +m[1];
+  if(/قطعتين|قطعتان/.test(t))return 2;
+  m=/(ثلاثه?|اربعه?|خمسه?|سته?)\s*(قطع|حبات)/.exec(t);if(m)return _W[m[1]]||0;return 0}
+function pcsOf(pg,n,o){var q=Number(o.qty)||0,T=tiersFor(pg,n);if(!T)return {n:q,src:"qty"};
+  var t=txtCount((o.product||"")+" "+(o.notes||""));if(t)return {n:t*(q>1?q:1),src:"text"};
+  var pr=Number(o.price)||0,tot=Number(o.total)||pr*q,hit=null,mul=1;
+  T.forEach(function(r){if(!hit&&Number(r.p)===tot)hit=r});
+  if(!hit&&q>1)T.forEach(function(r){if(!hit&&Number(r.p)===pr){hit=r;mul=q}});
+  if(hit)return {n:Number(hit.n)*mul,src:"tier"};
+  return {n:q,src:"unk",tot:tot}}
 function stNeed(pg,n,o){
   var k=stKind(pg,n),since=(pg.stockT&&pg.stockT[n])||0;
   if(k==="main")return (o.ts||0)>=since?(Number(o.dz!==undefined?o.dz:o.qty)||0):0;
   if(k==="extra"){
     if((o.ts||0)<since)return 0;
     if(o.ex)return Number(o.ex[n])||0;
-    return stItemFor(pg,o.product)===n?(Number(o.qty)||0):0;
+    return stItemFor(pg,o.product)===n?pcsOf(pg,n,o).n:0;
   }
-  return stItemFor(pg,o.product)===n?(Number(o.qty)||0):0;
+  return stItemFor(pg,o.product)===n?pcsOf(pg,n,o).n:0;
 }
 function stSold(pg,name){var t=0;orders.forEach(function(o){if(o.pid!==pg.id||stOf(o)==="ret")return;t+=stNeed(pg,name,o)});return t}
 function stLeft(pg,name){return (Number(pg.stock[name])||0)-stSold(pg,name)}
@@ -1047,7 +1062,7 @@ function renderExtras(force){
 }
 function updStk(){
   var el=$("stk");if(!el)return;var pg=curPage();renderExtras();
-  var q=num("qty"),lines=[],bad=false,hasMain=Object.keys(pg.stock||{}).some(function(n){return stKind(pg,n)==="main"});$("dzbox").style.display=hasMain?"":"none";var fake={ts:Date.now(),pid:pg.id,qty:q,dz:hasMain?(num("dz")||0):undefined,product:$("product").value,ex:readEx()};
+  var q=num("qty"),lines=[],bad=false,hasMain=Object.keys(pg.stock||{}).some(function(n){return stKind(pg,n)==="main"});$("dzbox").style.display=hasMain?"":"none";var fake={ts:Date.now(),pid:pg.id,qty:q,price:num("price"),total:q*num("price"),notes:$("notes").value,dz:hasMain?(num("dz")||0):undefined,product:$("product").value,ex:readEx()};
   Object.keys(pg.stock||{}).forEach(function(n){
     var need=stNeed(pg,n,fake);if(!need)return;
     var left=stLeft(pg,n),after=left-need;if(after<0)bad=true;
@@ -1063,7 +1078,7 @@ function stAfter(pg,o){
 }
 function renderStock(){
   var pg=gPageK(),box=$("klistbox");box.innerHTML="";
-  pg.stock=pg.stock||{};
+  pg.stock=pg.stock||{};renderTiers(pg);
   var dl=$("klist");dl.innerHTML="";
   Object.keys(pg.costs||{}).forEach(function(k){var i=k.lastIndexOf("|"),n=i>-1?k.slice(0,i):k;if(!pg.stock[n]&&pg.stock[n]!==0){var o=document.createElement("option");o.value=n;dl.appendChild(o)}});
   var names=Object.keys(pg.stock);
@@ -1082,6 +1097,11 @@ function renderStock(){
       var d=document.createElement("div");d.className="sc "+(i===2?(left<=0?"rose":left<=5?"amber":"emerald"):"blue");d.style.padding="10px 4px";
       d.innerHTML='<b class="v" style="font-size:1.2rem"></b><span class="k"></span>';d.querySelector("b").textContent=x[1];d.querySelector(".k").textContent=x[0];st.appendChild(d)});
     c.appendChild(st);
+    if(tiersFor(pg,n)&&stKind(pg,n)!=="main"){var rp=pcsReport(pg,n),rd=mk("div","hint",rp.line?"تفصيل المباع: "+rp.line+(rp.txt?" — "+rp.txt+" مقروء من نص الطلب":""):"ما فيه طلبات لهذا النوع");rd.style.margin="0 0 8px";c.appendChild(rd);
+      if(rp.nUnk){var wd=mk("div","hint","⚠️ "+rp.nUnk+" طلب سعره ما يطابق القاعدة (انحسبت حسب الكمية): "+rp.unk);wd.style.cssText="margin:0 0 8px;color:#b45309";c.appendChild(wd)}}
+    var ov=mk("details");ov.style.margin="0 0 8px";var sm=mk("summary",null,"قاعدة خاصة بهذا النوع"+((pg.itemTiers&&pg.itemTiers[n])?" ✓":""));sm.style.cursor="pointer";ov.appendChild(sm);var oh=mk("div");ov.appendChild(oh);
+    tierEditor(oh,function(){return (pg.itemTiers&&pg.itemTiers[n])||[]},function(T){pg.itemTiers=pg.itemTiers||{};if(T.length)pg.itemTiers[n]=T;else delete pg.itemTiers[n];savePages();renderStock()},"","إذا هذا النوع أسعاره مختلفة عن قاعدة الصفحة، اكتبها هنا (تلغي قاعدة الصفحة لهذا النوع فقط).");
+    c.appendChild(ov);
     var r=document.createElement("div");r.className="row";
     var inp=document.createElement("input");inp.type="number";inp.inputMode="numeric";inp.placeholder="كمية جديدة (سالب للنقص)";
     var add=document.createElement("button");add.className="second";add.style.marginTop="0";add.textContent="إضافة للرصيد";
@@ -1096,6 +1116,32 @@ function renderStock(){
     c.appendChild(del);box.appendChild(c);
   });
 }
+
+function tierEditor(host,get,set,title,hint){
+  var T=get()||[];host.innerHTML="";
+  host.appendChild(mk("b",null,title));if(hint)host.appendChild(mk("div","hint",hint));
+  T.forEach(function(r,i){var w=mk("div","row");w.style.cssText="display:flex;gap:6px;align-items:center;margin-top:6px";
+    var a=mk("input");a.type="number";a.inputMode="numeric";a.value=r.p;a.placeholder="السعر";
+    var b=mk("input");b.type="number";b.inputMode="numeric";b.value=r.n;b.placeholder="عدد القطع";b.style.maxWidth="90px";
+    var d=mk("button","ibtn danger");d.textContent="✕";d.style.cssText="margin:0;width:auto";
+    a.onchange=function(){r.p=Number(a.value)||0;set(T)};b.onchange=function(){r.n=Number(b.value)||0;set(T)};d.onclick=function(){T.splice(i,1);set(T)};
+    w.appendChild(a);w.appendChild(mk("span",null,"←"));w.appendChild(b);w.appendChild(mk("span",null,"قطعة"));w.appendChild(d);host.appendChild(w)});
+  var w=mk("div","row");w.style.cssText="display:flex;gap:6px;align-items:center;margin-top:8px";
+  var a=mk("input");a.type="number";a.inputMode="numeric";a.placeholder="سعر الطلب (مثلاً 25000)";
+  var b=mk("input");b.type="number";b.inputMode="numeric";b.placeholder="القطع";b.style.maxWidth="90px";
+  var ad=mk("button","second");ad.textContent="إضافة";ad.style.cssText="margin:0;width:auto";
+  ad.onclick=function(){var p=Number(a.value),n=Number(b.value);if(!(p>0&&n>0)){say("اكتب السعر وعدد القطع");return}
+    var X=(get()||[]).filter(function(r){return Number(r.p)!==p});X.push({p:p,n:n});X.sort(function(x,y){return x.p-y.p});set(X)};
+  w.appendChild(a);w.appendChild(b);w.appendChild(ad);host.appendChild(w)}
+function pcsReport(pg,n){var by={},unk={},tot=0,txt=0,nUnk=0;
+  orders.forEach(function(o){if(o.pid!==pg.id||stOf(o)==="ret")return;if(stKind(pg,n)==="main"||stItemFor(pg,o.product)!==n)return;
+    var r=pcsOf(pg,n,o);tot+=r.n;by[r.n]=(by[r.n]||0)+1;if(r.src==="text")txt++;if(r.src==="unk"){nUnk++;unk[r.tot]=(unk[r.tot]||0)+1}});
+  var ks=Object.keys(by).sort(function(a,b){return a-b}),uk=Object.keys(unk).sort(function(a,b){return unk[b]-unk[a]}).slice(0,6);
+  return {tot:tot,txt:txt,nUnk:nUnk,line:ks.map(function(k){return k+" قطعة × "+by[k]+" طلب"}).join("، "),unk:uk.map(function(k){return fmt(+k)+" ("+unk[k]+")"}).join("، ")}}
+function renderTiers(pg){var h=$("tierbox");if(!h)return;h.innerHTML="";
+  var c=mk("div","card");var ed=mk("div");
+  tierEditor(ed,function(){return pg.tiers},function(T){pg.tiers=T;savePages();renderStock()},"🔢 قاعدة القطع حسب السعر (لكل أنواع هذي الصفحة)","اكتب سعر الطلب وكم قطعة يمثّل (مثل 15000=1 ، 25000=2 ، 35000=3). المخزن يخصم عدد القطع تلقائي، وإذا مكتوب بالطلب «3 قطع» يقراها، وينطبق على كل الطلبات حتى القديمة من أول يوم.");
+  c.appendChild(ed);h.appendChild(c)}
 function gPageK(){return pageById($("ksel").value)||pages[0]}
 $("ksel").addEventListener("change",renderStock);
 $("kadd").onclick=function(){
@@ -1960,7 +2006,7 @@ function mergeData(d){
     var e=pageById(p.id);
     if(!e){pages.push(p);addP++;return}
     e.costs=e.costs||{};Object.keys(p.costs||{}).forEach(function(k){if(!(k in e.costs))e.costs[k]=p.costs[k]});
-    e.stock=e.stock||{};Object.keys(p.stock||{}).forEach(function(k){if(!(k in e.stock))e.stock[k]=p.stock[k]});
+    e.stock=e.stock||{};Object.keys(p.stock||{}).forEach(function(k){if(!(k in e.stock))e.stock[k]=p.stock[k]});if(!e.tiers&&p.tiers)e.tiers=p.tiers;if(!e.itemTiers&&p.itemTiers)e.itemTiers=p.itemTiers;
     if(e.deliv===undefined||e.deliv==="")e.deliv=p.deliv;
   });
   var addD=0;(d.debts||[]).forEach(function(x){
@@ -2710,7 +2756,7 @@ function mergeIn(k,rawRemote){
   else if(k===PK){out=(l||[]).slice();(r||[]).forEach(function(p){var e=null;out.forEach(function(x){if(x.id===p.id)e=x});
     if(!e){out.push(p);return}
     e.costs=e.costs||{};Object.keys(p.costs||{}).forEach(function(c){if(!(c in e.costs))e.costs[c]=p.costs[c]});
-    e.stock=e.stock||{};Object.keys(p.stock||{}).forEach(function(c){if(!(c in e.stock))e.stock[c]=p.stock[c]});
+    e.stock=e.stock||{};Object.keys(p.stock||{}).forEach(function(c){if(!(c in e.stock))e.stock[c]=p.stock[c]});if(!e.tiers&&p.tiers)e.tiers=p.tiers;if(!e.itemTiers&&p.itemTiers)e.itemTiers=p.itemTiers;
     ["stockK","stockT"].forEach(function(f){e[f]=e[f]||{};Object.keys(p[f]||{}).forEach(function(c){if(!(c in e[f]))e[f][c]=p[f][c]})});
     if(e.deliv===undefined||e.deliv==="")e.deliv=p.deliv})}
   else if(k===DBT){out=(l||[]).slice();(r||[]).forEach(function(x){var e=null;out.forEach(function(y){if(y.id===x.id)e=y});
