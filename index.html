@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>سجل الأوردرات</title>
+<title>AIX909</title>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.41";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.42";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -505,7 +505,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <body>
 <div id="toast" style="display:none;position:fixed;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:99;background:#1b1f24;color:#fff;padding:12px 14px;border-radius:12px;font-size:.95rem;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.35)"></div>
 <div class="wrap">
-<div class="hero"><span class="logo ic" id="ttlic" data-ic="bag"></span><div class="ht"><h1 id="ttl">سجل الأوردرات</h1><small id="sub"></small></div><button class="themebtn" id="themebtn" aria-label="الوضع الليلي/النهاري"><svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg></button></div>
+<div class="hero"><span class="logo ic" id="ttlic" data-ic="bag"></span><div class="ht"><h1 id="ttl">AIX909</h1><small id="sub"></small></div><button class="themebtn" id="themebtn" aria-label="الوضع الليلي/النهاري"><svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg></button></div>
 
 <section id="s-home" class="tab">
 <div class="hchips" id="hchips"></div>
@@ -518,8 +518,8 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div><div class="sl"><span class="ic em" data-ic="calcheck"></span>مبلغ طلبات اليوم</div><p><b id="h_today">0</b> <em>د.ع</em></p></div>
 </div></div>
 <div class="pays" id="pays">
-<button class="pay ok" id="payd"><span class="chipq gi ic" data-ic="wallet" style="--c:#16a34a;--c2:#4ade80"></span><div><small>محاسب عليها من زاجل</small><b id="payd_a">0</b><em><span id="payd_n">0</span> طلب</em></div></button>
-<button class="pay wait" id="payu"><span class="chipq gi ic" data-ic="clock" style="--c:#d97706;--c2:#fbbf24"></span><div><small>غير محاسب عليها</small><b id="payu_a">0</b><em><span id="payu_n">0</span> طلب</em></div></button>
+<button class="pay ok" id="payd"><span class="chipq gi ic" data-ic="paid" style="--c:#16a34a;--c2:#4ade80"></span><div><small>محاسب عليها من زاجل</small><b id="payd_a">0</b><em><span id="payd_n">0</span> طلب</em></div></button>
+<button class="pay wait" id="payu"><span class="chipq gi ic" data-ic="unpaid" style="--c:#d97706;--c2:#fbbf24"></span><div><small>غير محاسب عليها</small><b id="payu_a">0</b><em><span id="payu_n">0</span> طلب</em></div></button>
 </div>
 <button class="second" id="paybtn" style="margin:6px 0 0;padding:8px">تحديد الطلبات المحاسب عليها</button>
 <div id="syncst" class="sync"><span class="ic" data-ic="database"></span><span id="synctx"></span></div>
@@ -592,7 +592,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.41</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.42</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -853,6 +853,8 @@ box:'<path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/>',
 bag:'<path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 01-8 0"/>',
 trend:'<path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
 clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+paid:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 10.5l2 2 4-4.5"/><path d="M9 16h6"/>',
+unpaid:'<path d="M7 3h10M7 21h10M8 3v3.5L12 12l-4 5.5V21M16 3v3.5L12 12l4 5.5V21"/><path d="M10 18.5h4"/>',
 calcheck:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/>',
 grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
 zap:'<path d="M13 2L3 14h8l-1 8 10-12h-8z"/>',
@@ -2041,7 +2043,7 @@ $("rfile").addEventListener("change",function(){
 $("rpaste").onclick=function(){var t=$("rtext").value.trim();if(!t){say("الصق نص النسخة أول");return}restoreFrom(t)};
 
 // ---------- التنقل ----------
-var TITLES={home:["سجل الأوردرات","أرباحك وطلباتك بمكان واحد","bag"],new:["طلب جديد","","plus"],orders:["الطلبات","غيّر الحالة أو عدّل السعر","pkgs"],goods:["البضاعة","أسعار الجملة لكل صفحة","tag"],pages:["الصفحات","أضف صفحاتك وعدّلها","file"],debts:["الديون","اللي لك عند التجار","wallet"],stock:["المخزن","كمية البضاعة لكل صفحة","stock"]};
+var TITLES={home:["AIX909","أرباحك وطلباتك بمكان واحد","bag"],new:["طلب جديد","","plus"],orders:["الطلبات","غيّر الحالة أو عدّل السعر","pkgs"],goods:["البضاعة","أسعار الجملة لكل صفحة","tag"],pages:["الصفحات","أضف صفحاتك وعدّلها","file"],debts:["الديون","اللي لك عند التجار","wallet"],stock:["المخزن","كمية البضاعة لكل صفحة","stock"]};
 function go(name){
   if(name!=="orders"&&opay){opay="";var _sg0=$("ostat");if(_sg0)_sg0.style.display="";var _tc0=document.querySelector("#s-orders > .card");if(_tc0)_tc0.style.display=""}
   screen=name;
