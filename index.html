@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.42";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.43";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -117,9 +117,9 @@ h3{font-size:.95rem;margin:14px 2px 8px;color:var(--muted);font-weight:600}
 .ocard .of span{flex:1;background:var(--field);border-radius:12px;padding:6px 10px;font-size:.8rem;color:var(--muted)}
 .ocard .of b{display:block;font-size:1rem;color:var(--text)}
 .ocard .oa{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
-.stbtn{padding:7px 12px;font-size:.8rem;font-weight:600;border-radius:999px;background:var(--soft);color:var(--text)}
+.stbtn{display:inline-flex;align-items:center;justify-content:center;padding:7px 12px;font-size:.8rem;font-weight:600;border-radius:999px;background:var(--soft);color:var(--text)}
 .stbtn.on.pending{background:#f6efe1;color:#6b5320}.stbtn.on.done{background:#d9f0e8;color:#1c5d47}.stbtn.on.ret{background:#fbe0dc;color:#8a3329}
-.badge2{font-size:.72rem;padding:3px 10px;border-radius:999px;font-weight:700}
+.sti{display:inline-flex;font-size:1.05em;margin-inline-end:5px;vertical-align:-3px}.badge2{display:inline-flex;align-items:center;font-size:.72rem;padding:3px 10px;border-radius:999px;font-weight:700}
 .badge2.pending{background:#f6efe1;color:#6b5320}.badge2.done{background:#d9f0e8;color:#1c5d47}.badge2.ret{background:#fbe0dc;color:#8a3329}
 .lbtn{background:var(--soft);color:var(--accent);padding:7px 12px;font-size:.8rem;border-radius:999px;font-weight:600}
 a.lbtn{text-decoration:none;display:inline-block}
@@ -592,7 +592,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.42</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.43</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -646,7 +646,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <label for="ofilter">الصفحة</label>
 <select id="ofilter"></select>
 <div class="seg" id="ostat">
-<button data-st="all" class="on">الكل</button><button data-st="reg">مسجلة</button><button data-st="pending">قيد التوصيل</button><button data-st="done">وصل</button><button data-st="ret">راجع</button><button data-dt="today">اليوم فقط</button>
+<button data-st="all" class="on">الكل</button><button data-st="reg"><span class="ic sti" data-ic="regd"></span>مسجلة</button><button data-st="pending"><span class="ic sti" data-ic="truck"></span>قيد التوصيل</button><button data-st="done"><span class="ic sti" data-ic="check"></span>وصل</button><button data-st="ret"><span class="ic sti" data-ic="undo"></span>راجع</button><button data-dt="today">اليوم فقط</button>
 </div>
 <input id="osearch" placeholder="بحث: اسم، جوال، منطقة، منتج..." autocomplete="off">
 <div class="row" style="margin-top:6px"><div><label for="ofrom">من تاريخ</label><input id="ofrom" type="date"></div><div><label for="oto">إلى تاريخ</label><input id="oto" type="date"></div></div>
@@ -729,7 +729,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 
 <div class="modal" id="modal" hidden><div class="sheet">
 <h2>تعديل الأوردر</h2>
-<div class="seg" id="e_stat"><button data-st="reg">مسجل</button><button data-st="pending">قيد التوصيل</button><button data-st="done">وصل</button><button data-st="ret">راجع</button></div>
+<div class="seg" id="e_stat"><button data-st="reg"><span class="ic sti" data-ic="regd"></span>مسجل</button><button data-st="pending"><span class="ic sti" data-ic="truck"></span>قيد التوصيل</button><button data-st="done"><span class="ic sti" data-ic="check"></span>وصل</button><button data-st="ret"><span class="ic sti" data-ic="undo"></span>راجع</button></div>
 <label for="e_page">الصفحة</label><select id="e_page"></select>
 <div class="row"><div><label for="e_name">اسم العميل</label><input id="e_name" autocomplete="off"></div><div><label for="e_phone">الجوال</label><input id="e_phone" type="tel" inputmode="tel" autocomplete="off"></div></div>
 <div class="row"><div><label for="e_gov">المحافظة</label><input id="e_gov" list="glist" autocomplete="off"></div><div><label for="e_area">المنطقة</label><input id="e_area" list="alist3" autocomplete="off"></div></div>
@@ -1687,7 +1687,7 @@ function dayOf(o){
   var m=String(o.date||"").match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   return m?m[3]+"-"+pad(+m[2])+"-"+pad(+m[1]):"";
 }
-var ST={reg:"مسجل",pending:"قيد التوصيل",done:"وصل",ret:"راجع"};
+var ST={reg:"مسجل",pending:"قيد التوصيل",done:"وصل",ret:"راجع"},STI={reg:"regd",pending:"truck",done:"check",ret:"undo"};
 function stOf(o){return o.status==="done"||o.status==="ret"||o.status==="reg"?o.status:"pending"}
 function totals(list){
   var r={n:list.length,sales:0,dsales:0,psales:0,cost:0,dcost:0,done:0,pend:0,doneN:0,pendN:0,retN:0,regN:0};
@@ -1843,14 +1843,14 @@ function renderOrders(){
     var hm=mk("div","ohm");hm.appendChild(mk("b",null,o.name||o.phone||"بدون اسم"));
     (function(){var ch=custHist(o.phone,o);if(ch.ret>0)hm.appendChild(mk("span","cwarn","⚠️ رجّع "+ch.ret));else if(ch.done>0)hm.appendChild(mk("span","cgood","⭐ زبون سابق"))})();
     hm.appendChild(mk("div","om",(o.name&&o.phone?o.phone+" · ":"")+pn(o.pid)+(o.ts?" · "+fmtDT(o.ts):(o.date?" · "+o.date:""))));
-    h.appendChild(hm);h.appendChild(mk("span","badge2 "+s,ST[s]));c.appendChild(h);
+    h.appendChild(hm);var _bd=mk("span","badge2 "+s);_bd.appendChild(ico(STI[s],"sti"));_bd.appendChild(document.createTextNode(ST[s]));h.appendChild(_bd);c.appendChild(h);
     var r1=mk("div","orow");r1.appendChild(ico("pin"));r1.appendChild(mk("span",null,""+ad(o)));c.appendChild(r1);
     var r2=mk("div","orow");r2.appendChild(ico("box"));
     var pt=mk("span",null,o.product+" × "+o.qty+((Number(o.dz)||0)>1?" · "+o.dz+" درزن":""));r2.appendChild(pt);c.appendChild(r2);
     if(o.notes){var r3=mk("div","orow note");r3.appendChild(ico("note"));r3.appendChild(mk("span",null,o.notes));c.appendChild(r3)}
     if(o.sts&&s!=="reg"){var r5=mk("div","orow note");r5.appendChild(ico("clock"));r5.appendChild(mk("span",null,ST[s]+" بتاريخ "+fmtDT(o.sts)));c.appendChild(r5)}
     if(o.coStage){var r4=mk("div","orow note");r4.appendChild(ico("truck"));r4.appendChild(mk("span",null,"الشركة: "+o.coStage+(o.coReason&&o.coReason!==o.coStage?" — "+o.coReason:"")+(o.coId?" · وصل "+o.coId:"")));c.appendChild(r4)}
-    if(s==="done"){var rp=mk("div","orow note");rp.appendChild(ico("wallet"));rp.appendChild(mk("span",null,o.paid?"محاسب عليها"+(typeof o.paid==="number"?" بتاريخ "+fmtDT(o.paid):""):"غير محاسب عليها (بانتظار الشركة)"));c.appendChild(rp)}
+    if(s==="done"){var rp=mk("div","orow note");rp.appendChild(ico(o.paid?"paid":"unpaid"));rp.appendChild(mk("span",null,o.paid?"محاسب عليها"+(typeof o.paid==="number"?" بتاريخ "+fmtDT(o.paid):""):"غير محاسب عليها (بانتظار الشركة)"));c.appendChild(rp)}
     (function(){var hs=ordHist(o);if(hs.length>1){var dt=document.createElement("details");dt.className="ohist";var sm=document.createElement("summary");sm.textContent="السجل الزمني ("+hs.length+")";dt.appendChild(sm);hs.forEach(function(e){var li=mk("div","hl");li.appendChild(mk("span","hd",e.t?fmtDT(e.t):"—"));li.appendChild(mk("span",null,e.x));dt.appendChild(li)});c.appendChild(dt)}})();
     var f=mk("div","of");
     var s1=mk("span",null,"المبلغ");s1.appendChild(mk("b",null,fmt(o.total)));
@@ -1859,12 +1859,12 @@ function renderOrders(){
     var act=mk("div","oa");
     var seg=mk("div","ostseg");
     ["reg","pending","done","ret"].forEach(function(k){
-      var b=mk("button","stbtn "+k+(s===k?" on":""),ST[k]);
+      var b=mk("button","stbtn "+k+(s===k?" on":""));b.appendChild(ico(STI[k],"sti"));b.appendChild(document.createTextNode(ST[k]));
       b.onclick=function(){if(o.status!==k){o.sts=Date.now();hlog(o,"st",ST[k]+" (يدوي)")}o.status=k;sv(KEY,orders);renderOrders();renderHome()};
       seg.appendChild(b);
     });
     c.appendChild(seg);
-    if(s==="done"){var pbt=mk("button","ibtn");pbt.appendChild(ico("wallet"));pbt.appendChild(document.createTextNode(o.paid?" إلغاء المحاسبة":" تم محاسبتها"));pbt.onclick=function(){o.paid=o.paid?0:Date.now();hlog(o,"paid",o.paid?"تمت المحاسبة":"أُلغيت المحاسبة");sv(KEY,orders);renderOrders();renderHome()};act.appendChild(pbt)}
+    if(s==="done"){var pbt=mk("button","ibtn");pbt.appendChild(ico(o.paid?"unpaid":"paid"));pbt.appendChild(document.createTextNode(o.paid?" إلغاء المحاسبة":" تم محاسبتها"));pbt.onclick=function(){o.paid=o.paid?0:Date.now();hlog(o,"paid",o.paid?"تمت المحاسبة":"أُلغيت المحاسبة");sv(KEY,orders);renderOrders();renderHome()};act.appendChild(pbt)}
     var e=mk("button","ibtn");e.title="تعديل";e.appendChild(ico("edit"));e.appendChild(document.createTextNode(" تعديل"));e.onclick=function(){openEdit(o)};act.appendChild(e);
     if(o.phone){var w=mk("a","ibtn");w.href="tel:"+o.phone;w.appendChild(ico("phone"));w.appendChild(document.createTextNode(" اتصال"));act.appendChild(w)}
     var d=mk("button","ibtn danger");d.title="حذف";d.appendChild(ico("trash"));
