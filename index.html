@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.47";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.48";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -592,7 +592,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.47</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.48</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -3120,8 +3120,18 @@ function zjEnsureRef(o,u){if(!o.ref||(u[o.ref]!==undefined&&u[o.ref]!==o)){var b
 function zjBody(o,u){var s=sp(o),alt=((String(o.notes||"").match(/07\d{9}/g)||[]).filter(function(x){return x!==o.phone})[0])||"",pcs=(Number(o.dz)>0?Number(o.dz)*12:(Number(o.qty)||1));
   var b={merchant_reference:zjEnsureRef(o,u),recipient_name:o.name||"-",recipient_phone:o.phone,governorate:s.gov,city:s.area,landmark:s.near||"",cod_amount:Number(o.total)||0,pieces_count:pcs,notes:o.notes||""};
   if(alt)b.recipient_phone_alt=alt;return b}
+/* كشف المحاسبة مع التاجر من أي حقل بالشحنة (v4.48) */
+function zjSettled(sh,d){d=d||0;if(!sh||typeof sh!=="object"||d>2)return null;
+  var ks=Object.keys(sh),at="",hit=false,i,k,v;
+  for(i=0;i<ks.length;i++){k=ks[i];v=sh[k];
+    if(v&&typeof v==="object"&&!Array.isArray(v)){var r=zjSettled(v,d+1);if(r)return r;continue}
+    if(/settl|merchant_paid|paid_to_merchant|payout|payment_status|تحاسب|محاسب/i.test(k)){
+      if(/_at$|date|تاريخ/i.test(k)){if(v){hit=true;at=at||String(v)}}
+      else if(v===true||v===1||/^(1|true|yes|y|نعم|settled|paid|completed)$/i.test(String(v)))hit=true;
+      else if(/id$/i.test(k)&&v)hit=true}}
+  return hit?{at:at}:null}
 function zjApply(o,sh){var to=ZJ_MAP[sh.status]||"pending",ch=false;
-  try{var stl=sh.settled===true||sh.is_settled===true||sh.merchant_paid===true||!!sh.settlement_id||!!sh.settled_at||!!sh.paid_at||/^(settled|paid)$/i.test(String(sh.settlement_status||sh.payment_status||sh.merchant_payment_status||""));if(stl&&to==="done"&&!o.paid)o.paid=coDate(sh.settled_at||sh.paid_at)||Date.now()}catch(e){}
+  try{var stl=zjSettled(sh);if(stl&&to==="done"&&!o.paid)o.paid=coDate(stl.at)||Date.now()}catch(e){}
   var _lb=sh.status_label||sh.status||"";if(_lb&&o.coStage!==_lb)hlog(o,"co","زاجل: "+_lb+(sh.reason?" — "+sh.reason:""),coDate(sh.updated_at)||Date.now());
   var _du=Number(sh.merchant_due||sh.merchant_amount||sh.net_amount||sh.merchant_net||0);if(_du>0)o.due=_du;o.coId=sh.number||o.coId;o.coStage=_lb;o.coReason=sh.reason||"";o.coAt=sh.updated_at||"";
   if(stOf(o)!==to){o.status=to;o.sts=coDate(sh.updated_at)||Date.now();hlog(o,"st",ST[to]+" (من زاجل)",o.sts);ch=true}return ch}
@@ -3220,6 +3230,11 @@ function zhShip(b){if(!b||typeof b!=="object")return null;
   var c=[b.shipment,b.data&&b.data.shipment,b.data,b.payload&&b.payload.shipment,b.payload,b.object,b],i,x;
   for(i=0;i<c.length;i++){x=c[i];if(x&&typeof x==="object"&&!Array.isArray(x)&&(x.status||x.number||x.reference||x.recipient_phone))return x}
   return null}
+function zhShips(b){if(!b||typeof b!=="object")return [];
+  var arrs=[b.shipments,b.data&&b.data.shipments,b.data&&Array.isArray(b.data)?b.data:null,b.payload&&b.payload.shipments,b.settlement&&b.settlement.shipments,b.data&&b.data.settlement&&b.data.settlement.shipments],i;
+  for(i=0;i<arrs.length;i++){if(Array.isArray(arrs[i])&&arrs[i].length){var st=b.settlement||(b.data&&b.data.settlement)||null;
+    return arrs[i].map(function(x){return st&&typeof x==="object"?Object.assign({settlement_id:st.id||st.number||1,settled_at:st.created_at||st.date||st.settled_at},x):x}).filter(function(x){return x&&typeof x==="object"})}}
+  var one=zhShip(b);return one?[one]:[]}
 function zhNormStatus(sh,b){if(sh.status&&typeof sh.status==="object"){var k=sh.status.code||sh.status.key||sh.status.name;sh=Object.assign({},sh,{status:k,status_label:sh.status.label||sh.status.name_ar||sh.status.name||sh.status_label})}
   else if(!sh.status&&b&&(b.status||b.new_status)){sh=Object.assign({},sh,{status:b.new_status||b.status})}
   return sh}
@@ -3232,11 +3247,11 @@ async function zhPull(silent){
     var ids=Object.keys(d).sort();
     for(var i=0;i<ids.length;i++){var id=ids[i],b=d[id],drop=false;
       if(typeof b==="string"){try{b=JSON.parse(b)}catch(e){}}
-      var sh=zhShip(b);
-      if(!sh){bad++;drop=true}
-      else{sh=zhNormStatus(sh,b);var I=zjInfo(sh),S={ph:I.phone,alt:I.alt,total:I.total,gov:I.gov,city:I.city,t:I.t,ref:sh.reference,num:sh.number,raw:sh};
-        var M=mtMatch([S],orders);
-        if(M.pairs.length){if(zjApply(M.pairs[0].o,sh))n++;drop=true}
+      var L=zhShips(b);
+      if(!L.length){bad++;drop=true}
+      else{var hitN=0;L.forEach(function(sh0){var sh=zhNormStatus(sh0,b),I=zjInfo(sh),S={ph:I.phone,alt:I.alt,total:I.total,gov:I.gov,city:I.city,t:I.t,ref:sh.reference,num:sh.number,raw:sh};
+          var M=mtMatch([S],orders);if(M.pairs.length){hitN++;if(zjApply(M.pairs[0].o,sh))n++}});
+        if(hitN){drop=true}
         else{var f=seen[id]||(seen[id]=Date.now());if(Date.now()-f>3*86400000){drop=true}else keep++}}
       if(drop){try{var dr=await fetch(base+"/"+id+".json?auth="+encodeURIComponent(t),{method:"DELETE"});if(dr.ok){del++;delete seen[id]}}catch(e){}}}
     try{localStorage.setItem("zjhseen_v1",JSON.stringify(seen))}catch(e){}
