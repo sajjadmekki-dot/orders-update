@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.49";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.50";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -548,6 +548,14 @@ h1,h2,h3,.dpt,.qch,.tstrip>b{font-weight:600!important}
 .tstrip>b{white-space:nowrap}
 .hchips button.on{color:#fff!important}
 :root[data-theme="dark"] .hero .logo{color:#fff!important}
+/* v4.50: خط أصغر شوية + أرقام أنحف */
+html{font-size:15px}
+.hero2 .amt b{font-size:1.25rem!important}
+.sc .v{font-size:1.2rem!important}
+.pay b,#payd_n,#payu_n{font-size:1.15rem!important}
+.of b{font-size:1.1rem!important}
+.dtile b{font-size:2rem!important}
+.amt b,.v,.dtile b,.subs2 p b,.of b{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
 /* لوحة المخزن صارت آخر شي */
 #h_dash{margin-top:16px}
 </style>
@@ -642,7 +650,7 @@ h1,h2,h3,.dpt,.qch,.tstrip>b{font-weight:600!important}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.49</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.50</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -944,7 +952,7 @@ function say(t){
 function num(id){return parseFloat($(id).value)||0}
 function calc(){
   var t=num("qty")*num("price"),p=t-num("qty")*num("cost")-num("deliv");
-  $("total").textContent=t;$("profit").textContent=p;
+  $("total").textContent=fmt(t);$("profit").textContent=fmt(p);
   $("profit").className=p<0?"neg":"pos";return {t:t,p:p};
 }
 ["qty","price","cost","deliv"].forEach(function(i){$(i).addEventListener("input",calc)});
@@ -1777,7 +1785,7 @@ function fillSelects(){
   });
   f.value=(pageById(fv)||fv==="all")?fv:"all";kk.value=pageById(kv)?kv:(pageById(cur)?cur:pages[0].id);
 }
-function fmt(n){return String(Math.round((n||0)*100)/100)}
+function fmt(n){var v=Math.round((Number(n)||0)*100)/100,ng=v<0;v=Math.abs(v);var i=Math.floor(v),d=Math.round((v-i)*100),r=String(i).replace(/\B(?=(\d{3})+(?!\d))/g,".");if(d)r+=","+String(d<10?"0"+d:d).replace(/0$/,"");return (ng?"-":"")+r}
 function dTotal(){var t=0;debts.forEach(function(d){t+=bal(d)});return t}
 function curHP(){var v=$("ofilter").value;return (v&&v!=="all"&&pageById(v))?v:"all"}
 function setHP(v){$("ofilter").value=v;renderHome()}
