@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.53";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.54";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -573,6 +573,11 @@ html{font-size:15px}
 .hero2 .subs2{display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:6px!important}
 .hero2 .subs2>div{flex-direction:column!important;align-items:flex-start!important;gap:1px!important}
 .hero2 .subs2 p{font-size:.78rem!important}
+
+.zjline{font-size:.72rem;color:#0369a1;background:#f0f9ff;border:1px solid #bae6fd;border-radius:12px;padding:7px 10px;margin:8px 0 0}
+.zjline.bad{color:#b45309;background:#fff7e6;border-color:#fde2b5}
+:root[data-theme="dark"] .zjline{color:#7dd3fc;background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.25)}
+:root[data-theme="dark"] .zjline.bad{color:#fcd34d;background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3)}
 </style>
 </head>
 <body>
@@ -597,6 +602,7 @@ html{font-size:15px}
 </div>
 <button class="second" id="paybtn" style="margin:6px 0 0;padding:8px">تحديد الطلبات المحاسب عليها</button>
 <div id="syncst" class="sync"><span class="ic" data-ic="database"></span><span id="synctx"></span></div>
+<div id="zjline" class="zjline" hidden></div>
 <div class="sec"><h2><span class="ic" data-ic="grid"></span>حالة الطلبات</h2></div>
 <div class="grid3 st">
 <button class="sc blue" data-t="today"><i class="bar"></i><span class="chipi iso" data-iso="calendar" data-col="#0ea5e9"></span><b class="v" id="h_tod">0</b><span class="k">طلبات اليوم</span></button>
@@ -666,7 +672,7 @@ html{font-size:15px}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.53</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.54</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -3365,12 +3371,21 @@ async function aiZajel(unShips,pairs,mode){
   finally{_aiBusy=false}}
 function aiName(){var k="";try{k=localStorage.getItem("aikey_v1")||""}catch(e){}return k.indexOf("sk-ant")===0?"Opus 5.5":k?"Gemini":"كلود"}
 function aiMsg(t){var e=$("zjaimsg");if(e)e.textContent=t}
+
+/* v4.54: سطر حالة التحديث التلقائي مع زاجل بالواجهة */
+function zjLine(){var e=$("zjline");if(!e)return;if(!zjKey()){e.hidden=true;return}e.hidden=false;
+  var a=null;try{a=JSON.parse(localStorage.getItem("zjauto_v1")||"null")}catch(x){}
+  if(!a){e.textContent="🚚 زاجل: التحديث التلقائي شغّال — أول تحديث خلال ثواني";e.className="zjline";return}
+  var m=Math.round((Date.now()-a.t)/60000),ago=m<1?"قبل أقل من دقيقة":m<60?"قبل "+m+" دقيقة":"قبل "+Math.round(m/60)+" ساعة";
+  if(a.err){e.className="zjline bad";e.textContent="⚠️ زاجل: آخر محاولة "+ago+" فشلت — "+a.err;return}
+  e.className="zjline";e.textContent="🚚 زاجل: تحديث تلقائي كل 3 دقائق — آخر تحديث "+ago+" (فحص "+a.seen+" شحنة"+(a.n?"، تحدّثت "+a.n:"")+")"}
+setInterval(zjLine,30000);
 async function zjSync(silent,fast){
   if(zjBusy)return;if(!zjKey()){if(!silent)zjMsg("الصق المفتاح أولاً");return}
   var open=orders.filter(function(o){var st=stOf(o);return st!=="ret"&&st!=="done"});
   if(!open.length){if(!silent){zjMsg("ما فيه طلبات مفتوحة تحتاج تحديث");say("ما فيه طلبات مفتوحة")}return}
   zjBusy=true;var minTs=Math.min.apply(null,open.map(function(o){return o.ts||Date.now()})),cap=Date.now()-90*86400000;
-  var _ll=Number(localStorage.getItem("zjlast_v1"))||0,_lo=Math.max(minTs,cap);if(fast&&_ll)_lo=Math.max(_lo,_ll-86400000);var from=new Date(_lo-86400000),kf=function(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
+  var _ll=Number(localStorage.getItem("zjlast_v1"))||0,_lo=Math.max(minTs,cap);var from=new Date(_lo-86400000),kf=function(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())};
   var all=[],n=0,seen=0,a=0,rt=0,page=1,err="";
   try{while(page<=40){
     if(!silent)zjMsg("جاري السحب… صفحة "+page);
@@ -3387,7 +3402,7 @@ async function zjSync(silent,fast){
   var M=mtMatch(SH,orders);
   M.pairs.forEach(function(p){if(p.diff)diffN++;if(zjApply(p.o,p.s.raw)){n++;var t=ZJ_MAP[p.s.raw.status]||"pending";if(t==="done")a++;else if(t==="ret")rt++}});
   var unm=M.unOrders.filter(function(o){return o.sent||o.coId});
-  try{localStorage.setItem("zjlast_v1",String(Date.now()))}catch(e){}
+  try{localStorage.setItem("zjlast_v1",String(Date.now()));localStorage.setItem("zjauto_v1",JSON.stringify({t:Date.now(),n:n,seen:seen,err:err||""}))}catch(e){}zjLine();
   sv(KEY,orders);renderOrders();renderHome();
   var t=(err?"⚠️ "+err+"\n":"")+"تم تحديث "+n+" حالة"+(n?" (وصلت "+a+"، راجعة "+rt+")":"")+" — فحصت "+seen+" شحنة"+(diffN?"\nمنها "+diffN+" طابقت بالهاتف مع اختلاف المبلغ":"")+(noPhone===seen&&seen?"\n(ملاحظة: بيانات الشحنة من زاجل ما فيها رقم الهاتف، فاعتمدت الرقم المرجعي)":"")+(unm.length?"\n⚠️ بدون شحنة مطابقة ("+unm.length+"):\n"+unm.slice(0,6).map(function(o){return "• "+(o.name||o.phone)+" · "+o.phone}).join("\n")+(unm.length>6?"\n…":""):"");
   zjMsg(t);if(!silent||n)say(err?"⚠️ "+err:"تم تحديث "+n+" حالة من زاجل");
@@ -3405,8 +3420,8 @@ async function zjSync(silent,fast){
   $("zjsend").onclick=zjSend;$("zjsync").onclick=function(){zjSync(false)};
   (function(){var b=$("zjai");function lb(){b.textContent="🧠 مطابقة ذكية ("+aiName()+")"}lb();$("qzj").addEventListener("click",lb)})();
   $("zjai").onclick=async function(){if(!window.__SAMPLE){aiMsg("⚠️ لازم تضيف مفتاح ذكاء اصطناعي (Anthropic للـ Opus 5.5، أو Gemini) من «الحساب والربط»");return}try{localStorage.removeItem("zjai_v1");localStorage.removeItem("zjai_last")}catch(e){}aiMsg("🧠 أسحب الشحنات أول…");await zjSync(false)};
-  function auto(){try{if(document.hidden||!zjKey())return;var l=Number(localStorage.getItem("zjlast_v1"))||0;if(Date.now()-l>60000)zjSync(true,l>0)}catch(e){}}
-  setTimeout(auto,4000);setInterval(auto,90000);document.addEventListener("visibilitychange",function(){if(!document.hidden)setTimeout(auto,800)})})();
+  function auto(th){try{zjLine();if(document.hidden||!zjKey())return;var l=Number(localStorage.getItem("zjlast_v1"))||0;if(Date.now()-l>(th===undefined?150000:th))zjSync(true,false)}catch(e){}}
+  setTimeout(function(){auto(0)},4000);setInterval(function(){auto()},90000);document.addEventListener("visibilitychange",function(){if(!document.hidden)setTimeout(function(){auto(60000)},800)})})();
 
 
 /* ===== التحديث المباشر عبر Webhook (v4.36) ===== */
