@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.50";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.51";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -650,7 +650,7 @@ html{font-size:15px}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.50</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.51</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -818,7 +818,7 @@ html{font-size:15px}
 <div id="fbmsg" class="hint" style="margin-top:6px"></div>
 </div>
 <h3>الذكاء الاصطناعي (كلود) داخل التطبيق</h3>
-<div class="card"><div class="hint">للتطبيق على الموبايل: الصق مفتاح مجاني من Google (aistudio.google.com، يبدأ بـ AIza) أو مفتاح كلود (sk-ant). يتخزن على جهازك فقط.<br>🧠 مع مفتاح كلود، المطابقة الذكية لشحنات زاجل تشتغل بـ <b>Claude Opus 5.5</b> (أذكى نموذج). مع مفتاح Google تشتغل بـ Gemini 2.5 Pro.</div>
+<div class="card"><div class="hint">للتطبيق على الموبايل: الصق مفتاح مجاني من Google (aistudio.google.com، يبدأ بـ AIza) أو مفتاح كلود (sk-ant). يتخزن على جهازك فقط.<br>🧠 المطابقة الذكية لشحنات زاجل تشتغل بالمفتاح الي تحطه: مفتاح Google (مجاني) يشغّلها بـ <b>Gemini 3.8 Flash</b>، ومفتاح كلود (مدفوع) يشغّلها بـ <b>Claude Opus 5.5</b>.</div>
 <input id="aikey" type="password" autocomplete="off" autocapitalize="off" style="direction:ltr;text-align:left" placeholder="AIza... أو sk-ant-...">
 <button class="primary" id="aikeysave" style="margin-top:8px">حفظ وتجربة الاتصال</button>
 <button class="ghost" id="aikeyclr" hidden>حذف المفتاح</button>
@@ -833,7 +833,7 @@ html{font-size:15px}
 <button class="ghost" id="zjclr" hidden>حذف المفتاح</button>
 <button class="second" id="zjsend">إرسال الطلبات المسجّلة لزاجل</button>
 <button class="second" id="zjsync">تحديث الحالات من زاجل</button>
-<button class="second" id="zjai">🧠 مطابقة ذكية (Opus 5.5)</button><div id="zjaimsg" class="hint" style="margin-top:6px;white-space:pre-wrap"></div>
+<button class="second" id="zjai">🧠 مطابقة ذكية</button><div id="zjaimsg" class="hint" style="margin-top:6px;white-space:pre-wrap"></div>
 <div id="zjmsg" class="hint" style="margin-top:8px;white-space:pre-wrap"></div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bd,#d8e2f0)"><h3 style="font-size:1rem;margin:0 0 6px">⚡ تحديث مباشر (بدون ضغط تحديث)</h3>
 <div class="hint">ولّد رابط والصقه في زاجل بخانة «رابط التحديثات». أي تغيير حالة بزاجل يوصل التطبيق ويتحدّث الطلب لحاله.</div>
 <button class="primary" id="zhgen" style="margin-top:8px">توليد رابط التحديث المباشر</button>
@@ -2953,7 +2953,7 @@ function keySample(){var k="";try{k=localStorage.getItem("aikey_v1")||""}catch(e
     if(!r.ok){var er2=new Error((j&&j.error&&j.error.message)||("HTTP "+r.status));er2.status=r.status;throw er2}
     return {text:((j.content||[]).map(function(x){return x.text||""}).join(""))}};
   /* Gemini (مجاني) */
-  return async function(prompt,o){var ms=(o&&o.gmodels)||["gemini-2.5-flash","gemini-2.5-flash-lite","gemini-flash-latest","gemini-2.0-flash"],last=null;
+  return async function(prompt,o){var ms=(o&&o.gmodels)||["gemini-3.8-flash","gemini-3.6-flash","gemini-2.5-flash","gemini-2.5-flash-lite","gemini-flash-latest"],last=null;
     for(var i=0;i<ms.length;i++){var r,ac=new AbortController(),tm=setTimeout(function(){ac.abort()},20000);try{r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+ms[i]+":generateContent",{method:"POST",signal:ac.signal,headers:{"content-type":"application/json","x-goog-api-key":k},body:JSON.stringify({contents:[{parts:[{text:String(prompt)}]}],generationConfig:{temperature:0.1}})});clearTimeout(tm)}catch(e){clearTimeout(tm);if(ac.signal.aborted){var te=new Error("انتهت المهلة (النموذج بطيء)");te.status=504;last=te;continue}throw nerr()}
       var j=null;try{j=await r.json()}catch(e){}
       if(r.ok){var c=(j&&j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[];return {text:c.map(function(x){return x.text||""}).join("")}}
@@ -3271,7 +3271,7 @@ async function aiMatch(ships,used,onStep){
     var prompt="أنت محرك مطابقة دقيق لتاجر عراقي يشحن مع شركة توصيل.\nهذي شحنات من شركة التوصيل ما انطابقت تلقائياً مع طلبات التاجر (غالباً بسبب خطأ بكتابة رقم الهاتف، أو استعمال الرقم الثاني، أو تعديل المبلغ):\n"+L1+
       "\n\nوهذي طلبات التاجر المفتوحة (مسجلة أو قيد التوصيل):\n"+L2+
       "\n\nلكل شحنة، اختار الطلب الي هو نفس الشحنة فقط إذا كنت متأكد جداً: رقم هاتف فيه خطأ رقم أو رقمين أو رقمين متبادلين، أو الرقم البديل، مع مبلغ متقارب، ومحافظة/منطقة متوافقة، وتاريخ إنشاء الشحنة بعد إدخال الطلب أو بنفس اليوم.\nإذا فيه شك أو أكثر من طلب محتمل لنفس الزبون، لا تطابق. كل طلب يطابق شحنة وحدة فقط.\nارجع JSON فقط بدون أي كلام: [{\"s\":\"S0\",\"o\":\"O3\",\"c\":95,\"r\":\"سبب قصير جداً\"}] — c ثقة من 0 إلى 100. إذا ماكو مطابقة ارجع [].";
-    var res=await smp(prompt,{model:"claude-opus-5-5",max:2000,gmodels:["gemini-2.5-pro","gemini-2.5-flash"]});
+    var res=await smp(prompt,{model:"claude-opus-5-5",max:2000,gmodels:["gemini-3.8-flash","gemini-3.6-flash","gemini-2.5-pro","gemini-2.5-flash"]});
     var txt=String((res&&res.text)||res||""),a=txt.indexOf("["),b=txt.lastIndexOf("]"),arr=[];
     if(a>-1&&b>a){try{arr=JSON.parse(txt.slice(a,b+1))}catch(e){arr=[]}}
     (Array.isArray(arr)?arr:[]).forEach(function(x){var si=parseInt(String(x.s||"").replace(/\D/g,""),10),oi=parseInt(String(x.o||"").replace(/\D/g,""),10),S=part[si],o=cand[oi],cf=Number(x.c)||0;
@@ -3297,6 +3297,7 @@ async function aiZajel(unShips,pairs,mode){
     if(R.length)say("🧠 الذكاء ربط "+R.length+" شحنة مع زاجل")}
   catch(e){aiMsg("⚠️ المطابقة الذكية: "+(e&&e.message||e))}
   finally{_aiBusy=false}}
+function aiName(){var k="";try{k=localStorage.getItem("aikey_v1")||""}catch(e){}return k.indexOf("sk-ant")===0?"Opus 5.5":k?"Gemini":"كلود"}
 function aiMsg(t){var e=$("zjaimsg");if(e)e.textContent=t}
 async function zjSync(silent,fast){
   if(zjBusy)return;if(!zjKey()){if(!silent)zjMsg("الصق المفتاح أولاً");return}
@@ -3336,6 +3337,7 @@ async function zjSync(silent,fast){
     catch(e){zjMsg("⚠️ "+e.message+"\n(المفتاح انحفظ)");ref()}};
   clr.onclick=function(){try{localStorage.removeItem("zjkey_v1")}catch(e){}inp.placeholder="zjm_...";ref();zjMsg("تم حذف المفتاح")};
   $("zjsend").onclick=zjSend;$("zjsync").onclick=function(){zjSync(false)};
+  (function(){var b=$("zjai");function lb(){b.textContent="🧠 مطابقة ذكية ("+aiName()+")"}lb();$("qzj").addEventListener("click",lb)})();
   $("zjai").onclick=async function(){if(!window.__SAMPLE){aiMsg("⚠️ لازم تضيف مفتاح ذكاء اصطناعي (Anthropic للـ Opus 5.5، أو Gemini) من «الحساب والربط»");return}try{localStorage.removeItem("zjai_v1");localStorage.removeItem("zjai_last")}catch(e){}aiMsg("🧠 أسحب الشحنات أول…");await zjSync(false)};
   function auto(){try{if(document.hidden||!zjKey())return;var l=Number(localStorage.getItem("zjlast_v1"))||0;if(Date.now()-l>60000)zjSync(true,l>0)}catch(e){}}
   setTimeout(auto,4000);setInterval(auto,90000);document.addEventListener("visibilitychange",function(){if(!document.hidden)setTimeout(auto,800)})})();
@@ -3512,7 +3514,7 @@ function coShow(){
   [["✅ وصلت",st.done],["↩️ راجعة",st.ret],["🚚 قيد التوصيل",st.pending]].forEach(function(x){if(x[1]){var c=mk("span","chip",x[0]+": "+x[1]);sm.appendChild(c)}});
   var l=$("colist");l.innerHTML="";
   var ah=$("coai");ah.innerHTML="";
-  if(P.unS&&P.unS.length&&window.__SAMPLE){var ab=mk("button","second","🧠 مطابقة ذكية للشحنات الباقية ("+P.unS.length+") — Opus 5.5");ab.style.margin="0 0 8px";
+  if(P.unS&&P.unS.length&&window.__SAMPLE){var ab=mk("button","second","🧠 مطابقة ذكية للشحنات الباقية ("+P.unS.length+") — "+aiName());ab.style.margin="0 0 8px";
     ab.onclick=async function(){ab.disabled=true;ab.textContent="🧠 جاري المطابقة…";
       try{var R=await aiMatch(P.unS,new Set(P.plan.map(function(x){return x.o})),function(a,b){ab.textContent="🧠 جاري المطابقة… "+a+"/"+b});
         R.forEach(function(x){var sh=x.S.raw,key=norm(sh.stage).trim(),to=CO_MAP[key]||CO_MAP[sh.stage]||null;
