@@ -8,13 +8,13 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script>var APPV="4.48";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>var APPV="4.49";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#eef6fc;--card:#ffffff;--text:#1d2b3a;--muted:#64788c;--line:#d9e7f3;--accent:#2b7fc1;--accent-t:#fff;--danger:#c0392b;--field:#f4f9fd;--soft:#e1f0fb}
+--bg:#eef6fc;--card:#ffffff;--text:#1d2b3a;--muted:#64788c;--line:#d9e7f3;--accent:#0ea5e9;--accent-t:#fff;--danger:#c0392b;--field:#f4f9fd;--soft:#e1f0fb}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#0f1a24;--card:#17232f;--text:#e8f1f8;--muted:#8fa5b8;--line:#263646;--accent:#7cc4f0;--accent-t:#0b2233;--danger:#f08a7e;--field:#1c2b39;--soft:#1f3347}}
 :root[data-theme="dark"]{color-scheme:dark;--bg:#0f1a24;--card:#17232f;--text:#e8f1f8;--muted:#8fa5b8;--line:#263646;--accent:#7cc4f0;--accent-t:#0b2233;--danger:#f08a7e;--field:#1c2b39;--soft:#1f3347}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -67,11 +67,11 @@ h1{font-size:1.25rem;margin:0}
 .hero{background:linear-gradient(135deg,#d6eaf8,#eaf5fd);border-radius:20px;padding:16px 18px;margin-bottom:14px;color:#1d2b3a}
 .hero small{display:block;color:#5b7389;font-size:.8rem;margin-top:2px}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .hero{background:linear-gradient(135deg,#1c3347,#18293a);color:#e8f1f8}:root:not([data-theme="light"]) .hero small{color:#9bb3c6}}
-.card{border-radius:20px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(43,127,193,.07)}
+.card{border-radius:20px;border:1px solid var(--line);box-shadow:0 2px 10px rgba(14,165,233,.07)}
 input,textarea,select{background:var(--field);border-radius:14px;border:1px solid var(--line)}
 input:focus,textarea:focus,select:focus{outline:2px solid var(--accent);outline-offset:0;border-color:transparent}
 button{border-radius:14px}
-.primary{background:linear-gradient(135deg,#4ea6de,#2b7fc1);box-shadow:0 4px 12px rgba(43,127,193,.25)}
+.primary{background:linear-gradient(135deg,#4ea6de,#0ea5e9);box-shadow:0 4px 12px rgba(14,165,233,.25)}
 .second{border-radius:14px;background:var(--soft);border:0;color:var(--accent)}
 .chip{background:var(--soft);border:0;color:var(--text)}
 .stat{border:0;border-radius:16px}
@@ -83,15 +83,15 @@ button{border-radius:14px}
 .pcard.c0{background:#e1f0fb}.pcard.c1{background:#e2f4ef}.pcard.c2{background:#ebe9fa}.pcard.c3{background:#f6efe1}
 .pcard.c0 *,.pcard.c1 *,.pcard.c2 *,.pcard.c3 *{color:#1d2b3a}
 .pcard .m span{color:#4d6479!important}
-.pcard .badge{background:#2b7fc1;color:#fff!important}
-.pcard.on{border-color:#2b7fc1}
+.pcard .badge{background:#0ea5e9;color:#fff!important}
+.pcard.on{border-color:#0ea5e9}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .pcard.c0{background:#1f3347}:root:not([data-theme="light"]) .pcard.c1{background:#1c3a36}:root:not([data-theme="light"]) .pcard.c2{background:#2a2a47}:root:not([data-theme="light"]) .pcard.c3{background:#3a3326}:root:not([data-theme="light"]) .pcard.c0 *,:root:not([data-theme="light"]) .pcard.c1 *,:root:not([data-theme="light"]) .pcard.c2 *,:root:not([data-theme="light"]) .pcard.c3 *{color:#e8f1f8}:root:not([data-theme="light"]) .pcard .m span{color:#a9bccc!important}}
-.nav{box-shadow:0 -4px 16px rgba(43,127,193,.10);border-top:0;border-radius:22px 22px 0 0}
+.nav{box-shadow:0 -4px 16px rgba(14,165,233,.10);border-top:0;border-radius:22px 22px 0 0}
 .nav button{color:var(--muted);border-radius:16px;margin:6px 4px}
 .nav button.on{background:var(--soft);color:var(--accent)}
 th{background:transparent}
 .tab[hidden]{display:none}
-.big{background:linear-gradient(135deg,#4ea6de,#2b7fc1);color:#fff;border-radius:22px;padding:18px;margin-bottom:12px;box-shadow:0 6px 18px rgba(43,127,193,.25)}
+.big{background:linear-gradient(135deg,#4ea6de,#0ea5e9);color:#fff;border-radius:22px;padding:18px;margin-bottom:12px;box-shadow:0 6px 18px rgba(14,165,233,.25)}
 .big>span{font-size:.85rem;opacity:.9}
 .big>b{display:block;font-size:2rem;margin:2px 0 8px}
 .big .subs{display:flex;gap:10px}
@@ -108,7 +108,7 @@ h3{font-size:.95rem;margin:14px 2px 8px;color:var(--muted);font-weight:600}
 .seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
 .seg button{background:var(--soft);color:var(--text);padding:8px 12px;font-size:.82rem;font-weight:500;border-radius:999px}
 .seg button.on{background:var(--accent);color:var(--accent-t);font-weight:700}
-.ocard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(43,127,193,.06)}
+.ocard{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:10px;box-shadow:0 2px 8px rgba(14,165,233,.06)}
 .ocard .oh{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .ocard .oh b{font-size:1rem}
 .ocard .om{color:var(--muted);font-size:.78rem;margin:2px 0 6px}
@@ -137,37 +137,37 @@ a.lbtn{text-decoration:none;display:inline-block}
 .nav button{font-size:.7rem;padding:6px 2px}
 
 .ic svg,.nav button span svg{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;display:block}
-.tl .ic{font-size:1.65rem;color:#2b7fc1;display:flex;justify-content:center}
+.tl .ic{font-size:1.65rem;color:#0ea5e9;display:flex;justify-content:center}
 .tl.c1 .ic{color:#2f8f7a}.tl.c2 .ic{color:#6a5fc4}.tl.c3 .ic{color:#b88a2a}.tl.c4 .ic{color:#c4584c}
 .nav button span{display:flex;justify-content:center;font-size:1.35rem}
 .hero h1{display:flex;align-items:center;gap:10px}
-.hero h1 .ic{font-size:1.5rem;color:#2b7fc1;display:flex}
+.hero h1 .ic{font-size:1.5rem;color:#0ea5e9;display:flex}
 .hchips{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;margin:-4px 0 6px;scrollbar-width:none}
 .hchips::-webkit-scrollbar{display:none}
-.hchips button{flex:0 0 auto;background:#fff;color:#1d2b3a;border:1px solid #cfe2f1;padding:9px 16px;border-radius:999px;font-size:.88rem;font-weight:600;box-shadow:0 1px 3px rgba(43,127,193,.08)}
-.hchips button.on{background:#2b7fc1;color:#fff;border-color:#2b7fc1}
+.hchips button{flex:0 0 auto;background:#fff;color:#1d2b3a;border:1px solid #cfe2f1;padding:9px 16px;border-radius:999px;font-size:.88rem;font-weight:600;box-shadow:0 1px 3px rgba(14,165,233,.08)}
+.hchips button.on{background:#0ea5e9;color:#fff;border-color:#0ea5e9}
 .tl{cursor:pointer;transition:transform .08s}.tl:active{transform:scale(.96)}
 .dchip{display:inline-flex;align-items:center;gap:6px}
 
 /* ===== تصميم أبيض عصري ===== */
-:root{--bg:#f1f5f9;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#2563eb;--soft:#eff6ff;--field:#f8fafc;color-scheme:light}
+:root{--bg:#f1f5f9;--card:#ffffff;--text:#0f172a;--muted:#64748b;--line:#e2e8f0;--accent:#0ea5e9;--soft:#f0f9ff;--field:#f8fafc;color-scheme:light}
 body{font-family:'Cairo',system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--text)}
 .wrap{max-width:480px;padding:0 16px}
 .hero{display:flex;align-items:center;gap:12px;background:#fff;border-radius:0 0 24px 24px;margin:0 -16px 14px;padding:calc(14px + env(safe-area-inset-top,0px)) 20px 14px;box-shadow:0 2px 14px rgba(15,23,42,.06);color:var(--text);position:sticky;top:0;z-index:20}
-.hero .logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,#2563eb,#6366f1);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 6px 16px rgba(37,99,235,.3);flex:none}
+.hero .logo{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.35rem;box-shadow:0 6px 16px rgba(14,165,233,.3);flex:none}
 .hero h1{font-size:1.05rem;font-weight:800;margin:0;color:var(--text);display:block}
 .hero small{display:block;color:var(--muted);font-size:.75rem;margin-top:0}
 .card{border-radius:20px;box-shadow:0 1px 8px rgba(15,23,42,.05)}
-.hero2{background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;border-radius:26px;padding:20px;margin-bottom:12px;box-shadow:0 12px 28px rgba(37,99,235,.28);position:relative;overflow:hidden}
+.hero2{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border-radius:26px;padding:20px;margin-bottom:12px;box-shadow:0 12px 28px rgba(14,165,233,.28);position:relative;overflow:hidden}
 .hero2:before{content:"";position:absolute;left:-40px;bottom:-50px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.12)}
 .hero2 .pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:5px 12px;font-size:.72rem;font-weight:600}
 .hero2 .pill .ic{color:#a7f3d0;font-size:.95rem;display:flex}
 .hero2 .amt{margin:12px 0 4px;display:flex;align-items:baseline;gap:6px}
 .hero2 .amt b{font-size:2.3rem;font-weight:800;letter-spacing:-.5px}
-.hero2 em{font-style:normal;font-size:.75rem;font-weight:700;color:#dbeafe}
+.hero2 em{font-style:normal;font-size:.75rem;font-weight:700;color:#e0f2fe}
 .subs2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid rgba(255,255,255,.18);position:relative}
 .subs2>div{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:11px 13px}
-.subs2 .sl{display:flex;align-items:center;gap:6px;font-size:.7rem;color:#dbeafe;font-weight:600;margin-bottom:4px}
+.subs2 .sl{display:flex;align-items:center;gap:6px;font-size:.7rem;color:#e0f2fe;font-weight:600;margin-bottom:4px}
 .subs2 .sl .ic{display:flex;font-size:.95rem}.subs2 .am{color:#fcd34d}.subs2 .em{color:#6ee7b7}
 .subs2 p{margin:0;font-size:1.1rem;font-weight:800}
 .sync{display:flex;align-items:flex-start;gap:10px;border-radius:18px;padding:12px 14px;margin:0 0 14px;font-size:.78rem;line-height:1.6;text-align:right;border:1px solid}
@@ -175,7 +175,7 @@ body{font-family:'Cairo',system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;ba
 .sync.warn,.sync.info{background:#fffbeb;border-color:#fde68a;color:#92400e}
 .sync.ok{background:#ecfdf5;border-color:#a7f3d0;color:#047857}
 .sec h2{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:800;margin:6px 2px 12px;color:#1e293b}
-.sec h2 .ic{display:flex;color:#2563eb;font-size:1.05rem}
+.sec h2 .ic{display:flex;color:#0ea5e9;font-size:1.05rem}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .sc{position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px 6px 12px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:0 3px 12px rgba(15,23,42,.05);cursor:pointer;color:var(--text);font-weight:500}
 .sc:active,.qa:active{transform:scale(.96)}
@@ -183,43 +183,43 @@ body{font-family:'Cairo',system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;ba
 .sc .chipi{width:44px;height:44px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:8px}
 .sc .v{font-size:1.5rem;font-weight:800;line-height:1.2}
 .sc .k{font-size:.72rem;color:var(--muted);font-weight:600}
-.sc.blue .bar{background:#3b82f6}.sc.blue .chipi{background:#eff6ff;color:#2563eb}
-.sc.indigo .bar{background:#6366f1}.sc.indigo .chipi{background:#eef2ff;color:#4f46e5}
+.sc.blue .bar{background:#0ea5e9}.sc.blue .chipi{background:#f0f9ff;color:#0ea5e9}
+.sc.indigo .bar{background:#38bdf8}.sc.indigo .chipi{background:#f0f9ff;color:#0284c7}
 .sc.amber .bar{background:#f59e0b}.sc.amber .chipi{background:#fffbeb;color:#d97706}
 .sc.emerald .bar{background:#10b981}.sc.emerald .chipi{background:#ecfdf5;color:#059669}
 .sc.rose .bar{background:#f43f5e}.sc.rose .chipi{background:#fff1f2;color:#e11d48}
 .sc.purple .bar{background:#a855f7}.sc.purple .chipi{background:#faf5ff;color:#9333ea}
 .qa{background:#fff;border:1px solid var(--line);border-radius:20px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:#1e293b;box-shadow:0 3px 12px rgba(15,23,42,.05);cursor:pointer}
 .qa .chipq{width:40px;height:40px;border-radius:14px;background:#f1f5f9;color:#475569;display:flex;align-items:center;justify-content:center;font-size:1.25rem}
-.qa.main{background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;border:0;box-shadow:0 8px 20px rgba(37,99,235,.3)}
+.qa.main{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border:0;box-shadow:0 8px 20px rgba(14,165,233,.3)}
 .qa.main .chipq{background:rgba(255,255,255,.2);color:#fff}
 .hchips button{background:#fff;border:1px solid var(--line);color:#334155;box-shadow:none}
-.hchips button.on{background:#2563eb;border-color:#2563eb;color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.28)}
+.hchips button.on{background:#0ea5e9;border-color:#0ea5e9;color:#fff;box-shadow:0 4px 12px rgba(14,165,233,.28)}
 .nav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom,0px));padding-bottom:0;border:1px solid var(--line);border-radius:24px;background:rgba(255,255,255,.96);backdrop-filter:blur(14px);box-shadow:0 10px 30px rgba(15,23,42,.14);padding:6px 4px}
 .nav button{margin:0 2px;border-radius:16px;color:#64748b;font-weight:600;font-size:.66rem;padding:6px 2px}
-.nav button.on{background:#eff6ff;color:#2563eb;font-weight:800}
+.nav button.on{background:#f0f9ff;color:#0ea5e9;font-weight:800}
 .nav button span{font-size:1.25rem}
 .wrap{padding-bottom:110px}
-.primary{background:linear-gradient(135deg,#2563eb,#4f46e5);box-shadow:0 6px 16px rgba(37,99,235,.25)}
-.seg button.on{background:#2563eb}
+.primary{background:linear-gradient(135deg,#0ea5e9,#0284c7);box-shadow:0 6px 16px rgba(14,165,233,.25)}
+.seg button.on{background:#0ea5e9}
 .ocard,.dcard,.pcard{box-shadow:0 2px 10px rgba(15,23,42,.05)}
 #toast{background:#fff!important;color:#0f172a!important;border:1px solid #e2e8f0;box-shadow:0 10px 30px rgba(15,23,42,.18)!important}
-.badge2.reg,.stbtn.on.reg{background:#e0ecff;color:#1d4ed8}
+.badge2.reg,.stbtn.on.reg{background:#e0ecff;color:#0369a1}
 
 /* ===== الوضع الليلي (زجاجي نيون) ===== */
 .themebtn{margin-inline-start:auto;flex:none;width:42px;height:42px;border-radius:14px;padding:0;display:flex;align-items:center;justify-content:center;background:var(--soft);color:var(--accent);border:1px solid var(--line);font-size:1.25rem;box-shadow:none}
 .themebtn svg{width:1.2em;height:1.2em;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .themebtn .sun{display:none}
 :root[data-theme="dark"] .themebtn .sun{display:block}:root[data-theme="dark"] .themebtn .moon{display:none}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#050d17;--card:rgba(16,32,48,.72);--text:#e6f1fb;--muted:#8aa3b8;--line:rgba(120,200,255,.16);--accent:#4da3ff;--accent-t:#04222a;--danger:#ff8a80;--field:rgba(10,24,38,.8);--soft:rgba(77,163,255,.12)}
-:root[data-theme="dark"] body{background:radial-gradient(900px 480px at 85% -8%,rgba(46,160,230,.22),transparent 60%),radial-gradient(700px 420px at -10% 40%,rgba(77,163,255,.10),transparent 60%),#050d17;background-attachment:fixed}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#050d17;--card:rgba(16,32,48,.72);--text:#e6f1fb;--muted:#8aa3b8;--line:rgba(120,200,255,.16);--accent:#38bdf8;--accent-t:#04222a;--danger:#ff8a80;--field:rgba(10,24,38,.8);--soft:rgba(56,189,248,.12)}
+:root[data-theme="dark"] body{background:radial-gradient(900px 480px at 85% -8%,rgba(46,160,230,.22),transparent 60%),radial-gradient(700px 420px at -10% 40%,rgba(56,189,248,.10),transparent 60%),#050d17;background-attachment:fixed}
 :root[data-theme="dark"] .card,:root[data-theme="dark"] .ocard,:root[data-theme="dark"] .dcard,:root[data-theme="dark"] .pcard{background:var(--card);border:1px solid var(--line);box-shadow:0 8px 28px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
 :root[data-theme="dark"] .hero{background:rgba(8,20,32,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);box-shadow:0 6px 24px rgba(0,0,0,.4)}
-:root[data-theme="dark"] .hero .logo{background:rgba(77,163,255,.12);color:#4da3ff;border:1px solid rgba(77,163,255,.35);box-shadow:0 0 18px rgba(77,163,255,.28)}
-:root[data-theme="dark"] .hero2{background:linear-gradient(160deg,rgba(18,42,64,.9),rgba(9,24,40,.92));border:1px solid rgba(120,220,255,.28);box-shadow:0 0 0 1px rgba(77,163,255,.08),0 16px 40px rgba(0,0,0,.5),0 0 40px rgba(46,160,230,.15)}
-:root[data-theme="dark"] .hero2:before{background:radial-gradient(circle,rgba(77,163,255,.18),transparent 70%)}
-:root[data-theme="dark"] .hero2 .pill{background:rgba(77,163,255,.1);border-color:rgba(77,163,255,.3);color:#9cf3ea}
-:root[data-theme="dark"] .hero2 .amt b{color:#4da3ff;text-shadow:0 0 22px rgba(77,163,255,.55)}
+:root[data-theme="dark"] .hero .logo{background:rgba(56,189,248,.12);color:#38bdf8;border:1px solid rgba(56,189,248,.35);box-shadow:0 0 18px rgba(56,189,248,.28)}
+:root[data-theme="dark"] .hero2{background:linear-gradient(160deg,rgba(18,42,64,.9),rgba(9,24,40,.92));border:1px solid rgba(120,220,255,.28);box-shadow:0 0 0 1px rgba(56,189,248,.08),0 16px 40px rgba(0,0,0,.5),0 0 40px rgba(46,160,230,.15)}
+:root[data-theme="dark"] .hero2:before{background:radial-gradient(circle,rgba(56,189,248,.18),transparent 70%)}
+:root[data-theme="dark"] .hero2 .pill{background:rgba(56,189,248,.1);border-color:rgba(56,189,248,.3);color:#9cf3ea}
+:root[data-theme="dark"] .hero2 .amt b{color:#38bdf8;text-shadow:0 0 22px rgba(56,189,248,.55)}
 :root[data-theme="dark"] .hero2 em{color:#7fd9ee}
 :root[data-theme="dark"] .subs2{border-top-color:rgba(120,200,255,.16)}
 :root[data-theme="dark"] .subs2>div{background:rgba(255,255,255,.04);border-color:rgba(120,200,255,.16)}
@@ -227,11 +227,11 @@ body{font-family:'Cairo',system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;ba
 :root[data-theme="dark"] .sync.warn,:root[data-theme="dark"] .sync.info{background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.35);color:#fcd34d}
 :root[data-theme="dark"] .sync.ok{background:rgba(16,185,129,.1);border-color:rgba(46,230,170,.35);color:#6ee7b7}
 :root[data-theme="dark"] .sec h2{color:#cfe6f7}
-:root[data-theme="dark"] .sec h2 .ic{color:#4da3ff}
+:root[data-theme="dark"] .sec h2 .ic{color:#38bdf8}
 :root[data-theme="dark"] .sc,:root[data-theme="dark"] .qa{background:rgba(16,32,48,.72);border:1px solid var(--line);color:var(--text);box-shadow:0 8px 24px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 :root[data-theme="dark"] .sc .bar{box-shadow:0 0 14px currentColor}
-:root[data-theme="dark"] .sc.blue .chipi{background:rgba(59,130,246,.16);color:#6aa8ff}
-:root[data-theme="dark"] .sc.indigo .chipi{background:rgba(99,102,241,.18);color:#a5a8ff}
+:root[data-theme="dark"] .sc.blue .chipi{background:rgba(14,165,233,.16);color:#7dd3fc}
+:root[data-theme="dark"] .sc.indigo .chipi{background:rgba(56,189,248,.18);color:#7dd3fc}
 :root[data-theme="dark"] .sc.amber .chipi{background:rgba(245,158,11,.16);color:#fbbf24}
 :root[data-theme="dark"] .sc.emerald .chipi{background:rgba(16,185,129,.16);color:#34e0a6}
 :root[data-theme="dark"] .sc.rose .chipi{background:rgba(244,63,94,.16);color:#ff7a92}
@@ -239,19 +239,19 @@ body{font-family:'Cairo',system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;ba
 :root[data-theme="dark"] .sc .v{color:#f1f9ff}
 :root[data-theme="dark"] .qa .chipq{background:rgba(255,255,255,.06);color:#9fd8ee}
 :root[data-theme="dark"] .qa{color:#d6e9f7}
-:root[data-theme="dark"] .qa.main,:root[data-theme="dark"] .primary{background:linear-gradient(135deg,#2f7bf0,#4da3ff);color:#04122b;border:0;box-shadow:0 0 22px rgba(77,163,255,.35)}
+:root[data-theme="dark"] .qa.main,:root[data-theme="dark"] .primary{background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#04122b;border:0;box-shadow:0 0 22px rgba(56,189,248,.35)}
 :root[data-theme="dark"] .qa.main .chipq{background:rgba(4,18,43,.25);color:#04122b}
 :root[data-theme="dark"] .hchips button{background:rgba(16,32,48,.7);color:#cfe6f7;border-color:var(--line)}
-:root[data-theme="dark"] .hchips button.on{background:rgba(77,163,255,.16);color:#4da3ff;border-color:rgba(77,163,255,.55);box-shadow:0 0 16px rgba(77,163,255,.3)}
+:root[data-theme="dark"] .hchips button.on{background:rgba(56,189,248,.16);color:#38bdf8;border-color:rgba(56,189,248,.55);box-shadow:0 0 16px rgba(56,189,248,.3)}
 :root[data-theme="dark"] .nav{background:rgba(8,20,32,.82);border:1px solid var(--line);box-shadow:0 12px 34px rgba(0,0,0,.55)}
 :root[data-theme="dark"] .nav button{color:#7f99ae}
-:root[data-theme="dark"] .nav button.on{background:rgba(77,163,255,.12);color:#4da3ff;box-shadow:inset 0 0 0 1px rgba(77,163,255,.3)}
-:root[data-theme="dark"] .second{background:var(--soft);color:var(--accent);border:1px solid rgba(77,163,255,.25)}
+:root[data-theme="dark"] .nav button.on{background:rgba(56,189,248,.12);color:#38bdf8;box-shadow:inset 0 0 0 1px rgba(56,189,248,.3)}
+:root[data-theme="dark"] .second{background:var(--soft);color:var(--accent);border:1px solid rgba(56,189,248,.25)}
 :root[data-theme="dark"] .seg button{background:rgba(255,255,255,.06);color:var(--text)}
-:root[data-theme="dark"] .seg button.on{background:rgba(77,163,255,.18);color:#4da3ff;box-shadow:inset 0 0 0 1px rgba(77,163,255,.45)}
+:root[data-theme="dark"] .seg button.on{background:rgba(56,189,248,.18);color:#38bdf8;box-shadow:inset 0 0 0 1px rgba(56,189,248,.45)}
 :root[data-theme="dark"] .stbtn,:root[data-theme="dark"] .lbtn{background:rgba(255,255,255,.07);color:var(--text)}
-:root[data-theme="dark"] .lbtn{color:#4da3ff}
-:root[data-theme="dark"] .badge2.reg,:root[data-theme="dark"] .stbtn.on.reg{background:rgba(59,130,246,.2);color:#8bbcff}
+:root[data-theme="dark"] .lbtn{color:#38bdf8}
+:root[data-theme="dark"] .badge2.reg,:root[data-theme="dark"] .stbtn.on.reg{background:rgba(14,165,233,.2);color:#8bbcff}
 :root[data-theme="dark"] .badge2.pending,:root[data-theme="dark"] .stbtn.on.pending{background:rgba(245,158,11,.18);color:#fcd34d}
 :root[data-theme="dark"] .badge2.done,:root[data-theme="dark"] .stbtn.on.done{background:rgba(16,185,129,.18);color:#6ee7b7}
 :root[data-theme="dark"] .badge2.ret,:root[data-theme="dark"] .stbtn.on.ret{background:rgba(244,63,94,.18);color:#ff9aa9}
@@ -262,27 +262,27 @@ body{font-family:'Cairo',system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;ba
 :root[data-theme="dark"] .pcard.c0,:root[data-theme="dark"] .pcard.c1,:root[data-theme="dark"] .pcard.c2,:root[data-theme="dark"] .pcard.c3{background:var(--card)}
 :root[data-theme="dark"] .pcard *{color:var(--text)}
 :root[data-theme="dark"] .pcard .m span,:root[data-theme="dark"] .pcard .m{color:var(--muted)!important}
-:root[data-theme="dark"] .pcard.on{border-color:#4da3ff;box-shadow:0 0 18px rgba(77,163,255,.3)}
-:root[data-theme="dark"] .pcard .badge{background:#4da3ff;color:#04222a!important}
-:root[data-theme="dark"] #toast{background:#0b1a29!important;color:#e6f1fb!important;border:1px solid rgba(77,163,255,.35);box-shadow:0 10px 30px rgba(0,0,0,.6)!important}
+:root[data-theme="dark"] .pcard.on{border-color:#38bdf8;box-shadow:0 0 18px rgba(56,189,248,.3)}
+:root[data-theme="dark"] .pcard .badge{background:#38bdf8;color:#04222a!important}
+:root[data-theme="dark"] #toast{background:#0b1a29!important;color:#e6f1fb!important;border:1px solid rgba(56,189,248,.35);box-shadow:0 10px 30px rgba(0,0,0,.6)!important}
 :root[data-theme="dark"] .dcard .dbal{color:#ff9a90}:root[data-theme="dark"] .dcard .dbal.ok,:root[data-theme="dark"] .entry.pay b{color:#6ee7b7}:root[data-theme="dark"] .entry.debt b{color:#ff9a90}
 :root[data-theme="dark"] input,:root[data-theme="dark"] textarea,:root[data-theme="dark"] select{background:var(--field);color:var(--text);border-color:var(--line)}
-:root[data-theme="dark"] input:focus,:root[data-theme="dark"] textarea:focus,:root[data-theme="dark"] select:focus{outline:2px solid rgba(77,163,255,.7)}
-:root[data-theme="dark"] .pos,:root[data-theme="dark"] .ok{color:#4da3ff}
+:root[data-theme="dark"] input:focus,:root[data-theme="dark"] textarea:focus,:root[data-theme="dark"] select:focus{outline:2px solid rgba(56,189,248,.7)}
+:root[data-theme="dark"] .pos,:root[data-theme="dark"] .ok{color:#38bdf8}
 :root[data-theme="dark"] .tl{background:var(--card);color:var(--text);border:1px solid var(--line)}
 :root[data-theme="dark"] .tl.c1,:root[data-theme="dark"] .tl.c2,:root[data-theme="dark"] .tl.c3,:root[data-theme="dark"] .tl.c4{background:var(--card)}
 :root[data-theme="dark"] .tl .k{color:var(--muted)}
-:root[data-theme="dark"] .tl .ic,:root[data-theme="dark"] .hero h1 .ic{color:#4da3ff}
-:root[data-theme="dark"] .tl.c1 .ic{color:#34e0a6}:root[data-theme="dark"] .tl.c2 .ic{color:#a5a8ff}:root[data-theme="dark"] .tl.c3 .ic{color:#fbbf24}:root[data-theme="dark"] .tl.c4 .ic{color:#ff7a92}
+:root[data-theme="dark"] .tl .ic,:root[data-theme="dark"] .hero h1 .ic{color:#38bdf8}
+:root[data-theme="dark"] .tl.c1 .ic{color:#34e0a6}:root[data-theme="dark"] .tl.c2 .ic{color:#7dd3fc}:root[data-theme="dark"] .tl.c3 .ic{color:#fbbf24}:root[data-theme="dark"] .tl.c4 .ic{color:#ff7a92}
 :root[data-theme="dark"] .stat{background:var(--card)}
 :root[data-theme="dark"] .stats .stat:nth-child(n){background:var(--card)}
 :root[data-theme="dark"] .stats .stat span,:root[data-theme="dark"] .stats .stat b{color:var(--text)}
-:root[data-theme="dark"] .stats .stat b.pos{color:#4da3ff}
+:root[data-theme="dark"] .stats .stat b.pos{color:#38bdf8}
 :root[data-theme="dark"] th{color:var(--muted)}
 
 /* ===== لوحات عصرية ===== */
-:root{--s-reg:#3b82f6;--s-pending:#f59e0b;--s-done:#10b981;--s-ret:#f43f5e;--glow:rgba(37,99,235,.18)}
-:root[data-theme="dark"]{--s-reg:#5aa2ff;--s-pending:#fbbf24;--s-done:#34e0a6;--s-ret:#ff7a92;--glow:rgba(77,163,255,.25)}
+:root{--s-reg:#0ea5e9;--s-pending:#f59e0b;--s-done:#10b981;--s-ret:#f43f5e;--glow:rgba(14,165,233,.18)}
+:root[data-theme="dark"]{--s-reg:#5aa2ff;--s-pending:#fbbf24;--s-done:#34e0a6;--s-ret:#ff7a92;--glow:rgba(56,189,248,.25)}
 .sh{display:flex;align-items:center;gap:8px;font-weight:800;font-size:.95rem}
 .sh .ic{display:flex;width:30px;height:30px;border-radius:10px;align-items:center;justify-content:center;background:var(--soft);color:var(--accent);font-size:1.05rem;flex:none}
 summary.sh{list-style:none}summary.sh::-webkit-details-marker{display:none}
@@ -325,7 +325,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .pcard.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--glow)}
 .pcard .t{gap:10px;font-weight:800}
 .pcard .pn{flex:1}
-.pav{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;background:linear-gradient(135deg,#2563eb,#6366f1);flex:none}
+.pav{width:40px;height:40px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;background:linear-gradient(135deg,#0ea5e9,#38bdf8);flex:none}
 .pcard.c1 .pav{background:linear-gradient(135deg,#059669,#10b981)}.pcard.c2 .pav{background:linear-gradient(135deg,#7c3aed,#a855f7)}.pcard.c3 .pav{background:linear-gradient(135deg,#d97706,#f59e0b)}
 .pcard .m{gap:8px;margin-top:10px}
 .pchip{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:.74rem;color:var(--muted)}
@@ -343,7 +343,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .kbar i{display:block;height:100%;border-radius:99px;transition:width .4s}
 .kbar i.g{background:linear-gradient(90deg,#10b981,#34e0a6)}.kbar i.a{background:linear-gradient(90deg,#f59e0b,#fbbf24)}.kbar i.r{background:linear-gradient(90deg,#f43f5e,#ff7a92)}
 /* الديون */
-.debthero{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#7c3aed,#4f46e5);box-shadow:0 12px 28px rgba(79,70,229,.3);border-radius:24px;padding:18px 20px}
+.debthero{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#7c3aed,#0284c7);box-shadow:0 12px 28px rgba(79,70,229,.3);border-radius:24px;padding:18px 20px}
 .debthero .dico{display:flex;width:52px;height:52px;border-radius:18px;align-items:center;justify-content:center;background:rgba(255,255,255,.18);font-size:1.6rem;flex:none}
 .debthero>div{display:flex;flex-direction:column}
 .debthero>div>b{font-size:1.9rem;margin:0;line-height:1.2}
@@ -357,15 +357,15 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 :root[data-theme="dark"] .debthero{background:linear-gradient(135deg,rgba(124,58,237,.35),rgba(46,160,230,.25));border:1px solid rgba(165,140,255,.35);box-shadow:0 0 0 1px rgba(124,58,237,.1),0 14px 36px rgba(0,0,0,.5),0 0 34px rgba(124,58,237,.2)}
 :root[data-theme="dark"] .debthero>div>b{text-shadow:0 0 18px rgba(190,170,255,.5)}
 :root[data-theme="dark"] .ocard .of span,:root[data-theme="dark"] .grow,:root[data-theme="dark"] .pcard,:root[data-theme="dark"] .pchip,:root[data-theme="dark"] .ostseg{background:rgba(255,255,255,.04)}
-:root[data-theme="dark"] .pcard.on{border-color:rgba(77,163,255,.6)}
+:root[data-theme="dark"] .pcard.on{border-color:rgba(56,189,248,.6)}
 :root[data-theme="dark"] .ostseg .stbtn.on.pending{color:#3b2a05}
-:root[data-theme="dark"] .sh .ic{background:rgba(77,163,255,.12);color:#4da3ff}
+:root[data-theme="dark"] .sh .ic{background:rgba(56,189,248,.12);color:#38bdf8}
 
 .toolgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 4px}
 .tool{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px;border-radius:18px;background:var(--soft);color:var(--accent);border:1px solid var(--line);font-size:.82rem;font-weight:700;margin:0;width:auto}
 .tool .ic{display:flex;font-size:1.5rem}
-.tool.main{background:linear-gradient(135deg,#2563eb,#4f46e5);color:#fff;border:0;box-shadow:0 8px 20px rgba(37,99,235,.28)}
-:root[data-theme="dark"] .tool.main{background:linear-gradient(135deg,#2f7bf0,#4da3ff);color:#04122b;box-shadow:0 0 22px rgba(77,163,255,.3)}
+.tool.main{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border:0;box-shadow:0 8px 20px rgba(14,165,233,.28)}
+:root[data-theme="dark"] .tool.main{background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#04122b;box-shadow:0 0 22px rgba(56,189,248,.3)}
 .exptools{margin-top:12px;border-top:1px dashed var(--line);padding-top:12px}
 .exptools[open] summary{margin-bottom:6px}
 
@@ -379,23 +379,23 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .spk svg{flex:1;height:58px;overflow:visible}
 .spm{flex:none;text-align:center;font-size:.7rem;opacity:.9}
 .spm b{direction:ltr;unicode-bidi:isolate;display:block;font-size:1.05rem;font-weight:800}.spm b.up{color:#6ee7b7}.spm b.dn{color:#fda4af}
-:root[data-theme="dark"] .spk{color:#4da3ff}
-:root[data-theme="dark"] .spk svg path#h_spl{filter:drop-shadow(0 0 5px rgba(77,163,255,.7))}
+:root[data-theme="dark"] .spk{color:#38bdf8}
+:root[data-theme="dark"] .spk svg path#h_spl{filter:drop-shadow(0 0 5px rgba(56,189,248,.7))}
 .dash{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px 12px;padding:4px 16px 8px;scrollbar-width:none}
 .dash::-webkit-scrollbar{display:none}
 .dp{flex:0 0 84%;scroll-snap-align:center;background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 6px 22px rgba(15,23,42,.07)}
 .dph{display:flex}
-.dpt{display:inline-block;padding:7px 18px;border-radius:999px;font-weight:800;font-size:.95rem;color:var(--text);background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(90deg,#2563eb,#10b981) border-box;border:2px solid transparent}
+.dpt{display:inline-block;padding:7px 18px;border-radius:999px;font-weight:800;font-size:.95rem;color:var(--text);background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(90deg,#0ea5e9,#10b981) border-box;border:2px solid transparent}
 .dpb{display:flex;gap:10px;align-items:stretch;flex:1}
-.dtile{flex:0 0 38%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--field);border:1px solid var(--line);border-radius:20px;padding:14px 6px;cursor:pointer;border-top:3px solid #3b82f6}
-.dtile .ic{display:flex;font-size:1.9rem;color:#3b82f6;margin-bottom:4px}
+.dtile{flex:0 0 38%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--field);border:1px solid var(--line);border-radius:20px;padding:14px 6px;cursor:pointer;border-top:3px solid #0ea5e9}
+.dtile .ic{display:flex;font-size:1.9rem;color:#0ea5e9;margin-bottom:4px}
 .dtile b{font-size:1.9rem;font-weight:800;line-height:1.1}.dtile small{color:var(--muted);font-size:.72rem;font-weight:600}
 .dstk{flex:1;background:var(--field);border:1px solid var(--line);border-radius:20px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
 .dsh{display:flex;align-items:baseline;gap:6px;font-size:.78rem;font-weight:700}.dsh b{font-size:1.05rem}.dsh small{color:var(--muted)}
 .dbars{display:flex;align-items:flex-end;gap:6px;height:56px;flex:1}
 .dbar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:3px;min-width:0}
 .dbar i{width:100%;border-radius:5px 5px 2px 2px;display:block}
-.dbar i.b0{background:linear-gradient(#3b82f6,#6366f1)}.dbar i.b1{background:linear-gradient(#10b981,#34d399)}.dbar i.b2{background:linear-gradient(#f59e0b,#fbbf24)}
+.dbar i.b0{background:linear-gradient(#0ea5e9,#38bdf8)}.dbar i.b1{background:linear-gradient(#10b981,#34d399)}.dbar i.b2{background:linear-gradient(#f59e0b,#fbbf24)}
 .dbar span{font-size:.55rem;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .dleg{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;font-weight:600}
 .dleg b{font-weight:800}
@@ -411,13 +411,13 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .tstrip{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px 16px;margin-bottom:14px;cursor:pointer;box-shadow:0 4px 16px rgba(15,23,42,.05)}
 .tstrip>b{font-size:1rem}.tstrip span{font-size:.8rem;color:var(--muted)}.tstrip span b{color:var(--accent);font-size:.95rem}
 :root[data-theme="dark"] .dp{background:linear-gradient(160deg,rgba(18,40,60,.85),rgba(9,22,36,.9));border-color:rgba(120,220,255,.22);box-shadow:0 14px 36px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(14px)}
-:root[data-theme="dark"] .dpt{background:linear-gradient(#0b1b2b,#0b1b2b) padding-box,linear-gradient(90deg,#3b82f6,#4da3ff) border-box;box-shadow:0 0 18px rgba(77,163,255,.25)}
+:root[data-theme="dark"] .dpt{background:linear-gradient(#0b1b2b,#0b1b2b) padding-box,linear-gradient(90deg,#0ea5e9,#38bdf8) border-box;box-shadow:0 0 18px rgba(56,189,248,.25)}
 :root[data-theme="dark"] .dtile,:root[data-theme="dark"] .dstk,:root[data-theme="dark"] .dnut,:root[data-theme="dark"] .dring{background:rgba(255,255,255,.04)}
-:root[data-theme="dark"] .dtile{border-top-color:#4da3ff}:root[data-theme="dark"] .dtile .ic{color:#4da3ff}
-:root[data-theme="dark"] .dpbtn{background:linear-gradient(135deg,#2f7bf0,#4da3ff);color:#04122b;border:0;box-shadow:0 0 20px rgba(77,163,255,.3)}
-:root[data-theme="dark"] .dring{color:#4da3ff}
+:root[data-theme="dark"] .dtile{border-top-color:#38bdf8}:root[data-theme="dark"] .dtile .ic{color:#38bdf8}
+:root[data-theme="dark"] .dpbtn{background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#04122b;border:0;box-shadow:0 0 20px rgba(56,189,248,.3)}
+:root[data-theme="dark"] .dring{color:#38bdf8}
 :root[data-theme="dark"] .tstrip{background:rgba(16,32,48,.72);border-color:rgba(120,220,255,.2);backdrop-filter:blur(12px)}
-:root[data-theme="dark"] .tstrip span b{color:#4da3ff}
+:root[data-theme="dark"] .tstrip span b{color:#38bdf8}
 
 .dbars{height:70px;flex:none}
 .dstk{justify-content:space-between}
@@ -461,7 +461,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 /* v4.30 أعمدة الصفحات */
 .pbars{display:flex;gap:10px;overflow-x:auto;padding:6px 2px 10px;align-items:flex-end}
 .pcol{flex:1 0 74px;max-width:120px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:8px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:var(--text)}
-.pcol.on{border-color:var(--accent);box-shadow:0 0 0 2px rgba(59,130,246,.25)}
+.pcol.on{border-color:var(--accent);box-shadow:0 0 0 2px rgba(14,165,233,.25)}
 .pcol .ptr{width:26px;height:84px;display:flex;align-items:flex-end;background:rgba(120,140,170,.12);border-radius:8px;overflow:hidden;margin-bottom:4px}
 .pcol .pst{width:100%;display:flex;flex-direction:column-reverse;border-radius:8px;overflow:hidden}
 .pcol .sg{display:block;width:100%}.pcol .sg.d{background:#22c55e}.pcol .sg.a{background:#f59e0b}.pcol .sg.r{background:#ef4444}
@@ -476,7 +476,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .sc .chipi svg{width:100%;height:100%;filter:drop-shadow(0 8px 6px rgba(40,50,80,.28))}
 .sc .v{font-size:1.45rem!important}
 .sc .k{font-size:.8rem!important;color:#334155!important;font-weight:700}
-.sc.blue{background:linear-gradient(160deg,#fff,#e6efff)!important}
+.sc.blue{background:linear-gradient(160deg,#fff,#e0f2fe)!important}
 .sc.cardb{background:linear-gradient(160deg,#fff,#fbeedd)!important}
 .sc.amber{background:linear-gradient(160deg,#fff,#ffefd6)!important}
 .sc.emerald{background:linear-gradient(160deg,#fff,#e2f6ec)!important}
@@ -500,6 +500,56 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 .prow{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:.88rem}
 .prow b{font-weight:800}.pblk{margin:6px 0 14px}.pblk h3{margin:6px 0;font-size:.95rem}
 :root[data-theme="dark"] .sc .chipi svg,:root[data-theme="dark"] .qa .chipq svg{filter:drop-shadow(0 4px 6px rgba(0,0,0,.45))}
+
+/* ===== v4.49: خط رفيع مثل الآيفون + لون سمائي + ترتيب جديد ===== */
+:root{--bg:#f2f9fe;--accent:#0ea5e9;--accent-t:#fff;--soft:#e0f2fe;--line:#dcecf7;--glow:rgba(14,165,233,.18);--s-reg:#0ea5e9}
+:root[data-theme="dark"]{--accent:#38bdf8;--accent-t:#04222a;--soft:rgba(56,189,248,.12)}
+body{font-family:"Inter","IBM Plex Sans Arabic",-apple-system,"SF Pro Text","SF Arabic",system-ui,sans-serif!important;font-weight:400;-webkit-font-smoothing:antialiased;letter-spacing:-.005em}
+button,input,select,textarea{font-family:inherit!important}
+body *:not(b):not(strong):not(h1):not(h2):not(h3):not(svg):not(svg *){font-weight:400!important}
+b,strong{font-weight:500!important}
+h1,h2,h3,.dpt,.qch,.tstrip>b{font-weight:600!important}
+.qa,.sc .k,.seg button.on,.hchips button.on,.nav button.on,.primary,.stbtn.on,.badge2,.pill{font-weight:500!important}
+.sc .v,.amt b,.dtile b,.subs2 p b,.pay b,#payd_n,#payu_n,#h_done{font-weight:400!important;letter-spacing:-.02em}
+.primary{background:linear-gradient(135deg,#38bdf8,#0ea5e9)!important;color:#fff!important;box-shadow:0 6px 16px rgba(14,165,233,.28)}
+.hero .logo{background:linear-gradient(135deg,#38bdf8,#0ea5e9)!important;box-shadow:0 6px 16px rgba(14,165,233,.3)!important}
+.hchips button.on{background:#0ea5e9!important;border-color:#0ea5e9!important}
+/* اللوحة الزرقاء: مصغّرة لربع حجمها */
+.hero2{background:linear-gradient(135deg,#38bdf8,#0ea5e9)!important;padding:10px 14px!important;border-radius:18px!important;margin-bottom:10px!important;box-shadow:0 6px 16px rgba(14,165,233,.25)!important;display:grid;grid-template-columns:1fr auto;grid-template-areas:"pill spk" "amt spk" "subs subs";column-gap:10px;align-items:center}
+.hero2:before{display:none!important}
+.hero2 .pill{grid-area:pill;background:none!important;border:0!important;padding:0!important;font-size:.66rem!important;opacity:.92;justify-self:start}
+.hero2 .pill .ic{font-size:.8rem!important}
+.hero2 .amt{grid-area:amt;margin:0!important;gap:4px}
+.hero2 .amt b{font-size:1.45rem!important;text-shadow:none!important}
+.hero2 em{font-size:.62rem!important}
+.hero2 .spk{grid-area:spk;margin:0!important;width:118px;gap:6px;align-items:center}
+.hero2 .spk svg{height:34px!important}
+.hero2 .spm{font-size:.55rem!important;line-height:1.2}.hero2 .spm b{font-size:.78rem!important}
+.hero2 .subs2{grid-area:subs;display:flex!important;justify-content:space-between;gap:8px;margin-top:6px!important;padding-top:6px!important}
+.hero2 .subs2>div{display:flex;align-items:center;gap:5px;min-width:0}
+.hero2 .subs2 .sl{margin:0!important;font-size:.6rem!important;white-space:nowrap}
+.hero2 .subs2 .sl .ic{font-size:.72rem!important}
+.hero2 .subs2 p{font-size:.74rem!important;white-space:nowrap}.hero2 .subs2 p em{font-size:.55rem!important}
+:root[data-theme="dark"] .hero2{background:linear-gradient(160deg,rgba(14,52,78,.92),rgba(8,26,42,.94))!important}
+/* الاختصارات السريعة: لوحة وحدة */
+.qcard{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:12px 10px 8px;margin:14px 0;box-shadow:0 4px 14px rgba(14,165,233,.07)}
+.qch{display:flex;align-items:center;gap:7px;font-size:.88rem;margin:0 4px 8px;color:var(--text)}
+.qch .ic{display:flex;color:#0ea5e9;font-size:1rem}
+.qgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px 2px}
+.qgrid .qa{background:none!important;border:0!important;box-shadow:none!important;padding:8px 2px!important;gap:6px!important;font-size:.66rem!important;color:var(--text)!important;border-radius:14px!important;line-height:1.25;text-align:center}
+.qgrid .qa:active{background:var(--soft)!important}
+.qgrid .qa .chipq{width:44px!important;height:44px!important;border-radius:14px!important;font-size:1.2rem!important}
+.qgrid .qa.main .chipq{--c:#0ea5e9!important;--c2:#7dd3fc!important}
+:root[data-theme="dark"] .qcard{background:rgba(16,32,48,.72)}
+.hero2 .subs2>div{background:none!important;border:0!important;padding:0!important;box-shadow:none!important;border-radius:0!important}
+.hero2 .subs2{border-top:1px solid rgba(255,255,255,.22)!important}
+.hero2 .spk{color:#fff}
+.qgrid .qa.main .chipq,.qgrid .qa.main .chipq.gi{background:linear-gradient(135deg,#7dd3fc,#0ea5e9)!important;color:#fff!important;box-shadow:0 4px 10px rgba(14,165,233,.3)!important}
+.tstrip>b{white-space:nowrap}
+.hchips button.on{color:#fff!important}
+:root[data-theme="dark"] .hero .logo{color:#fff!important}
+/* لوحة المخزن صارت آخر شي */
+#h_dash{margin-top:16px}
 </style>
 </head>
 <body>
@@ -523,6 +573,39 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 <button class="second" id="paybtn" style="margin:6px 0 0;padding:8px">تحديد الطلبات المحاسب عليها</button>
 <div id="syncst" class="sync"><span class="ic" data-ic="database"></span><span id="synctx"></span></div>
+<div class="sec"><h2><span class="ic" data-ic="grid"></span>حالة الطلبات</h2></div>
+<div class="grid3 st">
+<button class="sc blue" data-t="today"><i class="bar"></i><span class="chipi iso" data-iso="calendar" data-col="#0ea5e9"></span><b class="v" id="h_tod">0</b><span class="k">طلبات اليوم</span></button>
+<button class="sc cardb" data-t="all"><i class="bar"></i><span class="chipi iso" data-iso="box" data-col="#c99259"></span><b class="v" id="h_all">0</b><span class="k">كل الطلبات</span></button>
+<button class="sc blue" data-t="reg"><i class="bar"></i><span class="chipi iso" data-iso="regd" data-col="#38bdf8"></span><b class="v" id="h_reg">0</b><span class="k">مسجلة</span></button>
+<button class="sc amber" data-t="pending"><i class="bar"></i><span class="chipi iso" data-iso="truck" data-col="#ef7d3a"></span><b class="v" id="h_pending">0</b><span class="k">قيد التوصيل</span></button>
+<button class="sc emerald" data-t="done"><i class="bar"></i><span class="chipi iso" data-iso="check" data-col="#2fb47a"></span><b class="v" id="h_deliv">0</b><span class="k">وصلت</span></button>
+<button class="sc rose" data-t="ret"><i class="bar"></i><span class="chipi iso" data-iso="undo" data-col="#e85d5d"></span><b class="v" id="h_ret">0</b><span class="k">راجعة</span></button>
+<button class="sc teal" id="proftile"><i class="bar"></i><span class="chipi iso" data-iso="coin" data-col="#14b8a6"></span><b class="v" id="h_prof">0</b><span class="k">الأرباح</span></button>
+<button class="sc purple" data-go="debts"><i class="bar"></i><span class="chipi iso" data-iso="wallet" data-col="#8b5cf6"></span><b class="v" id="h_debt">0</b><span class="k">ديون لي</span></button>
+</div>
+<div class="tstrip" data-go="orders"><b>حالة الطلبات اليوم</b><span><b id="t_pend">0</b> قيد التوصيل · <b id="t_ret">0</b> راجعة · <b id="t_done">0</b> وصلت</span></div>
+<div class="lowbar" id="lowbar" data-go="stock" hidden></div>
+<button class="second" id="repbtn" style="margin:8px 0 0">📋 تقرير اليوم (نسخ / واتساب)</button>
+<div class="card" id="repbox" hidden><textarea id="reptxt" rows="9" style="direction:rtl"></textarea>
+<div class="row"><button class="primary" id="repcopy">نسخ</button><button class="second" id="repwa">إرسال بالواتساب</button></div><div class="hint" id="repmsg"></div></div>
+<div class="qcard"><div class="qch"><span class="ic" data-ic="zap"></span>اختصارات سريعة</div>
+<div class="qgrid">
+<button class="qa main" data-go="new"><span class="chipq gi ic" data-ic="plus" style="--c:#0ea5e9;--c2:#7dd3fc"></span>طلب جديد</button>
+<button class="qa" data-go="orders"><span class="chipq gi ic" data-ic="orders" style="--c:#0891b2;--c2:#22d3ee"></span>الطلبات</button>
+<button class="qa" data-go="pages"><span class="chipq gi ic" data-ic="file" style="--c:#ea580c;--c2:#fbbf24"></span>الصفحات</button>
+<button class="qa" data-go="goods"><span class="chipq gi ic" data-ic="tag" style="--c:#db2777;--c2:#f472b6"></span>البضاعة</button>
+<button class="qa" data-go="stock"><span class="chipq gi ic" data-ic="stock" style="--c:#65a30d;--c2:#a3e635"></span>المخزن</button>
+<button class="qa" data-go="debts"><span class="chipq gi ic" data-ic="wallet" style="--c:#9333ea;--c2:#c084fc"></span>الديون</button>
+<button class="qa" id="qzj"><span class="chipq gi ic" data-ic="truck" style="--c:#b91c1c;--c2:#f87171"></span>ربط زاجل</button>
+<button class="qa" id="qacct"><span class="chipq gi ic" data-ic="user" style="--c:#0369a1;--c2:#38bdf8"></span>الحساب والربط</button>
+<button class="qa" id="qbk"><span class="chipq gi ic" data-ic="database" style="--c:#0d9488;--c2:#2dd4bf"></span>النسخ الاحتياطي</button>
+<button class="qa" id="qupd"><span class="chipq gi ic" data-ic="download" style="--c:#0284c7;--c2:#7dd3fc"></span>تحديث التطبيق</button>
+<button class="qa" id="coqa"><span class="chipq gi ic" data-ic="refresh" style="--c:#e11d48;--c2:#fb7185"></span>تحديث الحالات</button>
+</div></div>
+<h3>الصفحات (اضغط لعرض صفحة وحدها)</h3>
+<div class="hint" style="font-size:.7rem;margin:-4px 0 4px">🟩 وصلت &nbsp; 🟧 قيد التوصيل/مسجلة &nbsp; 🟥 راجعة — الارتفاع = عدد الطلبات</div>
+<div id="h_pages"></div>
 <div class="dash" id="h_dash">
 <div class="dp">
 <div class="dph"><span class="dpt">الطلبات والمخزون</span></div>
@@ -542,39 +625,6 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="dpbtn" data-go="orders">عرض كل الطلبات</button>
 </div>
 </div>
-<div class="tstrip" data-go="orders"><b>حالة الطلبات اليوم</b><span><b id="t_pend">0</b> قيد التوصيل · <b id="t_ret">0</b> راجعة · <b id="t_done">0</b> وصلت</span></div>
-<div class="lowbar" id="lowbar" data-go="stock" hidden></div>
-<button class="second" id="repbtn" style="margin:8px 0 0">📋 تقرير اليوم (نسخ / واتساب)</button>
-<div class="card" id="repbox" hidden><textarea id="reptxt" rows="9" style="direction:rtl"></textarea>
-<div class="row"><button class="primary" id="repcopy">نسخ</button><button class="second" id="repwa">إرسال بالواتساب</button></div><div class="hint" id="repmsg"></div></div>
-<div class="sec"><h2><span class="ic" data-ic="grid"></span>حالة الطلبات</h2></div>
-<div class="grid3 st">
-<button class="sc blue" data-t="today"><i class="bar"></i><span class="chipi iso" data-iso="calendar" data-col="#3b82f6"></span><b class="v" id="h_tod">0</b><span class="k">طلبات اليوم</span></button>
-<button class="sc cardb" data-t="all"><i class="bar"></i><span class="chipi iso" data-iso="box" data-col="#c99259"></span><b class="v" id="h_all">0</b><span class="k">كل الطلبات</span></button>
-<button class="sc blue" data-t="reg"><i class="bar"></i><span class="chipi iso" data-iso="regd" data-col="#5b8def"></span><b class="v" id="h_reg">0</b><span class="k">مسجلة</span></button>
-<button class="sc amber" data-t="pending"><i class="bar"></i><span class="chipi iso" data-iso="truck" data-col="#ef7d3a"></span><b class="v" id="h_pending">0</b><span class="k">قيد التوصيل</span></button>
-<button class="sc emerald" data-t="done"><i class="bar"></i><span class="chipi iso" data-iso="check" data-col="#2fb47a"></span><b class="v" id="h_deliv">0</b><span class="k">وصلت</span></button>
-<button class="sc rose" data-t="ret"><i class="bar"></i><span class="chipi iso" data-iso="undo" data-col="#e85d5d"></span><b class="v" id="h_ret">0</b><span class="k">راجعة</span></button>
-<button class="sc teal" id="proftile"><i class="bar"></i><span class="chipi iso" data-iso="coin" data-col="#14b8a6"></span><b class="v" id="h_prof">0</b><span class="k">الأرباح</span></button>
-<button class="sc purple" data-go="debts"><i class="bar"></i><span class="chipi iso" data-iso="wallet" data-col="#8b5cf6"></span><b class="v" id="h_debt">0</b><span class="k">ديون لي</span></button>
-</div>
-<div class="sec"><h2><span class="ic" data-ic="zap"></span>اختصارات سريعة</h2></div>
-<div class="grid3">
-<button class="qa main" data-go="new"><span class="chipq gi ic" data-ic="plus" style="--c:#2563eb;--c2:#60a5fa"></span>طلب جديد</button>
-<button class="qa" data-go="orders"><span class="chipq gi ic" data-ic="orders" style="--c:#0891b2;--c2:#22d3ee"></span>الطلبات</button>
-<button class="qa" data-go="pages"><span class="chipq gi ic" data-ic="file" style="--c:#ea580c;--c2:#fbbf24"></span>الصفحات</button>
-<button class="qa" data-go="goods"><span class="chipq gi ic" data-ic="tag" style="--c:#db2777;--c2:#f472b6"></span>البضاعة</button>
-<button class="qa" data-go="stock"><span class="chipq gi ic" data-ic="stock" style="--c:#65a30d;--c2:#a3e635"></span>المخزن</button>
-<button class="qa" data-go="debts"><span class="chipq gi ic" data-ic="wallet" style="--c:#9333ea;--c2:#c084fc"></span>الديون</button>
-<button class="qa" id="qzj"><span class="chipq gi ic" data-ic="truck" style="--c:#b91c1c;--c2:#f87171"></span>ربط زاجل</button>
-<button class="qa" id="qacct"><span class="chipq gi ic" data-ic="user" style="--c:#0369a1;--c2:#38bdf8"></span>الحساب والربط</button>
-<button class="qa" id="qbk"><span class="chipq gi ic" data-ic="database" style="--c:#0d9488;--c2:#2dd4bf"></span>النسخ الاحتياطي</button>
-<button class="qa" id="qupd"><span class="chipq gi ic" data-ic="download" style="--c:#4f46e5;--c2:#818cf8"></span>تحديث التطبيق</button>
-<button class="qa" id="coqa"><span class="chipq gi ic" data-ic="refresh" style="--c:#e11d48;--c2:#fb7185"></span>تحديث الحالات</button>
-</div>
-<h3>الصفحات (اضغط لعرض صفحة وحدها)</h3>
-<div class="hint" style="font-size:.7rem;margin:-4px 0 4px">🟩 وصلت &nbsp; 🟧 قيد التوصيل/مسجلة &nbsp; 🟥 راجعة — الارتفاع = عدد الطلبات</div>
-<div id="h_pages"></div>
 </section>
 
 <section id="s-stock" class="tab" hidden>
@@ -592,7 +642,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.48</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.49</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -760,7 +810,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div id="fbmsg" class="hint" style="margin-top:6px"></div>
 </div>
 <h3>الذكاء الاصطناعي (كلود) داخل التطبيق</h3>
-<div class="card"><div class="hint">للتطبيق على الموبايل: الصق مفتاح مجاني من Google (aistudio.google.com، يبدأ بـ AIza) أو مفتاح كلود (sk-ant). يتخزن على جهازك فقط.</div>
+<div class="card"><div class="hint">للتطبيق على الموبايل: الصق مفتاح مجاني من Google (aistudio.google.com، يبدأ بـ AIza) أو مفتاح كلود (sk-ant). يتخزن على جهازك فقط.<br>🧠 مع مفتاح كلود، المطابقة الذكية لشحنات زاجل تشتغل بـ <b>Claude Opus 5.5</b> (أذكى نموذج). مع مفتاح Google تشتغل بـ Gemini 2.5 Pro.</div>
 <input id="aikey" type="password" autocomplete="off" autocapitalize="off" style="direction:ltr;text-align:left" placeholder="AIza... أو sk-ant-...">
 <button class="primary" id="aikeysave" style="margin-top:8px">حفظ وتجربة الاتصال</button>
 <button class="ghost" id="aikeyclr" hidden>حذف المفتاح</button>
@@ -775,6 +825,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <button class="ghost" id="zjclr" hidden>حذف المفتاح</button>
 <button class="second" id="zjsend">إرسال الطلبات المسجّلة لزاجل</button>
 <button class="second" id="zjsync">تحديث الحالات من زاجل</button>
+<button class="second" id="zjai">🧠 مطابقة ذكية (Opus 5.5)</button><div id="zjaimsg" class="hint" style="margin-top:6px;white-space:pre-wrap"></div>
 <div id="zjmsg" class="hint" style="margin-top:8px;white-space:pre-wrap"></div><div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--bd,#d8e2f0)"><h3 style="font-size:1rem;margin:0 0 6px">⚡ تحديث مباشر (بدون ضغط تحديث)</h3>
 <div class="hint">ولّد رابط والصقه في زاجل بخانة «رابط التحديثات». أي تغيير حالة بزاجل يوصل التطبيق ويتحدّث الطلب لحاله.</div>
 <button class="primary" id="zhgen" style="margin-top:8px">توليد رابط التحديث المباشر</button>
@@ -811,7 +862,7 @@ a.lbtn{display:inline-flex;align-items:center;gap:6px}a.lbtn .ic{display:flex}
 <div class="modal" id="cosync" hidden><div class="sheet">
 <h2>تحديث الحالات من ملف الشركة</h2>
 <div id="coinfo" class="hint" style="margin:8px 0"></div>
-<div id="cosum" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0"></div>
+<div id="cosum" style="display:flex;flex-wrap:wrap;gap:8px;margin:8px 0"></div><div id="coai"></div>
 <details id="codet" style="margin:8px 0"><summary class="hint">تفاصيل التغييرات</summary><div id="colist" style="font-size:.8rem;max-height:240px;overflow:auto"></div></details>
 <button class="primary" id="cogo">تطبيق التحديث</button>
 <button class="second" id="cocancel">إلغاء</button>
@@ -1758,7 +1809,7 @@ function renderDash(L,today){
   var ks=Object.keys(gv).sort(function(a,b){return gv[b]-gv[a]}),top4=ks.slice(0,4),rest=ks.slice(4).reduce(function(a,k){return a+gv[k]},0),sum=0;
   var segs=top4.map(function(k){return [k,gv[k]]});if(rest)segs.push(["أخرى",rest]);segs.forEach(function(x){sum+=x[1]});
   var nut=$("d_nut");nut.querySelectorAll("circle.sg").forEach(function(c){c.remove()});
-  var cols=["#4da3ff","#5aa2ff","#fbbf24","#c58bff","#7f99ae"],off=0,lg=$("d_nleg");lg.innerHTML="";
+  var cols=["#38bdf8","#5aa2ff","#fbbf24","#c58bff","#7f99ae"],off=0,lg=$("d_nleg");lg.innerHTML="";
   segs.forEach(function(x,j){var pc=sum?x[1]/sum*100:0;var c=document.createElementNS("http://www.w3.org/2000/svg","circle");c.setAttribute("class","sg");c.setAttribute("cx","21");c.setAttribute("cy","21");c.setAttribute("r","15.9");c.setAttribute("fill","none");c.setAttribute("stroke",cols[j]);c.setAttribute("stroke-width","6");c.setAttribute("stroke-dasharray",Math.max(0,pc-1.2).toFixed(2)+" "+(100-Math.max(0,pc-1.2)).toFixed(2));c.setAttribute("stroke-dashoffset",(25-off).toFixed(2));nut.appendChild(c);off+=pc;
     var r=mk("div","dli");var dt=mk("i","dot");dt.style.background=cols[j];r.appendChild(dt);r.appendChild(mk("span",null,x[0]));r.appendChild(mk("b",null,String(Math.round(pc))+"%"));lg.appendChild(r)});
   if(!segs.length)lg.appendChild(mk("small",null,"ما فيه بيانات"));
@@ -2889,12 +2940,12 @@ start();
 /* ===== تعبئة ذكية بالذكاء الاصطناعي (تشتغل من رابط كلود فقط) ===== */
 function keySample(){var k="";try{k=localStorage.getItem("aikey_v1")||""}catch(e){}if(!k)return null;
   function nerr(){var er=new Error("تعذر الاتصال بالإنترنت");er.code="network";return er}
-  if(k.indexOf("sk-ant")===0)return async function(prompt,o){var r;try{r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:"claude-haiku-5-5",max_tokens:4096,messages:[{role:"user",content:String(prompt)}]})})}catch(e){throw nerr()}
+  if(k.indexOf("sk-ant")===0)return async function(prompt,o){var r;try{r=await fetch("https://api.anthropic.com/v1/messages",{method:"POST",headers:{"content-type":"application/json","x-api-key":k,"anthropic-version":"2023-06-01","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify({model:(o&&o.model)||"claude-haiku-5-5",max_tokens:(o&&o.max)||4096,messages:[{role:"user",content:String(prompt)}]})})}catch(e){throw nerr()}
     var j=null;try{j=await r.json()}catch(e){}
     if(!r.ok){var er2=new Error((j&&j.error&&j.error.message)||("HTTP "+r.status));er2.status=r.status;throw er2}
     return {text:((j.content||[]).map(function(x){return x.text||""}).join(""))}};
   /* Gemini (مجاني) */
-  return async function(prompt,o){var ms=["gemini-2.5-flash","gemini-2.5-flash-lite","gemini-flash-latest","gemini-2.0-flash"],last=null;
+  return async function(prompt,o){var ms=(o&&o.gmodels)||["gemini-2.5-flash","gemini-2.5-flash-lite","gemini-flash-latest","gemini-2.0-flash"],last=null;
     for(var i=0;i<ms.length;i++){var r,ac=new AbortController(),tm=setTimeout(function(){ac.abort()},20000);try{r=await fetch("https://generativelanguage.googleapis.com/v1beta/models/"+ms[i]+":generateContent",{method:"POST",signal:ac.signal,headers:{"content-type":"application/json","x-goog-api-key":k},body:JSON.stringify({contents:[{parts:[{text:String(prompt)}]}],generationConfig:{temperature:0.1}})});clearTimeout(tm)}catch(e){clearTimeout(tm);if(ac.signal.aborted){var te=new Error("انتهت المهلة (النموذج بطيء)");te.status=504;last=te;continue}throw nerr()}
       var j=null;try{j=await r.json()}catch(e){}
       if(r.ok){var c=(j&&j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts)||[];return {text:c.map(function(x){return x.text||""}).join("")}}
@@ -2977,7 +3028,7 @@ function keySample(){var k="";try{k=localStorage.getItem("aikey_v1")||""}catch(e
 </script>
 <script>
 (function(){var b=document.getElementById("themebtn");if(!b)return;
-function apply(t){document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("theme_v1",t)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(!m){m=document.createElement("meta");m.name="theme-color";document.head.appendChild(m)}m.content=t==="dark"?"#050d17":"#f1f5f9"}
+function apply(t){document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("theme_v1",t)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(!m){m=document.createElement("meta");m.name="theme-color";document.head.appendChild(m)}m.content=t==="dark"?"#050d17":"#f1f5f9";try{if(window.Android&&Android.setBar)Android.setBar(t==="dark"?"#050d17":"#ffffff",t!=="dark")}catch(e){}}
 apply(document.documentElement.getAttribute("data-theme")||"dark");
 b.onclick=function(){apply(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")};
 })();
@@ -3178,6 +3229,67 @@ function zjMatch(sh,open,used){
     }else{ if(!(linked||byRef))return;score=1}
     if(score>bs){bs=score;best=o}});
   return best}
+
+/* ===== ذكاء داخل التطبيق: مطابقة الشحنات الصعبة (v4.49 — Opus 5.5) ===== */
+function zjName(sh){var rc=sh.recipient||{};return String(sh.recipient_name||rc.name||sh.customer_name||sh.receiver_name||"").trim()}
+function phDist(a,b){a=String(a||"");b=String(b||"");if(!a||!b)return 99;var m=a.length,n=b.length,d=[],i,j;
+  for(i=0;i<=m;i++){d[i]=[i]}for(j=0;j<=n;j++)d[0][j]=j;
+  for(i=1;i<=m;i++)for(j=1;j<=n;j++){var c=a[i-1]===b[j-1]?0:1;d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+c);
+    if(i>1&&j>1&&a[i-1]===b[j-2]&&a[i-2]===b[j-1])d[i][j]=Math.min(d[i][j],d[i-2][j-2]+1)}
+  return d[m][n]}
+function aiNm(x){return norm(String(x||"")).replace(/\s+/g," ").trim()}
+function aiPlaus(S,o){
+  if(!S.t)return false;var dt=S.t-(Number(o.ts)||0);if(dt<-2*864e5||dt>45*864e5)return false;
+  var alts=mtPh(o),d=Math.min.apply(null,alts.map(function(x){return phDist(x,S.ph)}).concat([99]));
+  var phOk=d<=2||(S.alt&&alts.indexOf(S.alt)>-1)||(S.alt&&phDist(pkey(o.phone),S.alt)<=1);
+  var tot=Number(o.total)||0,amtOk=!S.total||Math.abs(tot-S.total)<=Math.max(2000,S.total*.15);
+  var s0=sp(o),ct=aiNm(s0.area),gv=aiNm(s0.gov),sc=aiNm(S.city),sg=aiNm(S.gov);
+  var areaOk=(sc&&ct&&(sc.indexOf(ct)>-1||ct.indexOf(sc)>-1))||(sg&&gv&&(sg.indexOf(gv)>-1||gv.indexOf(sg)>-1));
+  var nm=aiNm(S.name),on=aiNm(o.name),nameOk=nm.length>2&&on.length>2&&nm!=="الزبون"&&(nm.indexOf(on)>-1||on.indexOf(nm)>-1);
+  return amtOk&&(phOk||(d<=4&&(nameOk||areaOk)))}
+function aiPh(x){x=String(x||"");return x&&x.length===10?"0"+x:(x||"-")}
+function aiDay(t){if(!t)return "-";var x=new Date(Number(t));return x.getFullYear()+"-"+pad(x.getMonth()+1)+"-"+pad(x.getDate())}
+async function aiMatch(ships,used,onStep){
+  var smp=window.__SAMPLE;if(!smp)throw new Error("ما فيه مفتاح ذكاء اصطناعي — ضيفه من «الحساب والربط»");
+  used=used||new Set();
+  var open=orders.filter(function(o){var st=stOf(o);return (st==="reg"||st==="pending")&&!o.coId&&!used.has(o)});
+  var ok=ships.filter(function(S){return S.t&&(S.ph||S.alt)}),out=[],taken=new Set(),CH=25;
+  for(var c=0;c<ok.length;c+=CH){var part=ok.slice(c,c+CH);
+    var cand=open.filter(function(o){return !taken.has(o)&&part.some(function(S){return aiPlaus(S,o)})}).slice(0,160);
+    if(!cand.length)continue;
+    if(onStep)onStep(c+part.length,ok.length);
+    var L1=part.map(function(S,i){return "S"+i+" | هاتف "+aiPh(S.ph)+(S.alt?" / "+aiPh(S.alt):"")+" | مبلغ "+(S.total||"-")+" | "+(S.gov||"-")+" - "+(S.city||"-")+" | اسم "+(S.name||"-")+" | إنشاء "+aiDay(S.t)}).join("\n");
+    var L2=cand.map(function(o,j){var s0=sp(o);return "O"+j+" | هاتف "+mtPh(o).map(aiPh).join(" / ")+" | مبلغ "+(Number(o.total)||0)+" | "+(s0.gov||"-")+" - "+(s0.area||"-")+" | اسم "+(o.name||"-")+" | إدخال "+aiDay(o.ts)+" | "+String(o.product||"").slice(0,30)}).join("\n");
+    var prompt="أنت محرك مطابقة دقيق لتاجر عراقي يشحن مع شركة توصيل.\nهذي شحنات من شركة التوصيل ما انطابقت تلقائياً مع طلبات التاجر (غالباً بسبب خطأ بكتابة رقم الهاتف، أو استعمال الرقم الثاني، أو تعديل المبلغ):\n"+L1+
+      "\n\nوهذي طلبات التاجر المفتوحة (مسجلة أو قيد التوصيل):\n"+L2+
+      "\n\nلكل شحنة، اختار الطلب الي هو نفس الشحنة فقط إذا كنت متأكد جداً: رقم هاتف فيه خطأ رقم أو رقمين أو رقمين متبادلين، أو الرقم البديل، مع مبلغ متقارب، ومحافظة/منطقة متوافقة، وتاريخ إنشاء الشحنة بعد إدخال الطلب أو بنفس اليوم.\nإذا فيه شك أو أكثر من طلب محتمل لنفس الزبون، لا تطابق. كل طلب يطابق شحنة وحدة فقط.\nارجع JSON فقط بدون أي كلام: [{\"s\":\"S0\",\"o\":\"O3\",\"c\":95,\"r\":\"سبب قصير جداً\"}] — c ثقة من 0 إلى 100. إذا ماكو مطابقة ارجع [].";
+    var res=await smp(prompt,{model:"claude-opus-5-5",max:2000,gmodels:["gemini-2.5-pro","gemini-2.5-flash"]});
+    var txt=String((res&&res.text)||res||""),a=txt.indexOf("["),b=txt.lastIndexOf("]"),arr=[];
+    if(a>-1&&b>a){try{arr=JSON.parse(txt.slice(a,b+1))}catch(e){arr=[]}}
+    (Array.isArray(arr)?arr:[]).forEach(function(x){var si=parseInt(String(x.s||"").replace(/\D/g,""),10),oi=parseInt(String(x.o||"").replace(/\D/g,""),10),S=part[si],o=cand[oi],cf=Number(x.c)||0;
+      if(!S||!o||cf<85||taken.has(o)||S.__ai)return;if(!aiPlaus(S,o))return;
+      taken.add(o);S.__ai=1;out.push({S:S,o:o,c:cf,r:String(x.r||"").slice(0,80)})})}
+  return out}
+var _aiBusy=false;
+async function aiZajel(unShips,pairs,mode){
+  if(_aiBusy||!window.__SAMPLE)return;
+  var cache={};try{cache=JSON.parse(localStorage.getItem("zjai_v1")||"{}")}catch(e){}
+  var now=Date.now();Object.keys(cache).forEach(function(k){if(now-cache[k]>864e5)delete cache[k]});
+  var L=unShips.filter(function(S){return mode==="force"||!cache[String(S.num||S.ph)]});
+  if(!L.length){if(mode==="force")aiMsg("ما فيه شحنات جديدة تحتاج مطابقة ذكية");return}
+  if(mode==="auto"){var lr=Number(localStorage.getItem("zjai_last")||0);if(now-lr<30*60000)return}
+  _aiBusy=true;var used=new Set((pairs||[]).map(function(p){return p.o})),n=0,lst=[];
+  try{localStorage.setItem("zjai_last",String(now))}catch(e){}
+  aiMsg("🧠 جاري المطابقة الذكية لـ "+L.length+" شحنة…");
+  try{var R=await aiMatch(L,used,function(a,b){aiMsg("🧠 جاري المطابقة الذكية… "+a+"/"+b)});
+    R.forEach(function(x){var o=x.o,ch=zjApply(o,x.S.raw);hlog(o,"co","🧠 مطابقة ذكية مع زاجل"+(x.S.num?" (وصل "+x.S.num+")":"")+": "+x.r);if(ch)n++;lst.push((o.name||o.phone)+" ← "+(x.S.num||x.S.ph)+" ("+x.c+"%)")});
+    L.forEach(function(S){cache[String(S.num||S.ph)]=now});try{localStorage.setItem("zjai_v1",JSON.stringify(cache))}catch(e){}
+    if(R.length){sv(KEY,orders);renderOrders();renderHome()}
+    aiMsg("🧠 المطابقة الذكية: ربطت "+R.length+" شحنة"+(n?" وتحدّثت "+n+" حالة":"")+(lst.length?"\n"+lst.slice(0,8).join("\n"):"")+(R.length?"":" — الباقي ما تأكد منه، فتركته"));
+    if(R.length)say("🧠 الذكاء ربط "+R.length+" شحنة مع زاجل")}
+  catch(e){aiMsg("⚠️ المطابقة الذكية: "+(e&&e.message||e))}
+  finally{_aiBusy=false}}
+function aiMsg(t){var e=$("zjaimsg");if(e)e.textContent=t}
 async function zjSync(silent,fast){
   if(zjBusy)return;if(!zjKey()){if(!silent)zjMsg("الصق المفتاح أولاً");return}
   var open=orders.filter(function(o){var st=stOf(o);return st!=="ret"&&st!=="done"});
@@ -3196,14 +3308,15 @@ async function zjSync(silent,fast){
     if(arr.length<50||(last&&page>=last))break;page++;await zjSleep(650)}
   }catch(e){err=e.message}finally{zjBusy=false}
   var noPhone=0,diffN=0;
-  var SH=all.map(function(sh){var I=zjInfo(sh);if(!I.phone)noPhone++;seen++;return {ph:I.phone,alt:I.alt,total:I.total,gov:I.gov,city:I.city,t:I.t,ref:sh.reference,num:sh.number,raw:sh}});
+  var SH=all.map(function(sh){var I=zjInfo(sh);if(!I.phone)noPhone++;seen++;return {ph:I.phone,alt:I.alt,total:I.total,gov:I.gov,city:I.city,t:I.t,ref:sh.reference,num:sh.number,name:zjName(sh),raw:sh}});
   var M=mtMatch(SH,orders);
   M.pairs.forEach(function(p){if(p.diff)diffN++;if(zjApply(p.o,p.s.raw)){n++;var t=ZJ_MAP[p.s.raw.status]||"pending";if(t==="done")a++;else if(t==="ret")rt++}});
   var unm=M.unOrders.filter(function(o){return o.sent||o.coId});
   try{localStorage.setItem("zjlast_v1",String(Date.now()))}catch(e){}
   sv(KEY,orders);renderOrders();renderHome();
   var t=(err?"⚠️ "+err+"\n":"")+"تم تحديث "+n+" حالة"+(n?" (وصلت "+a+"، راجعة "+rt+")":"")+" — فحصت "+seen+" شحنة"+(diffN?"\nمنها "+diffN+" طابقت بالهاتف مع اختلاف المبلغ":"")+(noPhone===seen&&seen?"\n(ملاحظة: بيانات الشحنة من زاجل ما فيها رقم الهاتف، فاعتمدت الرقم المرجعي)":"")+(unm.length?"\n⚠️ بدون شحنة مطابقة ("+unm.length+"):\n"+unm.slice(0,6).map(function(o){return "• "+(o.name||o.phone)+" · "+o.phone}).join("\n")+(unm.length>6?"\n…":""):"");
-  zjMsg(t);if(!silent||n)say(err?"⚠️ "+err:"تم تحديث "+n+" حالة من زاجل")}
+  zjMsg(t);if(!silent||n)say(err?"⚠️ "+err:"تم تحديث "+n+" حالة من زاجل");
+  if(!err&&M.unShips.length)aiZajel(M.unShips,M.pairs,silent?"auto":"manual")}
 (function(){var inp=$("zjkey"),clr=$("zjclr");
   function ref(){var has=!!zjKey();clr.hidden=!has;if(has){inp.value="";inp.placeholder="مفتاح محفوظ ✓ (الصق جديد لتبديله)"}}ref();
   $("qzj").onclick=function(){openSet("zj");ref()};
@@ -3215,6 +3328,7 @@ async function zjSync(silent,fast){
     catch(e){zjMsg("⚠️ "+e.message+"\n(المفتاح انحفظ)");ref()}};
   clr.onclick=function(){try{localStorage.removeItem("zjkey_v1")}catch(e){}inp.placeholder="zjm_...";ref();zjMsg("تم حذف المفتاح")};
   $("zjsend").onclick=zjSend;$("zjsync").onclick=function(){zjSync(false)};
+  $("zjai").onclick=async function(){if(!window.__SAMPLE){aiMsg("⚠️ لازم تضيف مفتاح ذكاء اصطناعي (Anthropic للـ Opus 5.5، أو Gemini) من «الحساب والربط»");return}try{localStorage.removeItem("zjai_v1");localStorage.removeItem("zjai_last")}catch(e){}aiMsg("🧠 أسحب الشحنات أول…");await zjSync(false)};
   function auto(){try{if(document.hidden||!zjKey())return;var l=Number(localStorage.getItem("zjlast_v1"))||0;if(Date.now()-l>60000)zjSync(true,l>0)}catch(e){}}
   setTimeout(auto,4000);setInterval(auto,90000);document.addEventListener("visibilitychange",function(){if(!document.hidden)setTimeout(auto,800)})})();
 
@@ -3348,7 +3462,7 @@ $("repwa").onclick=function(){window.open("https://wa.me/?text="+encodeURICompon
 var CO_MAP={"واصل":"done","واصل جزئي":"done","راجع":"ret","ملغي":"ret","لم يسلم":"pending","مؤجل":"pending","قيد التوصيل":"pending","جديد":"pending","بالمخزن":"pending"};
 var COPLAN=null;
 function coHdr(row){
-  var F={id:["رقم الوصل"],stage:["المرحلة"],stageAt:["تاريخ دخول المرحلة"],created:["تاريخ الإنشاء"],merchant:["التاجر"],ref:["رقم طلب التاجر","رقم طلبك"],phone:["هاتف المستلم"],alt:["هاتف بديل"],total:["المبلغ"],reason:["سبب آخر محاولة"]},m={};
+  var F={id:["رقم الوصل"],stage:["المرحلة"],stageAt:["تاريخ دخول المرحلة"],created:["تاريخ الإنشاء"],merchant:["التاجر"],ref:["رقم طلب التاجر","رقم طلبك"],phone:["هاتف المستلم"],alt:["هاتف بديل"],total:["المبلغ"],reason:["سبب آخر محاولة"],name:["المستلم","اسم المستلم"]},m={};
   (row||[]).forEach(function(c,i){var t=norm(String(c||"")).replace(/[*]/g,"").trim();Object.keys(F).forEach(function(k){if(m[k]===undefined&&F[k].some(function(x){return norm(x)===t}))m[k]=i})});
   (row||[]).forEach(function(c,i){var t=norm(String(c||"")).replace(/[*]/g,"").trim();if(!t)return;
     var used=Object.keys(m).some(function(k){return m[k]===i});if(used)return;
@@ -3370,17 +3484,17 @@ function coBuild(R){
   var ships=[],byRef={},byPh={},byId0={};
   function g(r,k){return H[k]===undefined?"":String(r[H[k]]==null?"":r[H[k]]).trim()}
   for(j=hi+1;j<R.length;j++){var r=R[j];if(!r||!g(r,"id"))continue;
-    var sh={id:g(r,"id"),stage:g(r,"stage"),stageAt:g(r,"stageAt"),created:coDate(g(r,"created")),merchant:g(r,"merchant"),ref:g(r,"ref"),phone:pkey(g(r,"phone")),alt:pkey(g(r,"alt")),total:Number(String(g(r,"total")).replace(/[^\d.]/g,""))||0,reason:g(r,"reason"),due:Number(String(g(r,"due")).replace(/[^\d.]/g,""))||0,fee:Number(String(g(r,"fee")).replace(/[^\d.]/g,""))||0,gov:g(r,"gov"),city:g(r,"city")||g(r,"addr"),set:g(r,"set"),setAt:g(r,"setAt"),used:false};
+    var sh={id:g(r,"id"),stage:g(r,"stage"),stageAt:g(r,"stageAt"),created:coDate(g(r,"created")),merchant:g(r,"merchant"),ref:g(r,"ref"),phone:pkey(g(r,"phone")),alt:pkey(g(r,"alt")),total:Number(String(g(r,"total")).replace(/[^\d.]/g,""))||0,reason:g(r,"reason"),name:g(r,"name"),due:Number(String(g(r,"due")).replace(/[^\d.]/g,""))||0,fee:Number(String(g(r,"fee")).replace(/[^\d.]/g,""))||0,gov:g(r,"gov"),city:g(r,"city")||g(r,"addr"),set:g(r,"set"),setAt:g(r,"setAt"),used:false};
     sh.settled=coSet(sh);
     if(sh.id===g(R[hi],"id"))continue;
     var _d=byId0[sh.id];if(_d){if((coDate(sh.stageAt)||0)>=(coDate(_d.stageAt)||0)){ships[ships.indexOf(_d)]=sh;byId0[sh.id]=sh}continue}byId0[sh.id]=sh;
     ships.push(sh);if(sh.ref)byRef[sh.ref]=sh;
     [sh.phone,sh.alt].forEach(function(k){if(k&&k.length>=8)(byPh[k]=byPh[k]||[]).push(sh)})}
-  var SS=ships.map(function(sh){return {ph:sh.phone,alt:sh.alt,total:sh.total,gov:zjNm(sh.gov),city:zjNm(sh.city),t:sh.created,ref:sh.ref,num:sh.id,merchant:sh.merchant,raw:sh}});
+  var SS=ships.map(function(sh){return {ph:sh.phone,alt:sh.alt,total:sh.total,gov:zjNm(sh.gov),city:zjNm(sh.city),t:sh.created,ref:sh.ref,num:sh.id,merchant:sh.merchant,name:sh.name,raw:sh}});
   var MM=mtMatch(SS,orders),plan=[],miss=MM.unOrders.length;
   MM.pairs.forEach(function(p){var o=p.o,sh=p.s.raw,key=norm(sh.stage).trim(),to=CO_MAP[key]||CO_MAP[sh.stage]||null;
     plan.push({o:o,s:sh,from:stOf(o),to:to||stOf(o),known:!!to,diff:p.diff,pay:!!(sh.settled&&(to||stOf(o))==="done"&&!o.paid)})});
-  return {plan:plan,miss:miss,total:ships.length,H:H}}
+  return {plan:plan,miss:miss,total:ships.length,H:H,unS:MM.unShips}}
 function coShow(){
   var P=COPLAN,ch=P.plan.filter(function(x){return x.to!==x.from}),st={done:0,ret:0,pending:0};
   ch.forEach(function(x){st[x.to]=(st[x.to]||0)+1});
@@ -3389,7 +3503,16 @@ function coShow(){
   var sm=$("cosum");sm.innerHTML="";
   [["✅ وصلت",st.done],["↩️ راجعة",st.ret],["🚚 قيد التوصيل",st.pending]].forEach(function(x){if(x[1]){var c=mk("span","chip",x[0]+": "+x[1]);sm.appendChild(c)}});
   var l=$("colist");l.innerHTML="";
-  P.plan.forEach(function(x){var d=mk("div",null,(x.o.name||x.o.phone||"—")+" — "+(ST[x.from]||x.from)+(x.to!==x.from?" ← "+(ST[x.to]||x.to):" (بدون تغيير)")+" · "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" ("+x.s.reason+")":""));d.style.cssText="padding:4px 0;border-bottom:1px solid var(--line)";l.appendChild(d)});
+  var ah=$("coai");ah.innerHTML="";
+  if(P.unS&&P.unS.length&&window.__SAMPLE){var ab=mk("button","second","🧠 مطابقة ذكية للشحنات الباقية ("+P.unS.length+") — Opus 5.5");ab.style.margin="0 0 8px";
+    ab.onclick=async function(){ab.disabled=true;ab.textContent="🧠 جاري المطابقة…";
+      try{var R=await aiMatch(P.unS,new Set(P.plan.map(function(x){return x.o})),function(a,b){ab.textContent="🧠 جاري المطابقة… "+a+"/"+b});
+        R.forEach(function(x){var sh=x.S.raw,key=norm(sh.stage).trim(),to=CO_MAP[key]||CO_MAP[sh.stage]||null;
+          P.plan.push({o:x.o,s:sh,from:stOf(x.o),to:to||stOf(x.o),known:!!to,diff:!!(sh.total&&Number(x.o.total)!==sh.total),pay:!!(sh.settled&&(to||stOf(x.o))==="done"&&!x.o.paid),ai:x.r||"مطابقة ذكية"})});
+        P.unS=P.unS.filter(function(S){return !S.__ai});P.aiDone=R.length;coShow()}
+      catch(e){ab.disabled=false;ab.textContent="⚠️ "+(e&&e.message||e)}};ah.appendChild(ab)}
+  if(P.aiDone!==undefined){var an=mk("div","hint","🧠 الذكاء ربط "+P.aiDone+" شحنة إضافية (معلّمة بـ 🧠)");an.style.margin="0 0 6px";ah.appendChild(an)}
+  P.plan.forEach(function(x){var d=mk("div",null,(x.ai?"🧠 ":"")+(x.o.name||x.o.phone||"—")+" — "+(ST[x.from]||x.from)+(x.to!==x.from?" ← "+(ST[x.to]||x.to):" (بدون تغيير)")+" · "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" ("+x.s.reason+")":""));d.style.cssText="padding:4px 0;border-bottom:1px solid var(--line)";l.appendChild(d)});
   $("cogo").style.display=P.plan.length?"block":"none";$("cogo").textContent="تطبيق ("+P.plan.length+")";
   $("cosync").hidden=false}
 function coOpen(){$("cofile").value="";$("cofile").click()}
@@ -3407,7 +3530,7 @@ $("cofile").onchange=async function(){var fs=Array.prototype.slice.call(this.fil
   if(fs.length>1||bad.length)$("coinfo").textContent="الملفات: "+ok+" من "+fs.length+(bad.length?" (تجاهلت: "+bad.join("، ")+")":"")+" — "+$("coinfo").textContent};
 $("cocancel").onclick=function(){$("cosync").hidden=true};
 $("cogo").onclick=function(){if(!COPLAN)return;var n=0,np=0;
-  COPLAN.plan.forEach(function(x){var o=x.o;var _tt=coDate(x.s.stageAt)||Date.now();if(x.s.stage&&o.coStage!==x.s.stage)hlog(o,"co","الشركة: "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" — "+x.s.reason:""),_tt);if(x.to!==x.from){o.status=x.to;o.sts=_tt;hlog(o,"st",ST[x.to]+" (من ملف الشركة)",_tt);n++}if(x.s.due>0)o.due=x.s.due;if(x.s.fee>0)o.fee=x.s.fee;o.coId=x.s.id;o.coStage=x.s.stage;o.coReason=x.s.reason||"";o.coAt=x.s.stageAt||"";if(x.pay){o.paid=coDate(x.s.setAt)||_tt;hlog(o,"paid","محاسب عليها (من ملف الشركة)",o.paid);np++}});
+  COPLAN.plan.forEach(function(x){var o=x.o;if(x.ai)hlog(o,"co","🧠 مطابقة ذكية (ملف الشركة"+(x.s.id?"، وصل "+x.s.id:"")+"): "+x.ai);var _tt=coDate(x.s.stageAt)||Date.now();if(x.s.stage&&o.coStage!==x.s.stage)hlog(o,"co","الشركة: "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" — "+x.s.reason:""),_tt);if(x.to!==x.from){o.status=x.to;o.sts=_tt;hlog(o,"st",ST[x.to]+" (من ملف الشركة)",_tt);n++}if(x.s.due>0)o.due=x.s.due;if(x.s.fee>0)o.fee=x.s.fee;o.coId=x.s.id;o.coStage=x.s.stage;o.coReason=x.s.reason||"";o.coAt=x.s.stageAt||"";if(x.pay){o.paid=coDate(x.s.setAt)||_tt;hlog(o,"paid","محاسب عليها (من ملف الشركة)",o.paid);np++}});
   sv(KEY,orders);$("cosync").hidden=true;COPLAN=null;renderOrders();renderHome();say("تم تحديث "+n+" حالة"+(np?" وتسجيل "+np+" كمحاسب عليها":"")+" ✅")};
 
 function fmtDT(ts){var d=new Date(Number(ts));if(isNaN(d))return "";return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
