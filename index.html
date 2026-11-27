@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.56";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.57";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -588,6 +588,27 @@ html{font-size:15px}
 .hero h1{font-size:1.2rem!important;letter-spacing:.02em;line-height:1.2}
 .hero small{font-size:.72rem!important;opacity:.75}
 .themebtn{background:transparent!important;border:0!important;box-shadow:none!important;width:38px!important;height:38px!important;color:var(--muted)!important}
+
+/* v4.57 شاشة الدخول والتفعيل */
+.gate{position:fixed;inset:0;z-index:2000;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto}
+.gate[hidden]{display:none}
+body.gated{overflow:hidden}
+.gbox{width:100%;max-width:380px;text-align:center}
+.glogo{width:84px;height:84px;margin:0 auto 10px;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 8px 24px rgba(15,23,42,.14)}
+.glogo svg{width:100%;height:100%;display:block}
+.gname{margin:0;font-size:1.6rem;letter-spacing:.04em}
+.gsub{color:var(--muted);font-size:.85rem;margin:2px 0 18px}
+.gtabs{display:flex;background:var(--soft);border-radius:14px;padding:4px;margin-bottom:12px}
+.gtabs button{flex:1;background:none;color:var(--muted);padding:9px;border-radius:11px}
+.gtabs button.on{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+.gbox input{margin-top:8px}
+.gacc{font-size:.9rem;direction:ltr;background:var(--soft);border-radius:12px;padding:8px}
+.gwa{display:block;text-decoration:none;text-align:center;padding:11px;margin:4px 0 8px}
+.gout{background:none!important;color:var(--muted)!important;margin-top:10px;width:100%}
+.gmsg{margin-top:10px;font-size:.85rem;min-height:1.2em}
+.scode{display:flex;flex-wrap:wrap;align-items:center;gap:6px;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin-top:8px;font-size:.8rem}
+.scode b{direction:ltr;font-family:ui-monospace,Menlo,monospace!important;letter-spacing:.04em;flex-basis:100%}
+.scode span{flex:1;color:var(--muted)}.scode.used{opacity:.7}.scode .ibtn{padding:6px 10px}
 </style>
 </head>
 <body>
@@ -638,6 +659,7 @@ html{font-size:15px}
 <button class="qa" data-go="stock"><span class="chipq gi ic" data-ic="stock" style="--c:#65a30d;--c2:#a3e635"></span>المخزن</button>
 <button class="qa" data-go="debts"><span class="chipq gi ic" data-ic="wallet" style="--c:#9333ea;--c2:#c084fc"></span>الديون</button>
 <button class="qa" id="qzj"><span class="chipq gi ic" data-ic="truck" style="--c:#b91c1c;--c2:#f87171"></span>ربط زاجل</button>
+<button class="qa" id="qsales" hidden><span class="chipq gi ic" data-ic="paid" style="--c:#16a34a;--c2:#4ade80"></span>المبيعات</button>
 <button class="qa" id="qacct"><span class="chipq gi ic" data-ic="user" style="--c:#0369a1;--c2:#38bdf8"></span>الحساب والربط</button>
 <button class="qa" id="qbk"><span class="chipq gi ic" data-ic="database" style="--c:#0d9488;--c2:#2dd4bf"></span>النسخ الاحتياطي</button>
 <button class="qa" id="qupd"><span class="chipq gi ic" data-ic="download" style="--c:#0284c7;--c2:#7dd3fc"></span>تحديث التطبيق</button>
@@ -682,7 +704,7 @@ html{font-size:15px}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.56</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.57</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -855,6 +877,18 @@ html{font-size:15px}
 <button class="primary" id="aikeysave" style="margin-top:8px">حفظ وتجربة الاتصال</button>
 <button class="ghost" id="aikeyclr" hidden>حذف المفتاح</button>
 <div id="aikeymsg" class="hint" style="margin-top:6px"></div></div>
+</div><div data-p="sales" hidden><h3>المبيعات وأكواد التفعيل</h3>
+<div class="card"><div class="hint">كل تاجر يسوي حساب بالتطبيق ويحتاج كود تفعيل. الكود يشتغل لحساب واحد ومرة وحدة، ويبقى للأبد.</div>
+<label>رقم واتسابك للبيع (يطلع للتاجر بزر الشراء)</label><div class="row"><input id="s-wa" inputmode="tel" placeholder="9647XXXXXXXXX" style="direction:ltr;text-align:left"><button class="second" id="s-wasave" style="width:auto;margin:0">حفظ</button></div>
+<label style="margin-top:10px">توليد أكواد جديدة</label><div class="row"><input id="s-n" type="number" inputmode="numeric" value="5" min="1" max="50" style="max-width:90px"><button class="primary" id="s-gen" style="margin:0">توليد</button></div>
+<button class="second" id="s-ref">تحديث القائمة</button>
+<div id="s-msg" class="hint" style="margin-top:6px;white-space:pre-wrap"></div>
+<div id="s-list"></div></div>
+<h3>إعداد Firebase للبيع (مرة وحدة)</h3>
+<div class="card"><div class="hint">١) انسخ القواعد والصقها بـ Firebase ← Realtime Database ← Rules ← Publish.<br>٢) بـ Authentication ← Settings ← User actions تأكد إن «Enable create (sign-up)» مفعّل حتى التجار يقدرون يسوون حسابات.<br>القواعد تخلي كل تاجر يشوف بياناته بس، وبياناتك إلك بس.</div>
+<div class="hint" id="s-uid" style="direction:ltr;text-align:left;margin:6px 0"></div>
+<textarea id="s-rules" rows="6" readonly style="direction:ltr;text-align:left;font-size:.7rem"></textarea>
+<button class="second" id="s-rcopy">نسخ القواعد</button></div>
 </div><div data-p="upd" hidden><div id="updcard" hidden><h3>التحديث التلقائي</h3><div class="card"><div class="hint">الصق رابط ملف البرنامج (index.html) على GitHub مرة وحدة، وبعدها يتحدث البرنامج لحاله عند كل فتح.</div>
 <input id="updurl" style="direction:ltr;text-align:left" placeholder="https://raw.githubusercontent.com/اسمك/المشروع/main/index.html" autocapitalize="off">
 <button id="updsave" class="second">حفظ وفحص التحديث الآن</button><div class="hint" id="updmsg"></div></div></div>
@@ -898,6 +932,26 @@ html{font-size:15px}
 <h2>الأرباح</h2>
 <div id="profbody"></div>
 <button class="second" id="profclose">إغلاق</button>
+</div></div>
+<div class="gate" id="gate" hidden><div class="gbox">
+<div class="glogo" id="glogo"></div><h1 class="gname">AIX909</h1><div class="gsub">سجل الطلبات والمخزون والتوصيل</div>
+<div id="gv-login">
+<div class="gtabs"><button type="button" id="gt-in" class="on">تسجيل دخول</button><button type="button" id="gt-up">حساب جديد</button></div>
+<input id="g-em" type="email" autocomplete="username" autocapitalize="off" placeholder="الإيميل" style="direction:ltr;text-align:left">
+<input id="g-pw" type="password" autocomplete="current-password" placeholder="الباسورد (6 أحرف أو أكثر)" style="direction:ltr;text-align:left">
+<input id="g-pw2" type="password" autocomplete="new-password" placeholder="أعد الباسورد" style="direction:ltr;text-align:left" hidden>
+<button class="primary" id="g-go">دخول</button>
+</div>
+<div id="gv-act" hidden>
+<div class="gacc" id="g-acc"></div>
+<div class="hint" style="margin:6px 0 10px">حتى تستعمل التطبيق تحتاج كود تفعيل. تشتريه مرة وحدة ويبقى لحسابك للأبد.</div>
+<a class="second gwa" id="g-wa" target="_blank" hidden>💬 اشتري كود من البائع (واتساب)</a>
+<input id="g-code" autocapitalize="characters" placeholder="AIX-XXXX-XXXX" style="direction:ltr;text-align:center;letter-spacing:.08em">
+<button class="primary" id="g-act">تفعيل</button>
+<button class="ghost gout" id="g-out">تسجيل خروج</button>
+</div>
+<div id="gv-wait" hidden><div class="hint" style="text-align:center;margin:14px 0">جاري التحقق…</div></div>
+<div class="gmsg" id="g-msg"></div>
 </div></div>
 <div class="modal" id="pgpickm" hidden><div class="sheet"><h2>اختار الصفحة</h2><div id="pgpickl"></div><button class="second" id="pgpickx">إغلاق</button></div></div>
 <div class="modal" id="cosync" hidden><div class="sheet">
@@ -1864,6 +1918,13 @@ function moveMainTo(id){var mp=vp().filter(isMainName)[0],to=pageById(id);if(!mp
 function autoPage(){var pv=$("product");if(!pv)return;var t=pv.value.trim()||$("paste").value||"",g=pageGuess(t,num("price"));
   var h=$("pgauto");if(g&&g.id!==cur){setPage(g.id,true);if(h)h.textContent="✓ انحددت الصفحة تلقائياً من المنتج: "+g.name}}
 $("pgpickx").onclick=function(){$("pgpickm").hidden=true};$("pgpickm").addEventListener("click",function(e){if(e.target===$("pgpickm"))$("pgpickm").hidden=true});
+var AIX_OWNER="orders@orders.com",AIX_RAW="https://raw.githubusercontent.com/sajjadmekki-dot/orders-update/main/index.html",AIX_KEYS=["orders_v1","pages_v1","curpage_v1","debts_v1","amap_v1","pmap_v1"];
+function aixCfg(){try{return JSON.parse(localStorage.getItem("fbcfg_v1")||"null")}catch(e){return null}}
+function aixIsOwner(c){c=c===undefined?aixCfg():c;return !!c&&(!c.mode||c.mode==="owner"||String(c.email||"").toLowerCase()===AIX_OWNER)}
+function aixWipeIfOther(em){var last="";try{last=localStorage.getItem("aix_last")||""}catch(e){}
+  var c=aixCfg(),cur=c&&c.email?String(c.email).toLowerCase():last;if(cur===String(em).toLowerCase())return;
+  AIX_KEYS.forEach(function(k){try{localStorage.removeItem(k);localStorage.removeItem(k+"__syn");localStorage.removeItem(k+"__ts")}catch(e){}});
+  try{localStorage.removeItem("aix_lic");localStorage.removeItem("zjkey_v1");localStorage.removeItem("zjhook_v1")}catch(e){}}
 function curHP(){var v=$("ofilter").value;return (v&&v!=="all"&&pageById(v))?v:"all"}
 function setHP(v){$("ofilter").value=v;renderHome()}
 function renderDash(L,today){
@@ -2866,24 +2927,24 @@ function gzDec(v){
   var bin=atob(v.slice(3)),a=new Uint8Array(bin.length),i;for(i=0;i<bin.length;i++)a[i]=bin.charCodeAt(i);
   var ds=new DecompressionStream("gzip"),w=ds.writable.getWriter();w.write(a);w.close();return new Response(ds.readable).text()}
 function fbProvider(cfg){
-  var base=cfg.databaseURL.replace(/\/+$/,""),tok=null,exp=0,refresh=null;
+  var base=cfg.databaseURL.replace(/\/+$/,""),tok=null,exp=0,refresh=null,uid=cfg.uid||null;
   function signIn(){
     return fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="+encodeURIComponent(cfg.apiKey),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:cfg.email,password:cfg.password,returnSecureToken:true})}).then(jr).then(function(d){
       if(!d.idToken){var e=new Error("auth");e.code=(d.error&&d.error.message)||"auth";throw e}
-      tok=d.idToken;refresh=d.refreshToken;exp=Date.now()+(+d.expiresIn||3600)*1000;return tok});
+      tok=d.idToken;refresh=d.refreshToken;uid=d.localId||uid;exp=Date.now()+(+d.expiresIn||3600)*1000;return tok});
   }
   function auth(){
     if(tok&&Date.now()<exp-60000)return Promise.resolve(tok);
     if(refresh){
       return fetch("https://securetoken.googleapis.com/v1/token?key="+encodeURIComponent(cfg.apiKey),{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"grant_type=refresh_token&refresh_token="+encodeURIComponent(refresh)}).then(jr).then(function(d){
-        if(!d.id_token)throw new Error("refresh");tok=d.id_token;refresh=d.refresh_token||refresh;exp=Date.now()+(+d.expires_in||3600)*1000;return tok}).catch(signIn);
+        if(!d.id_token)throw new Error("refresh");tok=d.id_token;refresh=d.refresh_token||refresh;uid=d.user_id||uid;exp=Date.now()+(+d.expires_in||3600)*1000;return tok}).catch(signIn);
     }
     return signIn();
   }
-  function u(path){return auth().then(function(t){return base+"/sync/"+path+".json?auth="+encodeURIComponent(t)})}
+  function u(path){return auth().then(function(t){return base+(cfg.mode==="user"&&uid?"/users/"+uid:"")+"/sync/"+path+".json?auth="+encodeURIComponent(t)})}
   return {
     name:"firebase",
-    tokenFn:auth,base:base,
+    tokenFn:auth,base:base,uidFn:function(){return auth().then(function(){return uid})},
     ping:function(){return u("ping").then(function(x){return fetch(x)}).then(chk)},
     meta:function(k){return u(k+"/ts").then(function(x){return fetch(x)}).then(chk).then(jr).then(function(v){return v?{ts:+v}:null})},
     get:function(k){return u(k+"/v").then(function(x){return fetch(x)}).then(chk).then(jr).then(function(v){return gzDec(v||"")})},
@@ -3024,7 +3085,8 @@ function start(){
       var r=await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="+DEF.apiKey,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:em,password:pw,returnSecureToken:true})});
       var j=await r.json();
       if(!r.ok){var m=(j&&j.error&&j.error.message)||"";ms.textContent=/EMAIL_NOT_FOUND|INVALID_PASSWORD|INVALID_LOGIN_CREDENTIALS|INVALID_EMAIL/.test(m)?"⚠️ اليوزر أو الباسورد غلط":/TOO_MANY/.test(m)?"⚠️ محاولات كثيرة، انتظر شوي وأعد":"⚠️ تعذر الدخول ("+m+")";$("lgbtn").disabled=false;return}
-      localStorage.setItem(FBK,JSON.stringify({apiKey:DEF.apiKey,databaseURL:DEF.databaseURL,email:em,password:pw}));
+      var _md=em.toLowerCase()===AIX_OWNER?"owner":"user";if(_md==="user")aixWipeIfOther(em);
+      localStorage.setItem(FBK,JSON.stringify({apiKey:DEF.apiKey,databaseURL:DEF.databaseURL,email:em,password:pw,mode:_md,uid:j.localId||""}));try{localStorage.setItem("aix_last",em.toLowerCase())}catch(e){}
       KEYS.forEach(function(k){synSet(k,0)});
       ms.textContent="✓ تم الدخول — جاري تنزيل بياناتك…";setTimeout(function(){location.reload()},500);
     }catch(e){ms.textContent="⚠️ تعذر الاتصال — تأكد من الإنترنت. (من رابط كلود الاتصال محجوب، سجّل الدخول من الـAPK)";$("lgbtn").disabled=false}
@@ -3181,6 +3243,95 @@ document.querySelectorAll("[data-iso]").forEach(function(e){e.innerHTML=isoIcon(
 
 /* v4.30 لوحات الإعدادات */
 
+
+/* ===== v4.57: حسابات التجار + كود تفعيل (شراء مرة وحدة) + لوحة المبيعات ===== */
+var _fbh=null;
+function fbH(){var c=window.__cfgGet&&window.__cfgGet();if(!c)return null;var k=c.email+c.password+c.mode;if(!_fbh||_fbh.__k!==k){_fbh=window.__fbp(c);_fbh.__k=k}return _fbh}
+async function fbReq(path,method,body){var h=fbH();if(!h)throw new Error("سجّل دخول أولاً");var t=await h.tokenFn();
+  var r=await fetch(h.base+"/"+path+".json?auth="+encodeURIComponent(t),{method:method||"GET",headers:{"Content-Type":"application/json"},body:body===undefined?undefined:JSON.stringify(body)});
+  var j=null;try{j=await r.json()}catch(e){}if(!r.ok){var e=new Error((j&&j.error)||("http "+r.status));e.status=r.status;throw e}return j}
+function aixRules(u){var O="auth.uid === '"+u+"'";return JSON.stringify({rules:{
+  sync:{".read":O,".write":O},
+  users:{"$uid":{".read":"auth.uid === $uid",".write":"auth.uid === $uid && root.child('lic').child($uid).exists()"}},
+  lic:{".read":O,"$uid":{".read":"auth.uid === $uid",".write":O+" || (auth.uid === $uid && !data.exists() && newData.child('code').isString() && root.child('codes').child(newData.child('code').val()).exists() && !root.child('codes').child(newData.child('code').val()).child('usedBy').exists() && newData.parent().parent().child('codes').child(newData.child('code').val()).child('usedBy').val() === auth.uid)"}},
+  codes:{".read":O,".write":O,"$code":{usedBy:{".write":"auth != null && !data.exists() && newData.val() === auth.uid && newData.parent().parent().parent().child('lic').child(auth.uid).child('code').val() === $code"},usedAt:{".write":"auth != null && !data.exists() && newData.parent().parent().parent().child('lic').child(auth.uid).child('code').val() === $code"}}},
+  meta:{".read":"auth != null",".write":O},
+  zajel_inbox:{"$tok":{".read":"auth != null",".write":"auth != null","$id":{".write":"!data.exists() && newData.exists() && $tok.length >= 20"}}}}},null,2)}
+function gMsg(t,bad){var e=$("g-msg");e.textContent=t||"";e.style.color=bad?"#dc2626":""}
+function gView(v){["login","act","wait"].forEach(function(x){$("gv-"+x).hidden=x!==v});$("gate").hidden=false;document.body.classList.add("gated")}
+function gHide(){$("gate").hidden=true;document.body.classList.remove("gated")}
+var _gUp=false;
+function gTab(up){_gUp=up;$("gt-in").className=up?"":"on";$("gt-up").className=up?"on":"";$("g-pw2").hidden=!up;$("g-go").textContent=up?"إنشاء الحساب":"دخول";gMsg("")}
+async function gAuth(){var em=$("g-em").value.trim().toLowerCase(),pw=$("g-pw").value;
+  if(em&&em.indexOf("@")<0)em+="@orders.com";
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){gMsg("اكتب إيميل صحيح",1);return}
+  if(pw.length<6){gMsg("الباسورد لازم 6 أحرف أو أكثر",1);return}
+  if(_gUp&&pw!==$("g-pw2").value){gMsg("الباسورد غير متطابق",1);return}
+  var DEFK="AIzaSyD9oETa-Q5eI-FztODHdVmzbwpHYIf8CGk",DBU="https://orders-sajjad-3f465-default-rtdb.firebaseio.com";
+  $("g-go").disabled=true;gMsg("جاري…");
+  try{var r=await fetch("https://identitytoolkit.googleapis.com/v1/accounts:"+(_gUp?"signUp":"signInWithPassword")+"?key="+DEFK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({email:em,password:pw,returnSecureToken:true})});
+    var j=await r.json();
+    if(!r.ok){var m=(j&&j.error&&j.error.message)||"";
+      gMsg(/EMAIL_EXISTS/.test(m)?"هذا الإيميل عنده حساب — سجّل دخول":/WEAK_PASSWORD/.test(m)?"الباسورد ضعيف — 6 أحرف أو أكثر":/OPERATION_NOT_ALLOWED|ADMIN_ONLY/.test(m)?"إنشاء الحسابات مقفول حالياً — تواصل ويا البائع":/EMAIL_NOT_FOUND|INVALID_PASSWORD|INVALID_LOGIN_CREDENTIALS/.test(m)?"الإيميل أو الباسورد غلط":/TOO_MANY/.test(m)?"محاولات كثيرة — انتظر شوية":/INVALID_EMAIL/.test(m)?"الإيميل غلط":"تعذر ("+m+")",1);
+      $("g-go").disabled=false;return}
+    var md=em===AIX_OWNER?"owner":"user";if(md==="user")aixWipeIfOther(em);
+    localStorage.setItem("fbcfg_v1",JSON.stringify({apiKey:DEFK,databaseURL:DBU,email:em,password:pw,mode:md,uid:j.localId||""}));
+    localStorage.setItem("aix_last",em);
+    AIX_KEYS.forEach(function(k){try{localStorage.setItem(k+"__syn","0")}catch(e){}});
+    gMsg("✓ تم — لحظة…");setTimeout(function(){location.reload()},400)}
+  catch(e){gMsg("تعذر الاتصال — تأكد من الإنترنت",1);$("g-go").disabled=false}}
+async function gLic(c){
+  try{if(localStorage.getItem("aix_lic")===String(c.uid||c.email))return}catch(e){}
+  gView("wait");
+  try{var h=fbH(),uid=await h.uidFn();if(uid&&!c.uid){c.uid=uid;localStorage.setItem("fbcfg_v1",JSON.stringify(c))}
+    var L=await fbReq("lic/"+uid);
+    if(L&&L.code){localStorage.setItem("aix_lic",String(uid));gHide();return}
+    $("g-acc").textContent="حسابك: "+c.email;gView("act");gMsg("");
+    try{var ct=await fbReq("meta/contact");if(ct){var a=$("g-wa");a.href="https://wa.me/"+String(ct).replace(/\D/g,"")+"?text="+encodeURIComponent("أريد كود تفعيل لتطبيق AIX909 — حسابي: "+c.email);a.hidden=false}}catch(e){}}
+  catch(e){$("g-acc").textContent="حسابك: "+c.email;gView("act");gMsg(e&&e.status===401||e&&e.status===403?"⚠️ تعذر التحقق من الحساب — تواصل ويا البائع":"⚠️ تأكد من الإنترنت وأعد المحاولة",1)}}
+async function gActivate(){var c=aixCfg(),code=String($("g-code").value||"").toUpperCase().replace(/\s+/g,"").replace(/[^A-Z0-9-]/g,"");
+  if(code.length<6){gMsg("اكتب الكود صح",1);return}
+  $("g-act").disabled=true;gMsg("جاري التفعيل…");
+  try{var uid=await fbH().uidFn(),body={};body["lic/"+uid]={code:code,email:c.email,at:{".sv":"timestamp"}};body["codes/"+code+"/usedBy"]=uid;body["codes/"+code+"/usedAt"]={".sv":"timestamp"};
+    await fbReq("","PATCH",body);localStorage.setItem("aix_lic",String(uid));gMsg("✓ انفعّل حسابك");setTimeout(function(){location.reload()},500)}
+  catch(e){gMsg(e&&(e.status===401||e.status===403)?"❌ الكود غلط أو مستعمل":"⚠️ تأكد من الإنترنت",1);$("g-act").disabled=false}}
+(function(){
+  try{$("glogo").innerHTML=$("ttlic").innerHTML.replace(/aixclip/g,"aixclip2")}catch(e){}
+  $("gt-in").onclick=function(){gTab(false)};$("gt-up").onclick=function(){gTab(true)};
+  $("g-go").onclick=gAuth;$("g-act").onclick=gActivate;
+  $("g-out").onclick=function(){try{localStorage.removeItem("fbcfg_v1");localStorage.removeItem("aix_lic")}catch(e){}location.reload()};
+  try{if(window.Android&&Android.getUpdateUrl&&Android.setUpdateUrl&&!Android.getUpdateUrl())Android.setUpdateUrl(AIX_RAW)}catch(e){}
+  var need=!!(window.Android&&window.Android.getUpdateUrl);try{if(localStorage.getItem("aix_gate")==="1")need=true}catch(e){}
+  var c=aixCfg();
+  if(aixIsOwner(c)&&c){$("qsales").hidden=false}
+  if(!need)return;
+  if(!c){gTab(false);gView("login");return}
+  if(!aixIsOwner(c))gLic(c)})();
+/* لوحة المبيعات (لصاحب التطبيق فقط) */
+function sMsg(t){$("s-msg").textContent=t||""}
+function sCode(){var A="ABCDEFGHJKLMNPQRSTUVWXYZ23456789",a=new Uint8Array(8),r="";try{crypto.getRandomValues(a)}catch(e){for(var i=0;i<8;i++)a[i]=Math.random()*256}
+  for(var j=0;j<8;j++)r+=A[a[j]%A.length];return "AIX-"+r.slice(0,4)+"-"+r.slice(4)}
+async function sLoad(){sMsg("جاري التحميل…");
+  try{var uid=await fbH().uidFn();$("s-uid").textContent="UID: "+uid;$("s-rules").value=aixRules(uid);
+    var ct=null;try{ct=await fbReq("meta/contact")}catch(e){}if(ct)$("s-wa").value=ct;
+    var C=await fbReq("codes")||{},L=await fbReq("lic")||{},box=$("s-list");box.innerHTML="";
+    var ks=Object.keys(C).sort(function(a,b){return (C[b].c||0)-(C[a].c||0)}),used=0;
+    ks.forEach(function(k){var x=C[k]||{},u=x.usedBy?L[x.usedBy]:null;if(x.usedBy)used++;
+      var row=mk("div","scode"+(x.usedBy?" used":""));row.appendChild(mk("b",null,k));
+      row.appendChild(mk("span",null,x.usedBy?"✓ مستعمل — "+((u&&u.email)||"حساب")+(x.usedAt?" · "+fmtDT(x.usedAt):""):"متاح"));
+      if(!x.usedBy){var cp=mk("button","ibtn","نسخ");cp.onclick=function(){try{navigator.clipboard.writeText(k)}catch(e){}say("اننسخ "+k)};
+        var wa=mk("a","ibtn","واتساب");wa.href="https://wa.me/?text="+encodeURIComponent("كود تفعيل تطبيق AIX909: "+k);wa.target="_blank";row.appendChild(cp);row.appendChild(wa)}
+      box.appendChild(row)});
+    sMsg("الأكواد: "+ks.length+" — المستعملة: "+used+" — المتاحة: "+(ks.length-used))}
+  catch(e){sMsg(e&&(e.status===401||e.status===403)?"⚠️ لازم تنشر قواعد البيع أول (بالأسفل) — انسخها والصقها بـ Firebase":"⚠️ "+(e&&e.message||e));try{var u2=await fbH().uidFn();$("s-uid").textContent="UID: "+u2;$("s-rules").value=aixRules(u2)}catch(x){}}}
+(function(){
+  $("qsales").onclick=function(){openSet("sales");sLoad()};
+  $("s-ref").onclick=sLoad;
+  $("s-gen").onclick=async function(){var n=Math.max(1,Math.min(50,parseInt($("s-n").value,10)||5)),b={},L=[];for(var i=0;i<n;i++){var k=sCode();b[k]={c:{".sv":"timestamp"}};L.push(k)}
+    try{await fbReq("codes","PATCH",b);sMsg("✓ انولدت "+n+" أكواد");await sLoad()}catch(e){sMsg("⚠️ تعذر التوليد — "+(e.status===401||e.status===403?"انشر قواعد البيع أول":e.message))}};
+  $("s-wasave").onclick=async function(){var v=String($("s-wa").value||"").replace(/\D/g,"");if(v.length<10){sMsg("اكتب الرقم مع 964");return}
+    try{await fbReq("meta/contact","PUT",v);sMsg("✓ انحفظ الرقم")}catch(e){sMsg("⚠️ "+(e.status===401||e.status===403?"انشر قواعد البيع أول":e.message))}};
+  $("s-rcopy").onclick=function(){var t=$("s-rules");t.select();try{navigator.clipboard.writeText(t.value)}catch(e){try{document.execCommand("copy")}catch(x){}}say("اننسخت القواعد")}})();
 function openSet(k){document.querySelectorAll("#setm [data-p]").forEach(function(d){d.hidden=d.getAttribute("data-p")!==k});$("setm").hidden=false}
 $("qacct").onclick=function(){openSet("acct")};$("qbk").onclick=function(){openSet("bk")};
 $("qupd").onclick=function(){var c=$("updcard");if(c.hidden){say("التحديث التلقائي يشتغل داخل تطبيق الأندرويد فقط");return}openSet("upd")};
