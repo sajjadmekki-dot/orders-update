@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.54";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.55";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -578,12 +578,22 @@ html{font-size:15px}
 .zjline.bad{color:#b45309;background:#fff7e6;border-color:#fde2b5}
 :root[data-theme="dark"] .zjline{color:#7dd3fc;background:rgba(56,189,248,.08);border-color:rgba(56,189,248,.25)}
 :root[data-theme="dark"] .zjline.bad{color:#fcd34d;background:rgba(245,158,11,.1);border-color:rgba(245,158,11,.3)}
+
+/* v4.55: شريط علوي بدون مستطيل + شعار التطبيق */
+.hero{background:transparent!important;position:relative!important;box-shadow:none!important;border:0!important;border-radius:0!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;padding-top:calc(10px + env(safe-area-inset-top,0px))!important;padding-bottom:8px!important;gap:11px!important}
+:root[data-theme="dark"] .hero{background:transparent!important}
+.hero .applogo{width:44px!important;height:44px!important;border-radius:13px!important;overflow:hidden;background:#fff!important;border:0!important;box-shadow:0 2px 8px rgba(15,23,42,.12),0 0 0 1px rgba(15,23,42,.05)!important;padding:0!important;display:block!important;flex:none}
+.hero .applogo svg{width:100%;height:100%;display:block}
+:root[data-theme="dark"] .hero .applogo{box-shadow:0 0 0 1px rgba(255,255,255,.08),0 4px 14px rgba(0,0,0,.5)!important}
+.hero h1{font-size:1.2rem!important;letter-spacing:.02em;line-height:1.2}
+.hero small{font-size:.72rem!important;opacity:.75}
+.themebtn{background:transparent!important;border:0!important;box-shadow:none!important;width:38px!important;height:38px!important;color:var(--muted)!important}
 </style>
 </head>
 <body>
 <div id="toast" style="display:none;position:fixed;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom,0px));z-index:99;background:#1b1f24;color:#fff;padding:12px 14px;border-radius:12px;font-size:.95rem;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.35)"></div>
 <div class="wrap">
-<div class="hero"><span class="logo ic" id="ttlic" data-ic="bag"></span><div class="ht"><h1 id="ttl">AIX909</h1><small id="sub"></small></div><button class="themebtn" id="themebtn" aria-label="الوضع الليلي/النهاري"><svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg></button></div>
+<div class="hero"><span class="logo applogo" id="ttlic"><svg xmlns="http://www.w3.org/2000/svg" viewBox="18 18 72 72" aria-hidden="true"><defs><clipPath id="aixclip"><rect x="18" y="18" width="72" height="72" rx="0"/></clipPath></defs><g clip-path="url(#aixclip)"><rect x="0" y="0" width="108" height="108" fill="#fff"/><g fill="none" stroke-linejoin="round"><path d="M80.00,33.68 A33,33 0 1 1 73.86,27.65" stroke="#4E5A34" stroke-width="2.4" stroke-linecap="round"/><path d="M32.4,53 L40,31.5 L47.6,53" stroke="#4E5A34" stroke-width="5.6" stroke-linecap="butt"/><path d="M35.9,46.2 L44.1,46.2" stroke="#74855F" stroke-width="3.0" stroke-linecap="butt"/><path d="M54.5,31.5 L54.5,41.5" stroke="#74855F" stroke-width="5.6" stroke-linecap="butt"/><path d="M54.5,41.5 L54.5,53" stroke="#2E3A2B" stroke-width="5.6" stroke-linecap="butt"/><path d="M60.5,31.5 L75.5,53" stroke="#2E3A2B" stroke-width="5.6" stroke-linecap="butt"/><path d="M60.5,53 L70.2,39" stroke="#74855F" stroke-width="5.6" stroke-linecap="butt"/><path d="M72.6,35.6 L77.6,28.6" stroke="#74855F" stroke-width="5.6" stroke-linecap="butt"/><path d="M33.3,62 a4.8,4.4 0 1,0 9.6,0 a4.8,4.4 0 1,0 -9.6,0 M42.9,62 L42.9,66.4 Q42.9,73.2 36,73.2" stroke="#2E3A2B" stroke-width="4.6" stroke-linecap="round"/><path d="M48.6,65.2 a5.4,8 0 1,0 10.8,0 a5.4,8 0 1,0 -10.8,0" stroke="#2E3A2B" stroke-width="4.6" stroke-linecap="round"/><path d="M48.6,65.2 C48.6,61 50.6,57.2 54,57.2" stroke="#74855F" stroke-width="4.6" stroke-linecap="round"/><path d="M65.1,62 a4.8,4.4 0 1,0 9.6,0 a4.8,4.4 0 1,0 -9.6,0 M74.7,62 L74.7,66.4 Q74.7,73.2 67.8,73.2" stroke="#2E3A2B" stroke-width="4.6" stroke-linecap="round"/></g></g></svg></span><div class="ht"><h1 id="ttl">AIX909</h1><small id="sub"></small></div><button class="themebtn" id="themebtn" aria-label="الوضع الليلي/النهاري"><svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></svg></button></div>
 
 <section id="s-home" class="tab">
 <div class="hchips" id="hchips"></div>
@@ -672,7 +682,7 @@ html{font-size:15px}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.54</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.55</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -2178,7 +2188,7 @@ function go(name){
   screen=name;
   ["home","new","orders","goods","pages","debts","stock"].forEach(function(x){$("s-"+x).hidden=(x!==name)});
   document.querySelectorAll(".nav button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-go")===name)});
-  $("ttl").textContent=TITLES[name][0];$("ttlic").setAttribute("data-ic",TITLES[name][2]);applyIcons();$("sub").textContent=TITLES[name][1];$("sub").style.display=TITLES[name][1]?"block":"none";
+  $("ttl").textContent=TITLES[name][0];applyIcons();$("sub").textContent=TITLES[name][1];$("sub").style.display=TITLES[name][1]?"block":"none";
   if(name==="home"){renderHome();bkNote();$("sub").textContent=new Date().toLocaleDateString("ar-IQ",{weekday:"long",day:"numeric",month:"long"})}
   if(name==="orders")renderOrders();
   if(name==="goods"){fillSelects();$("fdeliv").value=gPage().deliv||"";rcat()}
@@ -3107,7 +3117,7 @@ function keySample(){var k="";try{k=localStorage.getItem("aikey_v1")||""}catch(e
 </script>
 <script>
 (function(){var b=document.getElementById("themebtn");if(!b)return;
-function apply(t){document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("theme_v1",t)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(!m){m=document.createElement("meta");m.name="theme-color";document.head.appendChild(m)}m.content=t==="dark"?"#050d17":"#f1f5f9";try{if(window.Android&&Android.setBar)Android.setBar(t==="dark"?"#050d17":"#ffffff",t!=="dark")}catch(e){}}
+function apply(t){document.documentElement.setAttribute("data-theme",t);try{localStorage.setItem("theme_v1",t)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(!m){m=document.createElement("meta");m.name="theme-color";document.head.appendChild(m)}m.content=t==="dark"?"#050d17":"#f1f5f9";try{if(window.Android&&Android.setBar)Android.setBar(t==="dark"?"#050d17":"#f2f9fe",t!=="dark")}catch(e){}}
 apply(document.documentElement.getAttribute("data-theme")||"dark");
 b.onclick=function(){apply(document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark")};
 })();
