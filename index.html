@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.57";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.58";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -609,6 +609,11 @@ body.gated{overflow:hidden}
 .scode{display:flex;flex-wrap:wrap;align-items:center;gap:6px;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin-top:8px;font-size:.8rem}
 .scode b{direction:ltr;font-family:ui-monospace,Menlo,monospace!important;letter-spacing:.04em;flex-basis:100%}
 .scode span{flex:1;color:var(--muted)}.scode.used{opacity:.7}.scode .ibtn{padding:6px 10px}
+
+.orow.pchg{color:#be185d;font-weight:500}.orow.pchg .ic{color:#db2777}
+:root[data-theme="dark"] .orow.pchg{color:#f9a8d4}
+.sc.pink{background:linear-gradient(160deg,#fff,#fde7f1)!important}.sc.pink .bar{background:#db2777}
+:root[data-theme="dark"] .sc.pink{background:rgba(16,32,48,.72)!important}
 </style>
 </head>
 <body>
@@ -643,6 +648,7 @@ body.gated{overflow:hidden}
 <button class="sc emerald" data-t="done"><i class="bar"></i><span class="chipi iso" data-iso="check" data-col="#2fb47a"></span><b class="v" id="h_deliv">0</b><span class="k">وصلت</span></button>
 <button class="sc rose" data-t="ret"><i class="bar"></i><span class="chipi iso" data-iso="undo" data-col="#e85d5d"></span><b class="v" id="h_ret">0</b><span class="k">راجعة</span></button>
 <button class="sc teal" id="proftile"><i class="bar"></i><span class="chipi iso" data-iso="coin" data-col="#14b8a6"></span><b class="v" id="h_prof">0</b><span class="k">الأرباح</span></button>
+<button class="sc pink" id="pchgtile"><i class="bar"></i><span class="chipi iso" data-iso="tag" data-col="#db2777"></span><b class="v" id="h_pchg">0</b><span class="k">تغيّر مبلغها</span></button>
 <button class="sc purple" data-go="debts"><i class="bar"></i><span class="chipi iso" data-iso="wallet" data-col="#8b5cf6"></span><b class="v" id="h_debt">0</b><span class="k">ديون لي</span></button>
 </div>
 <div class="tstrip" data-go="orders"><b>حالة الطلبات اليوم</b><span><b id="t_pend">0</b> قيد التوصيل · <b id="t_ret">0</b> راجعة · <b id="t_done">0</b> وصلت</span></div>
@@ -704,7 +710,7 @@ body.gated{overflow:hidden}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.57</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.58</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -1860,6 +1866,7 @@ function filt(){
     if(odate==="today"&&dayOf(o)!==todayKey())return false;
     var _fd=$("ofrom").value,_td=$("oto").value;if(_fd||_td){var _dk=dayOf(o);if(_fd&&_dk<_fd)return false;if(_td&&_dk>_td)return false}
     if(opay){if(stOf(o)!=="done")return false;if(opay==="paid"?!o.paid:!!o.paid)return false}
+    if(oflag==="price"&&!o.priceChg)return false;
     if(q){
       var s=sp(o),hay=[o.name,o.phone,s.gov,s.area,s.near,o.product,o.notes].join(" ").toLowerCase();
       if(hay.indexOf(q)<0)return false;
@@ -1925,6 +1932,12 @@ function aixWipeIfOther(em){var last="";try{last=localStorage.getItem("aix_last"
   var c=aixCfg(),cur=c&&c.email?String(c.email).toLowerCase():last;if(cur===String(em).toLowerCase())return;
   AIX_KEYS.forEach(function(k){try{localStorage.removeItem(k);localStorage.removeItem(k+"__syn");localStorage.removeItem(k+"__ts")}catch(e){}});
   try{localStorage.removeItem("aix_lic");localStorage.removeItem("zjkey_v1");localStorage.removeItem("zjhook_v1")}catch(e){}}
+/* v4.58: مزامنة المبلغ من شركة التوصيل + علامة على الطلب */
+function priceSync(o,nt,src){nt=Math.round(Number(nt)||0);if(!(nt>0))return false;var old=Math.round(Number(o.total)||0);if(Math.abs(nt-old)<1)return false;
+  if(!o.priceChg)o.priceChg={from:old};if(o.priceChg.from===nt){delete o.priceChg}else{o.priceChg.to=nt;o.priceChg.at=Date.now();o.priceChg.st=stOf(o);o.priceChg.src=src||"زاجل"}
+  var q=Number(o.qty)||1,c=Number(o.cost)||0,d=Number(o.deliv)||0;o.total=nt;o.price=Math.round(nt/q);if(c>0)o.profit=nt-q*c-d;
+  if(typeof hlog==="function")hlog(o,"price","💲 تغيّر المبلغ من "+(src||"زاجل")+": "+fmt(old)+" ← "+fmt(nt));return true}
+var oflag="";
 function curHP(){var v=$("ofilter").value;return (v&&v!=="all"&&pageById(v))?v:"all"}
 function setHP(v){$("ofilter").value=v;renderHome()}
 function renderDash(L,today){
@@ -1975,7 +1988,7 @@ function renderHome(){
     var bt=mk("button","second","نقل وحذف الصفحة");bt.onclick=function(){moveMainTo(sl.value)};w.appendChild(bt);hc.appendChild(w)})();
   $("h_done").textContent=fmt(T.sales);$("h_pend").textContent=fmt(T.dsales);(function(){var nt=0;L.forEach(function(o){if(stOf(o)==="done")nt+=netOf(o)});$("h_net").textContent=fmt(nt)})();$("h_today").textContent=fmt(TT.sales);window.__PT=T;
   $("h_tod").textContent=today.length;$("h_all").textContent=L.length;
-  $("h_pending").textContent=T.pendN;$("h_reg").textContent=T.regN;$("h_deliv").textContent=T.doneN;$("h_ret").textContent=T.retN;
+  $("h_pchg").textContent=L.filter(function(o){return o.priceChg}).length;$("h_pending").textContent=T.pendN;$("h_reg").textContent=T.regN;$("h_deliv").textContent=T.doneN;$("h_ret").textContent=T.retN;
   $("h_debt").textContent=fmt(dTotal());(function(){var D=L.filter(function(o){return stOf(o)==="done"}),pa=0,pn_=0,ua=0,un=0;D.forEach(function(o){if(o.paid){pa+=netOf(o);pn_++}else{ua+=netOf(o);un++}});$("payd_a").textContent=fmt(pa)+" د.ع";$("payd_n").textContent=pn_;$("payu_a").textContent=fmt(ua)+" د.ع";$("payu_n").textContent=un})();$("h_prof").textContent=fmt(T.done+T.pend);
   try{renderDash(L,today)}catch(e){}
   try{renderLow()}catch(e){}
@@ -2032,6 +2045,7 @@ function renderOrders(){
   function chOf(o){var k=pkey(o.phone),r=CHM[k];if(!r||k.length<8)return {n:0,ret:0,done:0};var st=stOf(o);return {n:r.n-1,ret:r.ret-(st==="ret"?1:0),done:r.done-(st==="done"?1:0)}}
   var _cnt=0,_more=0;
   var _sg=$("ostat");if(_sg)_sg.style.display=opay?"none":"";var _tc=document.querySelector("#s-orders > .card");if(_tc)_tc.style.display=opay?"none":"";
+  if(oflag==="price"){var fb=mk("div","opayb");var fl=mk("div",null);fl.appendChild(mk("div",null,"💲 طلبات تغيّر مبلغها من شركة التوصيل"));fl.appendChild(mk("small",null,L.length+" طلب"));fb.appendChild(fl);var fx=mk("button",null,"✕ رجوع للكل");fx.onclick=function(){oflag="";renderOrders()};fb.appendChild(fx);box.appendChild(fb)}
   if(opay){var _pt=0;L.forEach(function(o){_pt+=netOf(o)});var pb=mk("div","opayb");var pl=mk("div",null);pl.appendChild(mk("div",null,opay==="paid"?"💰 واصلة ومحاسب عليها":"⏳ واصلة وغير محاسب عليها"));pl.appendChild(mk("small",null,L.length+" طلب · "+fmt(_pt)+" د.ع"));pb.appendChild(pl);var px=mk("button",null,"✕ رجوع للكل");px.onclick=function(){opay="";ostat="all";syncSeg();renderOrders()};pb.appendChild(px);box.appendChild(pb)}
   if(!L.length){box.appendChild(mk("div","empty","لا توجد أوردرات"))}
   var T=totals(L);
@@ -2056,6 +2070,7 @@ function renderOrders(){
     if(o.notes){var r3=mk("div","orow note");r3.appendChild(ico("note"));r3.appendChild(mk("span",null,o.notes));c.appendChild(r3)}
     if(o.sts&&s!=="reg"){var r5=mk("div","orow note");r5.appendChild(ico("clock"));r5.appendChild(mk("span",null,ST[s]+" بتاريخ "+fmtDT(o.sts)));c.appendChild(r5)}
     if(o.coStage){var r4=mk("div","orow note");r4.appendChild(ico("truck"));r4.appendChild(mk("span",null,"الشركة: "+o.coStage+(o.coReason&&o.coReason!==o.coStage?" — "+o.coReason:"")+(o.coId?" · وصل "+o.coId:"")));c.appendChild(r4)}
+    if(o.priceChg){var rpc=mk("div","orow pchg");rpc.appendChild(ico("tag"));rpc.appendChild(mk("span",null,"تغيّر المبلغ من "+(o.priceChg.src||"زاجل")+": "+fmt(o.priceChg.from)+" ← "+fmt(o.priceChg.to||o.total)+(o.priceChg.st==="done"?" (بعد الوصول)":"")+(o.priceChg.at?" · "+fmtDT(o.priceChg.at):"")));c.appendChild(rpc)}
     if(s==="done"){var rp=mk("div","orow note");rp.appendChild(ico(o.paid?"paid":"unpaid"));rp.appendChild(mk("span",null,o.paid?"محاسب عليها"+(typeof o.paid==="number"?" بتاريخ "+fmtDT(o.paid):""):"غير محاسب عليها (بانتظار الشركة)"));c.appendChild(rp)}
     (function(){var hs=ordHist(o);if(hs.length>1){var dt=document.createElement("details");dt.className="ohist";var sm=document.createElement("summary");sm.textContent="السجل الزمني ("+hs.length+")";dt.appendChild(sm);hs.forEach(function(e){var li=mk("div","hl");li.appendChild(mk("span","hd",e.t?fmtDT(e.t):"—"));li.appendChild(mk("span",null,e.x));dt.appendChild(li)});c.appendChild(dt)}})();
     var f=mk("div","of");
@@ -2254,6 +2269,7 @@ $("rpaste").onclick=function(){var t=$("rtext").value.trim();if(!t){say("الص�
 // ---------- التنقل ----------
 var TITLES={home:["AIX909","أرباحك وطلباتك بمكان واحد","bag"],new:["طلب جديد","","plus"],orders:["الطلبات","غيّر الحالة أو عدّل السعر","pkgs"],goods:["البضاعة","أسعار الجملة لكل صفحة","tag"],pages:["الصفحات","أضف صفحاتك وعدّلها","file"],debts:["الديون","اللي لك عند التجار","wallet"],stock:["المخزن","كمية البضاعة لكل صفحة","stock"]};
 function go(name){
+  if(name!=="orders")oflag="";
   if(name!=="orders"&&opay){opay="";var _sg0=$("ostat");if(_sg0)_sg0.style.display="";var _tc0=document.querySelector("#s-orders > .card");if(_tc0)_tc0.style.display=""}
   screen=name;
   ["home","new","orders","goods","pages","debts","stock"].forEach(function(x){$("s-"+x).hidden=(x!==name)});
@@ -3532,7 +3548,7 @@ async function aiZajel(unShips,pairs,mode){
   try{localStorage.setItem("zjai_last",String(now))}catch(e){}
   aiMsg("🧠 جاري المطابقة الذكية لـ "+L.length+" شحنة…");
   try{var R=await aiMatch(L,used,function(a,b){aiMsg("🧠 جاري المطابقة الذكية… "+a+"/"+b)});
-    R.forEach(function(x){var o=x.o,ch=zjApply(o,x.S.raw);hlog(o,"co","🧠 مطابقة ذكية مع زاجل"+(x.S.num?" (وصل "+x.S.num+")":"")+": "+x.r);if(ch)n++;lst.push((o.name||o.phone)+" ← "+(x.S.num||x.S.ph)+" ("+x.c+"%)")});
+    R.forEach(function(x){var o=x.o,ch=zjApply(o,x.S.raw);if(x.S.total)priceSync(o,x.S.total,"زاجل");hlog(o,"co","🧠 مطابقة ذكية مع زاجل"+(x.S.num?" (وصل "+x.S.num+")":"")+": "+x.r);if(ch)n++;lst.push((o.name||o.phone)+" ← "+(x.S.num||x.S.ph)+" ("+x.c+"%)")});
     L.forEach(function(S){cache[String(S.num||S.ph)]=now});try{localStorage.setItem("zjai_v1",JSON.stringify(cache))}catch(e){}
     if(R.length){sv(KEY,orders);renderOrders();renderHome()}
     aiMsg("🧠 المطابقة الذكية: ربطت "+R.length+" شحنة"+(n?" وتحدّثت "+n+" حالة":"")+(lst.length?"\n"+lst.slice(0,8).join("\n"):"")+(R.length?"":" — الباقي ما تأكد منه، فتركته"));
@@ -3570,11 +3586,11 @@ async function zjSync(silent,fast){
   var noPhone=0,diffN=0;
   var SH=all.map(function(sh){var I=zjInfo(sh);if(!I.phone)noPhone++;seen++;return {ph:I.phone,alt:I.alt,total:I.total,gov:I.gov,city:I.city,t:I.t,ref:sh.reference,num:sh.number,name:zjName(sh),raw:sh}});
   var M=mtMatch(SH,orders),_b4=JSON.stringify(orders);
-  M.pairs.forEach(function(p){if(p.diff)diffN++;if(zjApply(p.o,p.s.raw)){n++;var t=ZJ_MAP[p.s.raw.status]||"pending";if(t==="done")a++;else if(t==="ret")rt++}});
+  var pcN=0;M.pairs.forEach(function(p){if(p.diff)diffN++;var _wl=p.o.coId&&nz(p.o.coId)===nz(p.s.num),_ch=zjApply(p.o,p.s.raw);if((_wl||p.score>=150)&&p.s.total&&priceSync(p.o,p.s.total,"زاجل"))pcN++;if(_ch){n++;var t=ZJ_MAP[p.s.raw.status]||"pending";if(t==="done")a++;else if(t==="ret")rt++}});
   var unm=M.unOrders.filter(function(o){return o.sent||o.coId});
   try{localStorage.setItem("zjlast_v1",String(Date.now()));localStorage.setItem("zjauto_v1",JSON.stringify({t:Date.now(),n:n,seen:seen,err:err||""}))}catch(e){}zjLine();
   if(JSON.stringify(orders)!==_b4){sv(KEY,orders);renderOrders();renderHome()}
-  var t=(err?"⚠️ "+err+"\n":"")+"تم تحديث "+n+" حالة"+(n?" (وصلت "+a+"، راجعة "+rt+")":"")+" — فحصت "+seen+" شحنة"+(diffN?"\nمنها "+diffN+" طابقت بالهاتف مع اختلاف المبلغ":"")+(noPhone===seen&&seen?"\n(ملاحظة: بيانات الشحنة من زاجل ما فيها رقم الهاتف، فاعتمدت الرقم المرجعي)":"")+(unm.length?"\n⚠️ بدون شحنة مطابقة ("+unm.length+"):\n"+unm.slice(0,6).map(function(o){return "• "+(o.name||o.phone)+" · "+o.phone}).join("\n")+(unm.length>6?"\n…":""):"");
+  var t=(err?"⚠️ "+err+"\n":"")+"تم تحديث "+n+" حالة"+(n?" (وصلت "+a+"، راجعة "+rt+")":"")+" — فحصت "+seen+" شحنة"+(pcN?"\n💲 تغيّر مبلغ "+pcN+" طلب حسب زاجل":"")+(diffN-pcN>0?"\nمنها "+(diffN-pcN)+" طابقت بالهاتف مع اختلاف المبلغ (ما غيّرته لأن المطابقة مو أكيدة)":"")+(noPhone===seen&&seen?"\n(ملاحظة: بيانات الشحنة من زاجل ما فيها رقم الهاتف، فاعتمدت الرقم المرجعي)":"")+(unm.length?"\n⚠️ بدون شحنة مطابقة ("+unm.length+"):\n"+unm.slice(0,6).map(function(o){return "• "+(o.name||o.phone)+" · "+o.phone}).join("\n")+(unm.length>6?"\n…":""):"");
   zjMsg(t);if(!silent||n)say(err?"⚠️ "+err:"تم تحديث "+n+" حالة من زاجل");
   if(!err&&M.unShips.length)aiZajel(M.unShips,M.pairs,silent?"auto":"manual")}
 (function(){var inp=$("zjkey"),clr=$("zjclr");
@@ -3625,7 +3641,7 @@ async function zhPull(silent){
       var L=zhShips(b);
       if(!L.length){bad++;drop=true}
       else{var hitN=0;L.forEach(function(sh0){var sh=zhNormStatus(sh0,b),I=zjInfo(sh),S={ph:I.phone,alt:I.alt,total:I.total,gov:I.gov,city:I.city,t:I.t,ref:sh.reference,num:sh.number,raw:sh};
-          var M=mtMatch([S],orders);if(M.pairs.length){hitN++;if(zjApply(M.pairs[0].o,sh))n++}});
+          var M=mtMatch([S],orders);if(M.pairs.length){hitN++;var _p=M.pairs[0],_wl=_p.o.coId&&nz(_p.o.coId)===nz(S.num);if(zjApply(_p.o,sh))n++;if((_wl||_p.score>=150)&&S.total&&priceSync(_p.o,S.total,"زاجل"))n++}});
         if(hitN){drop=true}
         else{var f=seen[id]||(seen[id]=Date.now());if(Date.now()-f>3*86400000){drop=true}else keep++}}
       if(drop){try{var dr=await fetch(base+"/"+id+".json?auth="+encodeURIComponent(t),{method:"DELETE"});if(dr.ok){del++;delete seen[id]}}catch(e){}}}
@@ -3657,6 +3673,7 @@ async function zhPull(silent){
   document.addEventListener("visibilitychange",function(){if(!document.hidden)zhPull(true)});
   setTimeout(function(){zhPull(true)},6000)})();
 /* ===== المحاسبة مع زاجل (v4.33) ===== */
+$("pchgtile").onclick=function(){oflag="price";opay="";ostat="all";odate="";var q=$("osearch");if(q)q.value="";go("orders");syncSeg();renderOrders()};
 function payOpen(k){opay=k;ostat="done";odate="";var q=$("osearch");if(q)q.value="";go("orders");syncSeg();renderOrders()}
 $("payd").onclick=function(){payOpen("paid")};$("payu").onclick=function(){payOpen("unpaid")};
 $("paybtn").onclick=function(){var d=new Date();$("paydate").value=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());$("paymsg").textContent="";$("paym").hidden=false};
@@ -3754,7 +3771,7 @@ function coBuild(R){
   var SS=ships.map(function(sh){return {ph:sh.phone,alt:sh.alt,total:sh.total,gov:zjNm(sh.gov),city:zjNm(sh.city),t:sh.created,ref:sh.ref,num:sh.id,merchant:sh.merchant,name:sh.name,raw:sh}});
   var MM=mtMatch(SS,orders),plan=[],miss=MM.unOrders.length;
   MM.pairs.forEach(function(p){var o=p.o,sh=p.s.raw,key=norm(sh.stage).trim(),to=CO_MAP[key]||CO_MAP[sh.stage]||null;
-    plan.push({o:o,s:sh,from:stOf(o),to:to||stOf(o),known:!!to,diff:p.diff,pay:!!(sh.settled&&(to||stOf(o))==="done"&&!o.paid)})});
+    plan.push({o:o,s:sh,score:p.score,from:stOf(o),to:to||stOf(o),known:!!to,diff:p.diff,pay:!!(sh.settled&&(to||stOf(o))==="done"&&!o.paid)})});
   return {plan:plan,miss:miss,total:ships.length,H:H,unS:MM.unShips}}
 function coShow(){
   var P=COPLAN,ch=P.plan.filter(function(x){return x.to!==x.from}),st={done:0,ret:0,pending:0};
@@ -3791,7 +3808,7 @@ $("cofile").onchange=async function(){var fs=Array.prototype.slice.call(this.fil
   if(fs.length>1||bad.length)$("coinfo").textContent="الملفات: "+ok+" من "+fs.length+(bad.length?" (تجاهلت: "+bad.join("، ")+")":"")+" — "+$("coinfo").textContent};
 $("cocancel").onclick=function(){$("cosync").hidden=true};
 $("cogo").onclick=function(){if(!COPLAN)return;var n=0,np=0;
-  COPLAN.plan.forEach(function(x){var o=x.o;if(x.ai)hlog(o,"co","🧠 مطابقة ذكية (ملف الشركة"+(x.s.id?"، وصل "+x.s.id:"")+"): "+x.ai);var _tt=coDate(x.s.stageAt)||Date.now();if(x.s.stage&&o.coStage!==x.s.stage)hlog(o,"co","الشركة: "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" — "+x.s.reason:""),_tt);if(x.to!==x.from){o.status=x.to;o.sts=_tt;hlog(o,"st",ST[x.to]+" (من ملف الشركة)",_tt);n++}if(x.s.due>0)o.due=x.s.due;if(x.s.fee>0)o.fee=x.s.fee;o.coId=x.s.id;o.coStage=x.s.stage;o.coReason=x.s.reason||"";o.coAt=x.s.stageAt||"";if(x.pay){o.paid=coDate(x.s.setAt)||_tt;hlog(o,"paid","محاسب عليها (من ملف الشركة)",o.paid);np++}});
+  COPLAN.plan.forEach(function(x){var o=x.o;if(x.s.total&&(x.ai||x.score>=150||(o.coId&&nz(o.coId)===nz(x.s.id))))priceSync(o,x.s.total,"ملف الشركة");if(x.ai)hlog(o,"co","🧠 مطابقة ذكية (ملف الشركة"+(x.s.id?"، وصل "+x.s.id:"")+"): "+x.ai);var _tt=coDate(x.s.stageAt)||Date.now();if(x.s.stage&&o.coStage!==x.s.stage)hlog(o,"co","الشركة: "+x.s.stage+(x.s.reason&&x.s.reason!==x.s.stage?" — "+x.s.reason:""),_tt);if(x.to!==x.from){o.status=x.to;o.sts=_tt;hlog(o,"st",ST[x.to]+" (من ملف الشركة)",_tt);n++}if(x.s.due>0)o.due=x.s.due;if(x.s.fee>0)o.fee=x.s.fee;o.coId=x.s.id;o.coStage=x.s.stage;o.coReason=x.s.reason||"";o.coAt=x.s.stageAt||"";if(x.pay){o.paid=coDate(x.s.setAt)||_tt;hlog(o,"paid","محاسب عليها (من ملف الشركة)",o.paid);np++}});
   sv(KEY,orders);$("cosync").hidden=true;COPLAN=null;renderOrders();renderHome();say("تم تحديث "+n+" حالة"+(np?" وتسجيل "+np+" كمحاسب عليها":"")+" ✅")};
 
 function fmtDT(ts){var d=new Date(Number(ts));if(isNaN(d))return "";return pad(d.getDate())+"/"+pad(d.getMonth()+1)+"/"+d.getFullYear()+" "+pad(d.getHours())+":"+pad(d.getMinutes())}
