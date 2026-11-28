@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.61";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.62";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -653,6 +653,44 @@ body.gated{overflow:hidden}
 :root[data-theme="dark"] .oc2-amt em{background:rgba(16,185,129,.15);color:#6ee7b7}:root[data-theme="dark"] .oc2-amt em.neg{background:rgba(244,63,94,.15);color:#fda4af}
 :root[data-theme="dark"] .oc2-btn.hl{background:rgba(34,197,94,.16);color:#86efac}:root[data-theme="dark"] .oc2-btn.del{background:rgba(244,63,94,.14);color:#fda4af}
 :root[data-theme="dark"] .oc2-grid .oc2-tel{color:#7dd3fc}
+
+/* v4.62 بطاقة طلب بشكل تذكرة */
+.ocard.oc3{padding:0!important;border:0!important;border-radius:22px!important;background:var(--card)!important;box-shadow:0 6px 20px rgba(15,23,42,.08)!important;margin-bottom:14px;overflow:hidden;position:relative}
+.ocard.oc3:before,.ocard.oc3:after{display:none!important}
+.oc3{--g1:#38bdf8;--g2:#0284c7}.oc3.st-pending{--g1:#fbbf24;--g2:#d97706}.oc3.st-done{--g1:#34d399;--g2:#059669}.oc3.st-ret{--g1:#fb7185;--g2:#e11d48}
+.oc3-hd{display:flex;align-items:center;gap:12px;padding:14px 14px 16px;background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff}
+.oc3-num{flex:none;width:58px;height:58px;border-radius:50%;background:#fff;color:var(--g2);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(0,0,0,.15);line-height:1.1}
+.oc3-num small{font-size:.58rem;opacity:.8}.oc3-num b{font-size:1.15rem;direction:ltr}.oc3-num b.sm{font-size:.72rem;letter-spacing:-.02em}
+.oc3-loc{flex:1;min-width:0}.oc3-loc small{display:block;font-size:.72rem;opacity:.9}
+.oc3-loc>b{display:block;font-size:1.3rem;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.oc3-pills{display:flex;gap:4px;flex-wrap:wrap;margin-top:4px}
+.oc3-pill{display:inline-flex;align-items:center;gap:3px;background:rgba(255,255,255,.22);border-radius:999px;padding:2px 8px;font-size:.64rem}.oc3-pill .ic{display:flex;font-size:.75rem}
+.oc3-pill.ok{background:#dcfce7;color:#166534}.oc3-pill.wait{background:#fef3c7;color:#92400e}
+.oc3-amt{flex:none;text-align:center;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:16px;padding:8px 10px;min-width:84px}
+.oc3-amt b{display:block;font-size:1.15rem;direction:ltr}.oc3-amt small{font-size:.62rem;opacity:.9}
+.oc3-cut{position:relative;height:0;border-top:2px dashed var(--line);margin:0 14px}
+.oc3-cut:before,.oc3-cut:after{content:"";position:absolute;top:-11px;width:20px;height:20px;border-radius:50%;background:var(--bg)}
+.oc3-cut:before{right:-25px}.oc3-cut:after{left:-25px}
+.oc3-body{padding:12px 14px 4px;display:flex;flex-direction:column;gap:8px}
+.oc3-row{display:flex;align-items:center;gap:10px;color:var(--text);text-decoration:none;min-height:34px}
+.oc3-ic{flex:none;width:34px;height:34px;border-radius:11px;background:var(--soft);color:var(--accent);display:flex;align-items:center;justify-content:center}
+.oc3-ic .ic{display:flex;font-size:1rem}
+.oc3-v{flex:1;min-width:0;font-size:.9rem;overflow-wrap:anywhere}
+.oc3-row.ltrv .oc3-v{direction:ltr;text-align:right;letter-spacing:.02em}
+.oc3-row.alt .oc3-ic{opacity:.6}
+.oc3-row.prod .oc3-v{background:var(--soft);border-radius:12px;padding:7px 10px}.oc3-row.prod small{display:block;font-size:.72rem;color:var(--muted);margin-top:2px}
+.oc3-row.muted .oc3-v{font-size:.74rem;color:var(--muted)}.oc3-row.muted .oc3-ic{width:26px;height:26px;border-radius:8px;background:none;color:var(--muted)}.oc3-row.muted{min-height:22px}
+.oc3-row.pchg .oc3-v{font-size:.76rem;color:#be185d}.oc3-row.pchg .oc3-ic{background:#fdf2f8;color:#db2777}
+.oc3-row em{font-style:normal;font-size:.72rem}
+.ocard.oc3 .ohist{margin:2px 14px 0;font-size:.74rem}
+.oc3-act{display:flex;align-items:center;gap:8px;padding:10px 14px 14px}
+.oc3-prof{margin-inline-end:auto;font-size:.74rem;color:#047857;background:#ecfdf5;border-radius:999px;padding:4px 10px}.oc3-prof.neg{color:#b91c1c;background:#fef2f2}
+.oc3-rb{flex:none;width:42px;height:42px;border-radius:50%;border:0;background:var(--soft);color:var(--text);display:flex;align-items:center;justify-content:center;padding:0}
+.oc3-rb .ic{display:flex;font-size:1.1rem}.oc3-rb.st{color:var(--g2)}.oc3-rb.pay{background:#dcfce7;color:#166534}.oc3-rb.del{color:#dc2626;background:#fef2f2}
+.ocard.oc3 .oc2-stmenu{margin:0 14px 14px}
+:root[data-theme="dark"] .ocard.oc3{background:rgba(16,32,48,.8)!important;box-shadow:0 8px 24px rgba(0,0,0,.35)!important}
+:root[data-theme="dark"] .oc3-rb{background:rgba(255,255,255,.07);color:#cfe6f7}:root[data-theme="dark"] .oc3-rb.del{background:rgba(244,63,94,.14);color:#fda4af}:root[data-theme="dark"] .oc3-rb.pay{background:rgba(34,197,94,.16);color:#86efac}
+:root[data-theme="dark"] .oc3-prof{background:rgba(16,185,129,.15);color:#6ee7b7}:root[data-theme="dark"] .oc3-row.pchg .oc3-ic{background:rgba(219,39,119,.15)}
 </style>
 </head>
 <body>
@@ -751,7 +789,7 @@ body.gated{overflow:hidden}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.61</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.62</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -1049,6 +1087,7 @@ trend:'<path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>',
 clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
 paid:'<path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 10.5l2 2 4-4.5"/><path d="M9 16h6"/>',
 unpaid:'<path d="M7 3h10M7 21h10M8 3v3.5L12 12l-4 5.5V21M16 3v3.5L12 12l4 5.5V21"/><path d="M10 18.5h4"/>',
+copy:'<rect x="8" y="8" width="12" height="12" rx="2.5"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/>',
 calcheck:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M9 15l2 2 4-4"/>',
 grid:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
 zap:'<path d="M13 2L3 14h8l-1 8 10-12h-8z"/>',
@@ -2099,48 +2138,45 @@ function renderOrders(){
     if(_d!==_pd){_pd=_d;var _t=totals(_g[_d]),_m=/(\d{4})-(\d{2})-(\d{2})/.exec(_d),_wd=_m?["الأحد","الاثنين","الثلاثاء","الأربعاء","الخميس","الجمعة","السبت"][new Date(+_m[1],+_m[2]-1,+_m[3]).getDay()]+" ":"";
       var dh=mk("div","dayh");dh.appendChild(mk("b",null,_wd+(_m?_m[3]+"/"+_m[2]+"/"+_m[1]:_d)+(_d===todayKey()?" (اليوم)":"")));
       dh.appendChild(mk("span",null,_g[_d].length+" طلب · مبيعات "+fmt(_t.sales)+" · أرباح "+fmt(_t.done)));box.appendChild(dh)}
-    var s=stOf(o),a=sp(o),c=mk("div","ocard oc2 st-"+s);
-    /* الرأس: الاسم + الحالة */
-    var top=mk("div","oc2-top"),who=mk("div","oc2-who");
-    who.appendChild(mk("b",null,o.name||o.phone||"بدون اسم"));
-    var sub=mk("small",null,pn(o.pid));(function(){var ch=chOf(o);if(ch.ret>0)sub.appendChild(mk("span","cwarn"," · ⚠️ رجّع "+ch.ret));else if(ch.done>0)sub.appendChild(mk("span","cgood"," · ⭐ زبون سابق"))})();who.appendChild(sub);
-    var bw=mk("div","oc2-badges"),bd=mk("span","badge2 "+s);bd.appendChild(ico(STI[s],"sti"));bd.appendChild(document.createTextNode(ST[s]));bw.appendChild(bd);
-    if(s==="done"){var pb=mk("span","badge2 "+(o.paid?"paidb":"unpaidb"));pb.appendChild(ico(o.paid?"paid":"unpaid","sti"));pb.appendChild(document.createTextNode(o.paid?"محاسب":"غير محاسب"));bw.appendChild(pb)}
-    top.appendChild(who);top.appendChild(bw);c.appendChild(top);
-    /* المبلغ */
-    var am=mk("div","oc2-amt");am.appendChild(mk("b",null,fmt(o.total)));am.appendChild(mk("span",null,"د.ع"));
-    am.appendChild(mk("em",Number(o.profit)<0?"neg":"gain","ربح "+fmt(o.profit)));c.appendChild(am);
-    /* التفاصيل */
-    var g=mk("div","oc2-grid");
-    function cell(lbl,val,cls,full){var d0=mk("div",full?"full":null);d0.appendChild(mk("small",null,lbl));if(val&&val.nodeType)d0.appendChild(val);else d0.appendChild(mk("b",cls||null,val||"—"));g.appendChild(d0)}
-    cell("رقم الوصل",o.coId?String(o.coId):"—","ltr");
-    cell("التاريخ",o.ts?fmtDT(o.ts):(o.date||"—"),"ltr");
-    if(o.phone){var tl=mk("a","ltr oc2-tel",o.phone);tl.href="tel:"+o.phone;cell("الهاتف",tl)}else cell("الهاتف","—");
-    cell("المنتج",(o.product||"—")+" × "+(o.qty||1)+((Number(o.dz)||0)>1?" · "+o.dz+" درزن":""));
-    cell("العنوان",ad(o),null,true);
-    if(o.notes)cell("ملاحظات",o.notes,"oc2-note",true);
-    c.appendChild(g);
-    /* معلومات إضافية صغيرة */
-    var meta=mk("div","oc2-meta");
-    function ml(icon,txt,cls){var r=mk("div","oc2-ml"+(cls?" "+cls:""));r.appendChild(ico(icon));r.appendChild(mk("span",null,txt));meta.appendChild(r)}
-    if(o.coStage)ml("truck","الشركة: "+o.coStage+(o.coReason&&o.coReason!==o.coStage?" — "+o.coReason:""));
-    if(o.sts&&s!=="reg")ml("clock",ST[s]+" بتاريخ "+fmtDT(o.sts));
-    if(o.priceChg)ml("tag","تغيّر المبلغ من "+(o.priceChg.src||"زاجل")+": "+fmt(o.priceChg.from)+" ← "+fmt(o.priceChg.to||o.total)+(o.priceChg.st==="done"?" (بعد الوصول)":""),"pchg");
-    if(s==="done"&&o.paid&&typeof o.paid==="number")ml("paid","تمت المحاسبة بتاريخ "+fmtDT(o.paid));
-    if(meta.childNodes.length)c.appendChild(meta);
+    var s=stOf(o),a=sp(o),c=mk("div","ocard oc3 st-"+s);
+    /* رأس التذكرة */
+    var hd=mk("div","oc3-hd"),num=mk("div","oc3-num");num.appendChild(mk("small",null,o.coId?"وصل":"طلب"));
+    var nv=String(o.coId||(_cnt));num.appendChild(mk("b",nv.length>4?"sm":null,nv));hd.appendChild(num);
+    var loc=mk("div","oc3-loc");loc.appendChild(mk("small",null,a.gov||"—"));loc.appendChild(mk("b",null,a.area||a.near||"—"));
+    var pills=mk("div","oc3-pills"),bd=mk("span","oc3-pill");bd.appendChild(ico(STI[s]));bd.appendChild(document.createTextNode(ST[s]));pills.appendChild(bd);
+    if(s==="done"){var pb=mk("span","oc3-pill "+(o.paid?"ok":"wait"));pb.appendChild(ico(o.paid?"paid":"unpaid"));pb.appendChild(document.createTextNode(o.paid?"محاسب":"غير محاسب"));pills.appendChild(pb)}
+    loc.appendChild(pills);hd.appendChild(loc);
+    var amt=mk("div","oc3-amt");amt.appendChild(mk("b",null,fmt(o.total)));amt.appendChild(mk("small",null,"د.ع"));hd.appendChild(amt);c.appendChild(hd);
+    c.appendChild(mk("div","oc3-cut"));
+    /* جسم التذكرة */
+    var bdy=mk("div","oc3-body");
+    function row(icon,val,cls,href){var r=mk(href?"a":"div","oc3-row"+(cls?" "+cls:""));if(href)r.href=href;var ic=mk("span","oc3-ic");ic.appendChild(ico(icon));r.appendChild(ic);var v=mk("div","oc3-v");if(val&&val.nodeType)v.appendChild(val);else v.textContent=val;r.appendChild(v);bdy.appendChild(r);return r}
+    if(a.near)row("pin",a.near);
+    if(o.phone)row("phone",o.phone,"ltrv",'tel:'+o.phone);
+    (function(){var alt=(String(o.notes||"").match(/07\d{9}/g)||[]).filter(function(x){return x!==o.phone})[0];if(alt)row("phone",alt,"ltrv alt",'tel:'+alt)})();
+    if(o.name){var nm=mk("span",null,o.name);(function(){var ch=chOf(o);if(ch.ret>0)nm.appendChild(mk("em","cwarn"," ⚠️ رجّع "+ch.ret));else if(ch.done>0)nm.appendChild(mk("em","cgood"," ⭐ زبون سابق"))})();row("user",nm)}
+    var pr=mk("span",null,(o.product||"—")+" × "+(o.qty||1)+((Number(o.dz)||0)>1?" · "+o.dz+" درزن":""));if(o.notes){pr.appendChild(mk("small",null,o.notes))}row("bag",pr,"prod");
+    row("calcheck",(o.ts?fmtDT(o.ts):(o.date||"—"))+" · "+pn(o.pid),"muted");
+    if(o.coStage)row("truck","الشركة: "+o.coStage+(o.coReason&&o.coReason!==o.coStage?" — "+o.coReason:""),"muted");
+    if(o.sts&&s!=="reg")row("clock",ST[s]+" بتاريخ "+fmtDT(o.sts),"muted");
+    if(o.priceChg)row("tag","تغيّر المبلغ من "+(o.priceChg.src||"زاجل")+": "+fmt(o.priceChg.from)+" ← "+fmt(o.priceChg.to||o.total)+(o.priceChg.st==="done"?" (بعد الوصول)":""),"pchg");
+    if(s==="done"&&o.paid&&typeof o.paid==="number")row("paid","تمت المحاسبة بتاريخ "+fmtDT(o.paid),"muted");
+    c.appendChild(bdy);
     (function(){var hs=ordHist(o);if(hs.length>1){var dt=document.createElement("details");dt.className="ohist";var sm=document.createElement("summary");sm.textContent="السجل الزمني ("+hs.length+")";dt.appendChild(sm);hs.forEach(function(e){var li=mk("div","hl");li.appendChild(mk("span","hd",e.t?fmtDT(e.t):"—"));li.appendChild(mk("span",null,e.x));dt.appendChild(li)});c.appendChild(dt)}})();
     /* الأزرار */
-    var act=mk("div","oc2-act"),menu=mk("div","oc2-stmenu");menu.hidden=true;
+    var act=mk("div","oc3-act"),menu=mk("div","oc2-stmenu");menu.hidden=true;
     ["reg","pending","done","ret"].forEach(function(k){
       var b=mk("button","stbtn "+k+(s===k?" on":""));b.appendChild(ico(STI[k],"sti"));b.appendChild(document.createTextNode(ST[k]));
       b.onclick=function(){if(o.status!==k){o.sts=Date.now();hlog(o,"st",ST[k]+" (يدوي)")}o.status=k;sv(KEY,orders);renderOrders();renderHome()};
       menu.appendChild(b)});
-    var sb=mk("button","oc2-btn");sb.appendChild(ico(STI[s]));sb.appendChild(document.createTextNode(" الحالة ▾"));sb.onclick=function(){menu.hidden=!menu.hidden};act.appendChild(sb);
-    if(s==="done"){var pbt=mk("button","oc2-btn"+(o.paid?"":" hl"));pbt.appendChild(ico(o.paid?"unpaid":"paid"));pbt.appendChild(document.createTextNode(o.paid?" إلغاء":" محاسبة"));pbt.title=o.paid?"إلغاء المحاسبة":"تمت المحاسبة";pbt.onclick=function(){o.paid=o.paid?0:Date.now();hlog(o,"paid",o.paid?"تمت المحاسبة":"أُلغيت المحاسبة");sv(KEY,orders);renderOrders();renderHome()};act.appendChild(pbt)}
-    var e=mk("button","oc2-btn");e.appendChild(ico("edit"));e.appendChild(document.createTextNode(" تعديل"));e.onclick=function(){openEdit(o)};act.appendChild(e);
-    var d=mk("button","oc2-btn del");d.title="حذف";d.appendChild(ico("trash"));
-    d.onclick=function(){cfm("تحذف هذا الأوردر؟",function(){var k=orders.indexOf(o);if(k>-1){orders.splice(k,1);sv(KEY,orders);renderOrders();renderHome()}})};
-    act.appendChild(d);c.appendChild(act);c.appendChild(menu);box.appendChild(c);
+    act.appendChild(mk("span",Number(o.profit)<0?"oc3-prof neg":"oc3-prof","ربح "+fmt(o.profit)));
+    function rb(icon,title,fn,cls){var b0=mk("button","oc3-rb"+(cls?" "+cls:""));b0.title=title;b0.setAttribute("aria-label",title);b0.appendChild(ico(icon));b0.onclick=fn;act.appendChild(b0);return b0}
+    rb(STI[s],"تغيير الحالة",function(){menu.hidden=!menu.hidden},"st");
+    if(s==="done")rb(o.paid?"unpaid":"paid",o.paid?"إلغاء المحاسبة":"تمت المحاسبة",function(){o.paid=o.paid?0:Date.now();hlog(o,"paid",o.paid?"تمت المحاسبة":"أُلغيت المحاسبة");sv(KEY,orders);renderOrders();renderHome()},o.paid?"":"pay");
+    rb("copy","نسخ",function(){var t=[o.name,o.phone,ad(o),(o.product||"")+" × "+(o.qty||1),fmt(o.total)+" د.ع",o.coId?"وصل "+o.coId:"",o.notes].filter(Boolean).join("\n");try{navigator.clipboard.writeText(t).then(function(){say("اننسخ الطلب")},function(){say("تعذر النسخ")})}catch(e){say("تعذر النسخ")}});
+    rb("edit","تعديل",function(){openEdit(o)});
+    rb("trash","حذف",function(){cfm("تحذف هذا الأوردر؟",function(){var k=orders.indexOf(o);if(k>-1){orders.splice(k,1);sv(KEY,orders);renderOrders();renderHome()}})},"del");
+    c.appendChild(act);c.appendChild(menu);box.appendChild(c);
   });
   if(_more){var mb=mk("button","second omore","عرض المزيد ("+_more+" طلب)");mb.onclick=function(){OLIM+=80;renderOrders()};box.appendChild(mb);
     try{if(window.IntersectionObserver){var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){io.disconnect();OLIM+=80;renderOrders()}},{rootMargin:"600px"});io.observe(mb)}}catch(e){}}
