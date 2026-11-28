@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script>var APPV="4.58";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.59";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -614,6 +614,11 @@ body.gated{overflow:hidden}
 :root[data-theme="dark"] .orow.pchg{color:#f9a8d4}
 .sc.pink{background:linear-gradient(160deg,#fff,#fde7f1)!important}.sc.pink .bar{background:#db2777}
 :root[data-theme="dark"] .sc.pink{background:rgba(16,32,48,.72)!important}
+
+.obadges{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex:none}
+.badge2.paidb{background:#dcfce7;color:#166534}.badge2.unpaidb{background:#fef3c7;color:#92400e}
+:root[data-theme="dark"] .badge2.paidb{background:rgba(34,197,94,.16);color:#86efac}:root[data-theme="dark"] .badge2.unpaidb{background:rgba(245,158,11,.16);color:#fcd34d}
+#ostat .segpaid.on{background:#16a34a!important;color:#fff!important}#ostat .segunpaid.on{background:#d97706!important;color:#fff!important}
 </style>
 </head>
 <body>
@@ -710,7 +715,7 @@ body.gated{overflow:hidden}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.58</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.59</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -764,7 +769,7 @@ body.gated{overflow:hidden}
 <label for="ofilter">الصفحة</label>
 <select id="ofilter"></select>
 <div class="seg" id="ostat">
-<button data-st="all" class="on">الكل</button><button data-st="reg"><span class="ic sti" data-ic="regd"></span>مسجلة</button><button data-st="pending"><span class="ic sti" data-ic="truck"></span>قيد التوصيل</button><button data-st="done"><span class="ic sti" data-ic="check"></span>وصل</button><button data-st="ret"><span class="ic sti" data-ic="undo"></span>راجع</button><button data-dt="today">اليوم فقط</button>
+<button data-st="all" class="on">الكل</button><button data-st="reg"><span class="ic sti" data-ic="regd"></span>مسجلة</button><button data-st="pending"><span class="ic sti" data-ic="truck"></span>قيد التوصيل</button><button data-st="done"><span class="ic sti" data-ic="check"></span>وصل</button><button data-st="ret"><span class="ic sti" data-ic="undo"></span>راجع</button><button data-pay="paid" class="segpaid"><span class="ic sti" data-ic="paid"></span>واصل ومحاسب</button><button data-pay="unpaid" class="segunpaid"><span class="ic sti" data-ic="unpaid"></span>واصل غير محاسب</button><button data-dt="today">اليوم فقط</button>
 </div>
 <input id="osearch" placeholder="بحث: اسم، جوال، منطقة، منتج..." autocomplete="off">
 <div class="row" style="margin-top:6px"><div><label for="ofrom">من تاريخ</label><input id="ofrom" type="date"></div><div><label for="oto">إلى تاريخ</label><input id="oto" type="date"></div></div>
@@ -785,6 +790,7 @@ body.gated{overflow:hidden}
 <input id="fname" autocomplete="off" placeholder="مثال: طلبات اليوم" style="margin-bottom:10px">
 <button class="primary" id="expD" style="margin-top:0">تنزيل Excel لشركة التوصيل (المسجلة الجديدة)</button>
 <button class="second" id="expP">تنزيل Excel الأرباح (لك فقط)</button>
+<button class="primary" id="expPdf">📄 تنزيل PDF للطلبات المعروضة</button><div class="hint" style="margin-top:4px">الـPDF يطلع حسب الي مختاره فوق: البيج، الحالة (مسجلة/قيد التوصيل/وصل/راجع/محاسب/غير محاسب)، والتاريخ.</div>
 <div class="hint" style="margin-top:6px">ملف شركة التوصيل يشمل الطلبات «المسجلة» الجديدة فقط، وبعد التنزيل تتحول إلى «قيد التوصيل» فما تختلط بالجديدة. الطلبات «راجع» ما تنرسل.</div>
 </details>
 </div>
@@ -2063,7 +2069,7 @@ function renderOrders(){
     var hm=mk("div","ohm");hm.appendChild(mk("b",null,o.name||o.phone||"بدون اسم"));
     (function(){var ch=chOf(o);if(ch.ret>0)hm.appendChild(mk("span","cwarn","⚠️ رجّع "+ch.ret));else if(ch.done>0)hm.appendChild(mk("span","cgood","⭐ زبون سابق"))})();
     hm.appendChild(mk("div","om",(o.name&&o.phone?o.phone+" · ":"")+pn(o.pid)+(o.ts?" · "+fmtDT(o.ts):(o.date?" · "+o.date:""))));
-    h.appendChild(hm);var _bd=mk("span","badge2 "+s);_bd.appendChild(ico(STI[s],"sti"));_bd.appendChild(document.createTextNode(ST[s]));h.appendChild(_bd);c.appendChild(h);
+    h.appendChild(hm);var _bd=mk("span","badge2 "+s);_bd.appendChild(ico(STI[s],"sti"));_bd.appendChild(document.createTextNode(ST[s]));var _bw=mk("div","obadges");_bw.appendChild(_bd);if(s==="done"){var _pb=mk("span","badge2 "+(o.paid?"paidb":"unpaidb"));_pb.appendChild(ico(o.paid?"paid":"unpaid","sti"));_pb.appendChild(document.createTextNode(o.paid?"محاسب":"غير محاسب"));_bw.appendChild(_pb)}h.appendChild(_bw);c.appendChild(h);
     var r1=mk("div","orow");r1.appendChild(ico("pin"));r1.appendChild(mk("span",null,""+ad(o)));c.appendChild(r1);
     var r2=mk("div","orow");r2.appendChild(ico("box"));
     var pt=mk("span",null,o.product+" × "+o.qty+((Number(o.dz)||0)>1?" · "+o.dz+" درزن":""));r2.appendChild(pt);c.appendChild(r2);
@@ -2873,9 +2879,10 @@ $("pgsel").addEventListener("change",function(){setPage(this.value);curEx={};ren
 $("ofilter").addEventListener("change",renderOrders);
 $("osearch").addEventListener("input",renderOrders);$("ofrom").addEventListener("change",renderOrders);$("oto").addEventListener("change",renderOrders);
 function syncSeg(){document.querySelectorAll("#ostat button").forEach(function(y){
-  var st=y.getAttribute("data-st");y.classList.toggle("on",st?(st===ostat):odate==="today")})}
+  var st=y.getAttribute("data-st"),pq=y.getAttribute("data-pay");y.classList.toggle("on",pq?(pq===opay):st?(st===ostat&&!opay):odate==="today")})}
 document.querySelectorAll("#ostat button").forEach(function(b){
   b.onclick=function(){
+    if(b.getAttribute("data-pay")){payOpen(b.getAttribute("data-pay"));return}
     if(b.getAttribute("data-dt")){odate=odate==="today"?"":"today"}else{ostat=b.getAttribute("data-st")}
     syncSeg();renderOrders()};
 });
@@ -3294,7 +3301,7 @@ async function gAuth(){var em=$("g-em").value.trim().toLowerCase(),pw=$("g-pw").
     localStorage.setItem("fbcfg_v1",JSON.stringify({apiKey:DEFK,databaseURL:DBU,email:em,password:pw,mode:md,uid:j.localId||""}));
     localStorage.setItem("aix_last",em);
     AIX_KEYS.forEach(function(k){try{localStorage.setItem(k+"__syn","0")}catch(e){}});
-    gMsg("✓ تم — لحظة…");setTimeout(function(){location.reload()},400)}
+    gMsg("✓ تم — لحظة…");setTimeout(function(){location.reload()},900)}
   catch(e){gMsg("تعذر الاتصال — تأكد من الإنترنت",1);$("g-go").disabled=false}}
 async function gLic(c){
   try{if(localStorage.getItem("aix_lic")===String(c.uid||c.email))return}catch(e){}
@@ -3309,7 +3316,7 @@ async function gActivate(){var c=aixCfg(),code=String($("g-code").value||"").toU
   if(code.length<6){gMsg("اكتب الكود صح",1);return}
   $("g-act").disabled=true;gMsg("جاري التفعيل…");
   try{var uid=await fbH().uidFn(),body={};body["lic/"+uid]={code:code,email:c.email,at:{".sv":"timestamp"}};body["codes/"+code+"/usedBy"]=uid;body["codes/"+code+"/usedAt"]={".sv":"timestamp"};
-    await fbReq("","PATCH",body);localStorage.setItem("aix_lic",String(uid));gMsg("✓ انفعّل حسابك");setTimeout(function(){location.reload()},500)}
+    await fbReq("","PATCH",body);localStorage.setItem("aix_lic",String(uid));gMsg("✓ انفعّل حسابك");setTimeout(function(){location.reload()},900)}
   catch(e){gMsg(e&&(e.status===401||e.status===403)?"❌ الكود غلط أو مستعمل":"⚠️ تأكد من الإنترنت",1);$("g-act").disabled=false}}
 (function(){
   try{$("glogo").innerHTML=$("ttlic").innerHTML.replace(/aixclip/g,"aixclip2")}catch(e){}
@@ -3673,6 +3680,28 @@ async function zhPull(silent){
   document.addEventListener("visibilitychange",function(){if(!document.hidden)zhPull(true)});
   setTimeout(function(){zhPull(true)},6000)})();
 /* ===== المحاسبة مع زاجل (v4.33) ===== */
+
+/* v4.59: تقرير PDF للطلبات المعروضة */
+function escH(x){return String(x==null?"":x).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function pdfTitle(){var f=$("ofilter").value,pg=f&&f!=="all"?pn(f):"كل الصفحات",st=opay==="paid"?"واصلة ومحاسب عليها":opay==="unpaid"?"واصلة وغير محاسب عليها":oflag==="price"?"تغيّر مبلغها":ostat==="all"?"كل الحالات":ST[ostat];
+  var d1=$("ofrom").value,d2=$("oto").value,dt=odate==="today"?"اليوم":(d1||d2)?((d1||"…")+" إلى "+(d2||"…")):"كل التواريخ";return {pg:pg,st:st,dt:dt}}
+function pdfHtml(L){var T=pdfTitle(),all=$("ofilter").value==="all"||!$("ofilter").value,sum=0,dn=0,dsum=0,net=0,rows="";
+  L.forEach(function(o,i){var s=stOf(o),a=sp(o);sum+=Number(o.total)||0;if(s==="done"){dn++;dsum+=Number(o.total)||0;net+=netOf(o)}
+    rows+="<tr><td class=n>"+(i+1)+"</td><td class=n>"+escH(o.ts?fmtDT(o.ts):(o.date||""))+"</td>"+(all?"<td>"+escH(pn(o.pid))+"</td>":"")+"<td>"+escH(o.name||"")+"</td><td class=n>"+escH(o.phone||"")+"</td><td>"+escH([a.gov,a.area,a.near].filter(Boolean).join(" - "))+"</td><td>"+escH(o.product||"")+(Number(o.qty)>1?" × "+o.qty:"")+"</td><td class=n>"+fmt(o.total)+"</td><td>"+escH(ST[s])+(s==="done"?(o.paid?" ✓ محاسب":" — غير محاسب"):"")+(o.coId?"<br><small>وصل "+escH(o.coId)+"</small>":"")+"</td></tr>"});
+  var now=new Date();
+  return '<!doctype html><html dir="rtl" lang="ar"><head><meta charset="utf-8"><title>AIX909</title><style>@page{size:A4;margin:10mm}*{box-sizing:border-box}body{font-family:"Noto Naskh Arabic","Noto Sans Arabic",Tahoma,sans-serif;font-size:10px;color:#111;margin:0}'+
+   '.hd{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #0ea5e9;padding-bottom:6px;margin-bottom:8px}h1{font-size:17px;margin:0;color:#0369a1}.sub{color:#444;font-size:11px;margin-top:2px}.meta{font-size:9px;color:#666;text-align:left}'+
+   '.sm{display:flex;gap:6px;margin:0 0 8px;flex-wrap:wrap}.sm div{border:1px solid #bae6fd;background:#f0f9ff;border-radius:6px;padding:4px 8px}.sm b{font-size:11px}'+
+   'table{width:100%;border-collapse:collapse}th,td{border:1px solid #cbd5e1;padding:3px 4px;text-align:right;vertical-align:top}th{background:#e0f2fe;font-size:9.5px}tr:nth-child(even) td{background:#f8fafc}.n{direction:ltr;text-align:left;white-space:nowrap}small{color:#666}thead{display:table-header-group}tr{page-break-inside:avoid}<\/style></head><body>'+
+   '<div class="hd"><div><h1>تقرير الطلبات — AIX909</h1><div class="sub">الصفحة: <b>'+escH(T.pg)+'</b> · الحالة: <b>'+escH(T.st)+'</b> · التاريخ: <b>'+escH(T.dt)+'</b></div></div><div class="meta">'+escH(fmtDT(now.getTime()))+'</div></div>'+
+   '<div class="sm"><div>عدد الطلبات: <b>'+L.length+'</b></div><div>المبلغ الكلي: <b>'+fmt(sum)+' د.ع</b></div><div>الواصل: <b>'+dn+'</b> طلب · <b>'+fmt(dsum)+' د.ع</b></div><div>الواصل الصافي: <b>'+fmt(net)+' د.ع</b></div></div>'+
+   '<table><thead><tr><th>#</th><th>التاريخ</th>'+(all?'<th>الصفحة</th>':'')+'<th>الزبون</th><th>الهاتف</th><th>العنوان</th><th>المنتج</th><th>المبلغ</th><th>الحالة</th></tr></thead><tbody>'+rows+'</tbody></table></body></html>'}
+function pdfExport(){var L=filt().sort(function(a,b){return (b.ts||0)-(a.ts||0)});if(!L.length){say("ما فيه طلبات بالقائمة حتى أطلعها PDF");return}
+  var T=pdfTitle(),h=pdfHtml(L),nm=("AIX909 - "+T.pg+" - "+T.st).replace(/[\\/:*?"<>|]/g," ");
+  if(window.Android){if(Android.printHtml){Android.printHtml(h,nm);say("📄 بنافذة الطباعة اختار «حفظ كـ PDF» ثم اضغط زر التنزيل")}else say("⚠️ الـPDF يحتاج تحديث الـAPK لآخر نسخة");return}
+  var f=document.createElement("iframe");f.style.cssText="position:fixed;right:0;bottom:0;width:0;height:0;border:0";document.body.appendChild(f);
+  var d=f.contentWindow.document;d.open();d.write(h);d.close();setTimeout(function(){try{f.contentWindow.focus();f.contentWindow.print()}catch(e){}setTimeout(function(){f.remove()},3000)},400)}
+$("expPdf").onclick=pdfExport;
 $("pchgtile").onclick=function(){oflag="price";opay="";ostat="all";odate="";var q=$("osearch");if(q)q.value="";go("orders");syncSeg();renderOrders()};
 function payOpen(k){opay=k;ostat="done";odate="";var q=$("osearch");if(q)q.value="";go("orders");syncSeg();renderOrders()}
 $("payd").onclick=function(){payOpen("paid")};$("payu").onclick=function(){payOpen("unpaid")};
