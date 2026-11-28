@@ -9,7 +9,7 @@
 <meta name="apple-mobile-web-app-title" content="الأوردرات">
 <meta name="theme-color" content="#ffffff">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script>var APPV="4.65";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
+<script>var APPV="4.66";(function(){try{if(window.Android&&Android.getUpdateHtml&&!window.__upd){var h=Android.getUpdateHtml();if(h&&h.length>50000){var m=/var APPV="([\d.]+)"/.exec(h);if(m){var a=m[1].split(".").map(Number),b=APPV.split("."),n=0,i,x,y;for(i=0;i<4;i++){x=a[i]||0;y=Number(b[i])||0;if(x!==y){n=x>y?1:-1;break}}
 if(n>0){window.__upd=1;setTimeout(function(){document.open();document.write(h);document.close()},0)}}}}}catch(e){}})();</script>
 <script>(function(){var t="dark";try{t=localStorage.getItem("theme_v1")||"dark"}catch(e){}document.documentElement.setAttribute("data-theme",t==="light"?"light":"dark")})()</script>
 <style>
@@ -825,7 +825,7 @@ input,select,textarea{font-size:.95rem!important}
 </div>
 <div id="tierbox"></div>
 <div id="klistbox"></div>
-<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.65</div>
+<div class="hint" style="text-align:center;margin:14px 0 4px">رقم النسخة: 4.66</div>
 </section>
 
 <section id="s-new" class="tab" hidden>
@@ -2022,7 +2022,7 @@ function pageGuess(text,price,excl){
   price=Number(price)||0;if(!price)return null;
   var byPr=P.filter(function(p){return Object.keys(p.costs||{}).some(function(k){return Number(k.split("|").pop())===price})||(p.tiers||[]).some(function(r){return Number(r.p)===price})});
   return byPr.length===1?byPr[0]:null}
-function isMainName(p){return p&&!p.hidden&&norm(p.name).replace(/\s+/g," ").trim()===norm("الصفحة الرئيسية")}
+function isMainName(p){return p&&!p.hidden&&!p.keep&&norm(p.name).replace(/\s+/g," ").trim()===norm("الصفحة الرئيسية")}
 function migrateMain(){var mp=vp().filter(isMainName)[0];if(!mp||vp().length<2)return;
   var moved=0,left=0;
   orders.forEach(function(o){if(o.pid!==mp.id)return;var g=pageGuess([o.product,o.notes].join(" "),Number(o.total)||Number(o.price)||0,mp.id);
@@ -2035,8 +2035,15 @@ function hideMain(mp,to){
   mp.hidden=true;if(cur===mp.id){cur=pg0().id;sv(CP,cur);costs=curPage().costs}if(gcur===mp.id)gcur=pg0().id;
   if($("ofilter").value===mp.id)$("ofilter").value="all";
   savePages();fillSelects();say("انشالت «الصفحة الرئيسية» — كل طلب صار ببيجه")}
-function mainLeft(){var mp=vp().filter(isMainName)[0];if(!mp||vp().length<2)return null;var n=orders.filter(function(o){return o.pid===mp.id}).length;return n?{p:mp,n:n}:null}
-function moveMainTo(id){var mp=vp().filter(isMainName)[0],to=pageById(id);if(!mp||!to)return;
+function pgHidden(id){var p=pageById(id);return !p||!!p.hidden}
+function fixOrphans(){var V=vp();if(!V.length)return 0;var n=0;
+  orders.forEach(function(o){if(!pgHidden(o.pid))return;var g=pageGuess([o.product,o.notes].join(" "),Number(o.total)||Number(o.price)||0);if(g){o.pid=g.id;n++;if(typeof hlog==="function")hlog(o,"pg","انتقل تلقائياً لصفحة «"+g.name+"»")}});
+  if(n)sv(KEY,orders);return n}
+function mainLeft(){var L=orders.filter(function(o){return pgHidden(o.pid)});if(L.length){var hp0=pageById(L[0].pid);return {p:hp0||{id:L[0].pid,name:"الصفحة الرئيسية"},n:L.length,hidden:true}}
+  var mp=vp().filter(isMainName)[0];if(!mp||vp().length<2)return null;var n=orders.filter(function(o){return o.pid===mp.id}).length;return n?{p:mp,n:n}:null}
+function moveMainTo(id){var to=pageById(id),ml=mainLeft();if(!to||!ml)return;
+  if(ml.hidden){cfm("تنقل "+ml.n+" طلب لصفحة «"+to.name+"»؟",function(){orders.forEach(function(o){if(pgHidden(o.pid)){o.pid=to.id;if(typeof hlog==="function")hlog(o,"pg","انتقل لصفحة «"+to.name+"»")}});sv(KEY,orders);renderHome();renderOrders();say("✓ انتقلت الطلبات لصفحة «"+to.name+"»")});return}
+  var mp=vp().filter(isMainName)[0];if(!mp)return;
   cfm("تنقل كل طلبات «"+mp.name+"» لصفحة «"+to.name+"» وتنشال الصفحة الرئيسية؟",function(){
     orders.forEach(function(o){if(o.pid===mp.id){o.pid=to.id;if(typeof hlog==="function")hlog(o,"pg","انتقل لصفحة «"+to.name+"»")}});sv(KEY,orders);hideMain(mp,to);renderHome();renderOrders()})}
 function autoPage(){var pv=$("product");if(!pv)return;var t=pv.value.trim()||$("paste").value||"",g=pageGuess(t,num("price"));
@@ -2061,6 +2068,7 @@ function dedupeOrders(quiet){var G={},rm=[],n=0;
   Object.keys(G).forEach(function(k){var L=G[k];if(L.length<2)return;
     L.sort(function(a,b){return (Number(a.ts)||0)-(Number(b.ts)||0)});var keep=L[0];
     L.slice(1).forEach(function(o){
+      if(pgHidden(keep.pid)&&!pgHidden(o.pid))keep.pid=o.pid;
       if((Number(o.sts)||0)>(Number(keep.sts)||0)){keep.status=o.status;keep.sts=o.sts;keep.coStage=o.coStage;keep.coReason=o.coReason;keep.coAt=o.coAt}
       if(!keep.paid&&o.paid)keep.paid=o.paid;if(!keep.due&&o.due)keep.due=o.due;if(!keep.fee&&o.fee)keep.fee=o.fee;if(!keep.priceChg&&o.priceChg)keep.priceChg=o.priceChg;
       if(!keep.name&&o.name)keep.name=o.name;if(!keep.notes&&o.notes)keep.notes=o.notes;
@@ -2117,9 +2125,11 @@ function renderHome(){
   var hc=$("hchips");hc.innerHTML="";
   var pb=document.createElement("button");pb.type="button";pb.className="pgpick on";pb.appendChild(ico("file","pgi"));pb.appendChild(document.createTextNode(hp==="all"?"كل الصفحات":pn(hp)));var cv=document.createElement("span");cv.className="pgcv";cv.textContent="▾";pb.appendChild(cv);
   pb.onclick=openPgPick;hc.appendChild(pb);
-  (function(){var mp=mainLeft();if(!mp)return;var w=mk("div","mainnote");w.appendChild(mk("span",null,"📄 «"+mp.p.name+"» بيها "+mp.n+" طلب ما عرفت بيجها — انقلهم لـ:"));
+  (function(){var mp=mainLeft();if(!mp)return;var w=mk("div","mainnote");w.appendChild(mk("span",null,mp.hidden?"📄 لقيت "+mp.n+" طلب كانت بـ«"+(mp.p.name||"الصفحة الرئيسية")+"» وما ظاهرة بأي بيج — انقلهم لـ:":"📄 «"+mp.p.name+"» بيها "+mp.n+" طلب ما عرفت بيجها — انقلهم لـ:"));
     var sl=document.createElement("select");vp().forEach(function(p){if(p!==mp.p)opt(sl,p.id,p.name,false)});w.appendChild(sl);
-    var bt=mk("button","second","نقل وحذف الصفحة");bt.onclick=function(){moveMainTo(sl.value)};w.appendChild(bt);hc.appendChild(w)})();
+    var bt=mk("button","second",mp.hidden?"نقل":"نقل وحذف الصفحة");bt.onclick=function(){moveMainTo(sl.value)};w.appendChild(bt);
+    if(mp.hidden&&pageById(mp.p.id)){var rb=mk("button","second","↩ رجّع «الصفحة الرئيسية»");rb.onclick=function(){var pg=pageById(mp.p.id);pg.hidden=false;pg.keep=true;savePages();fillSelects();renderHome();renderOrders();say("↩ رجعت «"+pg.name+"» بكل طلباتها")};w.appendChild(rb)}
+    hc.appendChild(w)})();
   $("h_done").textContent=fmt(T.sales);$("h_pend").textContent=fmt(T.dsales);(function(){var nt=0;L.forEach(function(o){if(stOf(o)==="done")nt+=netOf(o)});$("h_net").textContent=fmt(nt)})();$("h_today").textContent=fmt(TT.sales);window.__PT=T;
   $("h_tod").textContent=today.length;$("h_all").textContent=L.length;
   $("h_pchg").textContent=L.filter(function(o){return o.priceChg}).length;$("h_pending").textContent=T.pendN;$("h_reg").textContent=T.regN;$("h_deliv").textContent=T.doneN;$("h_ret").textContent=T.retN;
@@ -3051,7 +3061,7 @@ if(!pages.length){
   pages=[{id:"p1",name:"الصفحة الرئيسية",deliv:ld(DK,'""')||"",costs:ld(CK,"{}")}];savePages();
 }
 orders.forEach(function(o){if(!o.pid||!pageById(o.pid))o.pid=pages[0].id});sv(KEY,orders);try{migrateMain()}catch(e){}
-window.addEventListener("load",function(){try{if(dedupeOrders()){renderHome();renderOrders()}}catch(e){}});
+window.addEventListener("load",function(){try{var a1=dedupeOrders(),a2=fixOrphans();if(a2)say("📄 رجّعت "+a2+" طلب لبيجاتها");if(a1||a2){renderHome();renderOrders()}}catch(e){}});
 window.addEventListener("load",function(){try{var b=orders.filter(function(o){var p=pageById(o.pid);return p&&isMainName(p)}).length;migrateMain();if(b)setTimeout(function(){renderHome();renderOrders()},0)}catch(e){}});
 cur=ld(CP,'""');if(!pageById(cur)||pageById(cur).hidden)cur=pg0().id;
 gcur=cur;
